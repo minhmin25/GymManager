@@ -9,6 +9,15 @@ public class Blog {
     private String content;
     private String intro;
     private String imageUrl;
+    private int thumbUrl;
+
+    public Blog(String title, String content, String intro, String imageUrl, int thumbUrl) {
+        this.title = title;
+        this.content = content;
+        this.intro = intro;
+        this.imageUrl = imageUrl;
+        this.thumbUrl = thumbUrl;
+    }
 
     public Blog(String title, String content, String intro, String imageUrl) {
         this.title = title;
@@ -23,6 +32,7 @@ public class Blog {
     public String getTitle() {
         return title;
     }
+
 
     public void setTitle(String title) {
         this.title = title;
@@ -50,5 +60,13 @@ public class Blog {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(int thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 }

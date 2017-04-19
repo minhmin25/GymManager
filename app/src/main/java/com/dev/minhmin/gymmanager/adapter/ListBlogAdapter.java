@@ -58,6 +58,7 @@ public class ListBlogAdapter extends BaseAdapter {
 
         viewholder.tvTitle.setText(listBlogs.get(i).getTitle());
         viewholder.tvIntro.setText(listBlogs.get(i).getIntro());
+        viewholder.ivImage.setImageResource(listBlogs.get(i).getThumbUrl());
         viewholder.tvReadBlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

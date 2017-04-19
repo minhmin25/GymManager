@@ -8,8 +8,16 @@ public class Workout {
     private String title;
     private int time;
     private String imageUrl;
+    private int thumbUrl;
 
     public Workout() {
+    }
+
+    public Workout(String title, int time, String imageUrl, int thumbUrl) {
+        this.title = title;
+        this.time = time;
+        this.imageUrl = imageUrl;
+        this.thumbUrl = thumbUrl;
     }
 
     public Workout(String title, int time, String imageUrl) {
@@ -40,5 +48,13 @@ public class Workout {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getThumbUrl() {
+        return thumbUrl;
+    }
+
+    public void setThumbUrl(int thumbUrl) {
+        this.thumbUrl = thumbUrl;
     }
 }

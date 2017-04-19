@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private ArrayList<Blog> listBlogs = new ArrayList<>();
+    private int[] image = new int[]{R.drawable.b1, R.drawable.b2, R.drawable.b3, R.drawable.b4};
     private ListView lvBlog;
     private ListBlogAdapter adapter;
 
@@ -46,8 +47,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getListData() {
-        for (int i = 0; i < 5; i++) {
-            Blog b = new Blog("Title " + i, "Content " + i, "Intro " + i, "url " + i);
+        for (int i = 0; i < 7; i++) {
+            Blog b = new Blog("Title " + i, "Content " + i, "Intro " + i, "url " + i, image[i % 4]);
             listBlogs.add(b);
         }
     }

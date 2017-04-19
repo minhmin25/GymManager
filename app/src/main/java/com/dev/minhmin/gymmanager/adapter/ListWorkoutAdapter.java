@@ -56,6 +56,7 @@ public class ListWorkoutAdapter extends BaseAdapter {
         }
         viewholder.tvTitle.setText(listWorkouts.get(i).getTitle());
         viewholder.tvTime.setText(listWorkouts.get(i).getTime() + " Weeks");
+        viewholder.ivImage.setImageResource(listWorkouts.get(i).getThumbUrl());
         return view;
     }
 

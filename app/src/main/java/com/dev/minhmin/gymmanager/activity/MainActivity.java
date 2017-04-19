@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
+import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener {
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        getActionBar().setTitle("Home");
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
         getSupportActionBar().setCustomView(customActionbar);
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_home: {
                 if (page == 1) break;
                 page = 1;
-                tvTitleActionbar.setText("Home");
+                tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
                 Fragment fragment = new HomeFragment().newInstance();
                 replaceFragment(fragment);
                 break;
@@ -139,18 +140,29 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_workout: {
                 if (page == 2) break;
                 page = 2;
-                tvTitleActionbar.setText("Workout");
+                tvTitleActionbar.setText(ConstantUtils.TTLE_WORKOUT);
                 Fragment fragment = new WorkoutFragment().newInstance();
                 replaceFragment(fragment);
                 break;
             }
             case R.id.rb_meal: {
+                if (page == 3) break;
+                page = 3;
+                tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
                 break;
             }
             case R.id.rb_exercise: {
+                if (page == 4) break;
+                page = 4;
+                tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
                 break;
             }
             case R.id.rb_profile: {
+                if (page == 5) break;
+                page = 5;
+                tvTitleActionbar.setText(ConstantUtils.TITLE_PROFILE);
+                Fragment fragment = new ProfileFragment().newInstance();
+                replaceFragment(fragment);
                 break;
             }
         }

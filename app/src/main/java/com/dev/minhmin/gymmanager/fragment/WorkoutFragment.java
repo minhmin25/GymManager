@@ -23,6 +23,8 @@ public class WorkoutFragment extends Fragment {
     private GridView gvWorkout;
     private ArrayList<Workout> listWorkouts = new ArrayList<>();
     private ListWorkoutAdapter adapter;
+    private int[] image = new int[]{R.drawable.w1, R.drawable.w2, R.drawable.w3, R.drawable.w4, R.drawable.w5, R.drawable.w6, R.drawable.w7};
+
 
     public static WorkoutFragment newInstance() {
         WorkoutFragment fragment = new WorkoutFragment();
@@ -47,8 +49,8 @@ public class WorkoutFragment extends Fragment {
     }
 
     private void getListData() {
-        for (int i = 0; i < 7; i++) {
-            Workout w = new Workout("Title " + i, i + 3, "Url " + i);
+        for (int i = 0; i < 10; i++) {
+            Workout w = new Workout("Title " + i, i + 3, "Url " + i, image[i % 7]);
             listWorkouts.add(w);
         }
     }
