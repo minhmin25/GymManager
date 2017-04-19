@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
+import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private RadioGroup bottomBar;
     private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbProfile;
     private TextView tvTitleActionbar;
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,13 +129,19 @@ public class MainActivity extends AppCompatActivity
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
         switch (i) {
             case R.id.rb_home: {
-                if (!rbHome.isChecked()) {
-                    Fragment fragment = new HomeFragment().newInstance();
-                    replaceFragment(fragment);
-                }
+                if (page == 1) break;
+                page = 1;
+                tvTitleActionbar.setText("Home");
+                Fragment fragment = new HomeFragment().newInstance();
+                replaceFragment(fragment);
                 break;
             }
             case R.id.rb_workout: {
+                if (page == 2) break;
+                page = 2;
+                tvTitleActionbar.setText("Workout");
+                Fragment fragment = new WorkoutFragment().newInstance();
+                replaceFragment(fragment);
                 break;
             }
             case R.id.rb_meal: {
