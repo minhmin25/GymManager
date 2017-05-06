@@ -13,8 +13,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/avt" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:layout_width="wrap_content"

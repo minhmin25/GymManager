@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite">
+
+    <LinearLayout
+        android:background="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:background="@color/colorGray2"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/back_day"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/back_left" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+
+
+                android:textColor="@color/colorGreen"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/next_day"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/back_right" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="150dp"
+
+                android:text="Total :"
+                android:textStyle="bold"
+                android:textColor="@color/colorOre"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_total_calo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+
+                android:textColor="@color/colorOre" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text=" Calories "
+                android:textColor="@color/colorOre" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/lv_food_meat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </ListView>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</>
