@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "646281553132",
+    "firebase_url": "https://gym-manager-fc28c.firebaseio.com",
+    "project_id": "gym-manager-fc28c",
+    "storage_bucket": "gym-manager-fc28c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:646281553132:android:fb531fe8c696005e",
+        "android_client_info": {
+          "package_name": "com.dev.minhmin.gymmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "646281553132-5f0kho74aaiqhi454jtiv5pn95jk2p0h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.minhmin.gymmanager",
+            "certificate_hash": "c99a67f1f671fd3258e492efb1fbfa41b9924179"
+          }
+        },
+        {
+          "client_id": "646281553132-kjqvmn8hm0ppkmdf0mjgqngbbji4ji6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.minhmin.gymmanager",
+            "certificate_hash": "354074b31d2c46b83e7cc76ba6e6380c918ada61"
+          }
+        },
+        {
+          "client_id": "646281553132-e5juvdk6f2udh2o9dmg5lq2964b8knnp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dev.minhmin.gymmanager",
+            "certificate_hash": "a550b69d257d8896c95a83072f1b6744587ba90b"
+          }
+        },
+        {
+          "client_id": "646281553132-1f2p6q4si7ncgkqjk5lfdvdpprjtgq26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIFlMdlQKnlPldI_vuoDbi6ghcBFhzTDg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "646281553132-1f2p6q4si7ncgkqjk5lfdvdpprjtgq26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
