@@ -10,4 +10,14 @@ public class ConstantUtils {
     public static final String TITLE_MEAL = "Meal";
     public static final String TITLE_EXERCISE = "Exercise";
     public static final String TITLE_PROFILE = "Profile";
+    public static final String Breakfast = "Breakfast";
+    public static final String Lunch = "Lunch";
+    public static final String Dinner = "Dinner";
+    public static final String Snack = "Snack";
+    public static final String unitCalo = "Kcal";
+    public static final String unitPro = "g";
+    public static final String unitFat = "g";
+    public static final String unitCarb = "g";
+
+
 }

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorWhite">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <LinearLayout
-        android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -15,8 +13,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-
         <LinearLayout
+            android:id="@+id/layout_today"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/colorGray2"
@@ -30,7 +28,7 @@
                 android:src="@drawable/back_left" />
 
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_name_day"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -103,4 +101,4 @@
     </LinearLayout>
 
 
-</>
+</RelativeLayout>
