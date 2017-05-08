@@ -11,7 +11,7 @@ import java.util.Map;
 public class Food implements Serializable {
     private String id;
     private String name;
-    private int image;
+    private String imageUrl;
     private String unit1;
     private int unit2;
     private float calo;
@@ -19,10 +19,10 @@ public class Food implements Serializable {
     private float fat;
     private float carb;
 
-    public Food(String id, String name, int image, String unit1, int unit2, float calo, float protein, float fat, float carb) {
+    public Food(String id, String name, String imageUrl, String unit1, int unit2, float calo, float protein, float fat, float carb) {
         this.id = id;
         this.name = name;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.unit1 = unit1;
         this.unit2 = unit2;
         this.calo = calo;
@@ -51,12 +51,12 @@ public class Food implements Serializable {
         this.name = name;
     }
 
-    public int getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getUnit1() {
