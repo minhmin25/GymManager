@@ -2,6 +2,8 @@ package com.dev.minhmin.gymmanager.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -120,6 +122,19 @@ public class Meal implements Serializable {
 
         }
         return t;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> value = new HashMap<>();
+        ArrayList<Map<String, Object>> listItems = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            listItems.add(items.get(i).toMap());
+        }
+        value.put("id", id);
+        value.put("items", listItems);
+        value.put("date", date);
+        value.put("type", type);
+        return value;
     }
 
 }

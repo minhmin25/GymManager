@@ -1,6 +1,8 @@
 package com.dev.minhmin.gymmanager.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -52,6 +54,14 @@ public class LineItem implements Serializable {
     public float getTotalCab() {
         float t = (float) number * food.getCarb();
         return t;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> value = new HashMap<>();
+        value.put("id", food.getId());
+        value.put("number", number);
+        value.put("food", food.toMap());
+        return value;
     }
 
 }

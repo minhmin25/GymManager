@@ -23,6 +23,8 @@ public class MealDetailFragment extends Fragment {
     private Meal meal;
     private MealDetailAdapter adapter;
     private ListView listitem;
+    private TextView tv_total, tv_name_day;
+    private ImageView iv_back_left, iv_back_right;
 
 
     public static MealDetailFragment newInstance() {

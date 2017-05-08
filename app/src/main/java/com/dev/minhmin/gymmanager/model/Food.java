@@ -1,6 +1,8 @@
 package com.dev.minhmin.gymmanager.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -103,5 +105,11 @@ public class Food implements Serializable {
 
     public void setCarb(float carb) {
         this.carb = carb;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> value = new HashMap<>();
+
+        return value;
     }
 }
