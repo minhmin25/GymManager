@@ -1,5 +1,8 @@
 package com.dev.minhmin.gymmanager.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Minh min on 4/19/2017.
  */
@@ -56,5 +59,14 @@ public class Workout {
 
     public void setThumbUrl(int thumbUrl) {
         this.thumbUrl = thumbUrl;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> value = new HashMap<>();
+        value.put("title", title);
+        value.put("time", time);
+        value.put("imageUrl", imageUrl);
+        value.put("thumbUrl", thumbUrl);
+        return value;
     }
 }
