@@ -63,7 +63,7 @@ public class ListFoodAdapter extends BaseAdapter {
         viewholder.tvName.setText(listfood.get(i).getName());
         String s = listfood.get(i).getUnit2() + " " + listfood.get(i).getUnit1() + (listfood.get(i).getCalo() + "Calo");
         viewholder.tvNumber.setText(s);
-        viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
+//        viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
         final Food f = listfood.get(i);
 
         viewholder.ivdetails.setOnClickListener(new View.OnClickListener() {
