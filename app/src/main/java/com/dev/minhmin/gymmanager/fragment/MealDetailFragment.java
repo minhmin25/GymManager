@@ -6,14 +6,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
 import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
