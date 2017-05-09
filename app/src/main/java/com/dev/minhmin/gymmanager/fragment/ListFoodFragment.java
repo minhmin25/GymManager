@@ -59,9 +59,7 @@ public class ListFoodFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         init();
 
-        lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
-        adapter = new ListFoodAdapter(getActivity(), listFoods);
-        lvFood.setAdapter(adapter);
+
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -124,6 +122,9 @@ public class ListFoodFragment extends Fragment {
         tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food);
         tv_don_vi_food = (TextView) getView().findViewById(R.id.tv_don_vi_food);
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
+        lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
+        adapter = new ListFoodAdapter(getActivity(), listFoods);
+        lvFood.setAdapter(adapter);
         spinner = (Spinner) getView().findViewById(R.id.spin_meal);
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);

@@ -16,13 +16,16 @@ import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
+import com.dev.minhmin.gymmanager.utils.MethodUtils;
+
+import java.util.Date;
 
 /**
  * Created by Minh min on 4/19/2017.
  */
 
 public class MealFragment extends Fragment {
-
+    private static String time = "";
 
     private ImageView iv_breakfast, iv_lun, iv_din, iv_snack, iv_listfood, iv_back_left, iv_back_right;
     private TextView tv_break, tv_lun, tv_din, tv_snack, tv_listfood, tv_calo, tv_pro, tv_carb, tv_fat, tv_total_break, tv_total_lun, tv_total_din, tv_total_snack, tv_date;
@@ -46,12 +49,13 @@ public class MealFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        final MethodUtils methodUtils = new MethodUtils();
         layout_break.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Breakfast);
-                bundle.putString("date", date);
+                bundle.putString("date", time);
                 MealDetailFragment fragment = new MealDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -64,7 +68,7 @@ public class MealFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Dinner);
-                bundle.putString("date", date);
+                bundle.putString("date", time);
                 MealDetailFragment fragment = new MealDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -76,7 +80,7 @@ public class MealFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
 
-                bundle.putString("date", date);
+                bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -88,7 +92,7 @@ public class MealFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Lunch);
-                bundle.putString("date", date);
+                bundle.putString("date", time);
                 MealDetailFragment fragment = new MealDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -100,7 +104,7 @@ public class MealFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Snack);
-                bundle.putString("date", date);
+                bundle.putString("date", time);
                 MealDetailFragment fragment = new MealDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -111,8 +115,9 @@ public class MealFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DataCenter dataCenter = new DataCenter();
-                date = "";
-                String time = "";
+                time = methodUtils.UpDownDay(time, -1);
+                tv_date.setText(time);
+
                 Meal mealBreak = dataCenter.getMeal(time, ConstantUtils.Breakfast);
                 Meal mealLunch = dataCenter.getMeal(time, ConstantUtils.Lunch);
                 Meal mealDin = dataCenter.getMeal(time, ConstantUtils.Dinner);
@@ -136,8 +141,8 @@ public class MealFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DataCenter dataCenter = new DataCenter();
-                date = "";
-                String time = "";
+                time = methodUtils.UpDownDay(time, 1);
+                tv_date.setText(time);
                 Meal mealBreak = dataCenter.getMeal(time, ConstantUtils.Breakfast);
                 Meal mealLunch = dataCenter.getMeal(time, ConstantUtils.Lunch);
                 Meal mealDin = dataCenter.getMeal(time, ConstantUtils.Dinner);
@@ -158,7 +163,6 @@ public class MealFragment extends Fragment {
         });
 
 
-
     }
 
     @Override
@@ -174,18 +178,19 @@ public class MealFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         DataCenter dataCenter = new DataCenter();
         Bundle bundle = this.getArguments();
+        MethodUtils methodUtils = new MethodUtils();
 
         if (bundle != null) {
             String date = bundle.getString("date", "");
-            String time = "";
+
             if (date.equals("")) {
                 tv_date.setText("Today");
-                time = "";
+                time = methodUtils.getTimeNow();
 
 
             } else {
                 tv_date.setText(date);
-                time = "";
+                time = date;
             }
             Meal mealBreak = dataCenter.getMeal(time, ConstantUtils.Breakfast);
             Meal mealLunch = dataCenter.getMeal(time, ConstantUtils.Lunch);
