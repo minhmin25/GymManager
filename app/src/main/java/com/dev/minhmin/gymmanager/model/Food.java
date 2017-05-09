@@ -12,19 +12,19 @@ public class Food implements Serializable {
     private String id;
     private String name;
     private String imageUrl;
-    private String unit1;
-    private int unit2;
+    private String unit;
+    private int count;
     private float calo;
     private float protein;
     private float fat;
     private float carb;
 
-    public Food(String id, String name, String imageUrl, String unit1, int unit2, float calo, float protein, float fat, float carb) {
+    public Food(String id, String name, String imageUrl, String unit, int count, float calo, float protein, float fat, float carb) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
-        this.unit1 = unit1;
-        this.unit2 = unit2;
+        this.unit = unit;
+        this.count = count;
         this.calo = calo;
         this.protein = protein;
         this.fat = fat;
@@ -59,20 +59,20 @@ public class Food implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public String getUnit1() {
-        return unit1;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setUnit1(String unit1) {
-        this.unit1 = unit1;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
-    public int getUnit2() {
-        return unit2;
+    public int getCount() {
+        return count;
     }
 
-    public void setUnit2(int unit2) {
-        this.unit2 = unit2;
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public float getCalo() {
@@ -109,6 +109,16 @@ public class Food implements Serializable {
 
     public Map<String, Object> toMap() {
         Map<String, Object> value = new HashMap<>();
+        value.put("id", id);
+        value.put("name", name);
+        value.put("imageUrl", imageUrl);
+        value.put("protein", protein);
+        value.put("unit", unit);
+        value.put("count", count);
+        value.put("calo", calo);
+        value.put("carb", carb);
+        value.put("fat", fat);
+
 
         return value;
     }

@@ -29,9 +29,9 @@ public class MealFragment extends Fragment {
 
     private ImageView iv_breakfast, iv_lun, iv_din, iv_snack, iv_listfood, iv_back_left, iv_back_right;
     private TextView tv_break, tv_lun, tv_din, tv_snack, tv_listfood, tv_calo, tv_pro, tv_carb, tv_fat, tv_total_break, tv_total_lun, tv_total_din, tv_total_snack, tv_date;
-    private String date;
+    private String date = "";
     private LinearLayout layout_break, layout_lunch, layout_din, layout_snack, layout_listfood;
-
+    final MethodUtils methodUtils = new MethodUtils();
 
     public static MealFragment newInstance() {
         MealFragment fragment = new MealFragment();
@@ -49,7 +49,37 @@ public class MealFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        final MethodUtils methodUtils = new MethodUtils();
+        DataCenter dataCenter = new DataCenter();
+        if (date.equals("")) {
+            tv_date.setText("Today");
+            time = methodUtils.getTimeNow();
+
+
+        } else {
+            tv_date.setText(date);
+            time = date;
+        }
+        Meal mealBreak = dataCenter.getMeal(time, ConstantUtils.Breakfast);
+        Meal mealLunch = dataCenter.getMeal(time, ConstantUtils.Lunch);
+        Meal mealDin = dataCenter.getMeal(time, ConstantUtils.Dinner);
+        Meal mealSnack = dataCenter.getMeal(time, ConstantUtils.Snack);
+        if (mealBreak != null && mealLunch != null && mealDin != null && mealSnack != null) {
+            tv_total_break.setText(mealBreak.getTotalCalo() + "calories");
+            tv_total_lun.setText(mealLunch.getTotalCalo() + "calories");
+            tv_total_din.setText(mealDin.getTotalCalo() + "calories");
+            tv_total_snack.setText(mealSnack.getTotalCalo() + "calories");
+            float totalCalo = mealBreak.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
+            float totalPro = mealBreak.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
+            float totalFat = mealBreak.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
+            float totalCarb = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
+            tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
+            tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
+            tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
+            tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
+        }
+
+
+
         layout_break.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,11 +159,11 @@ public class MealFragment extends Fragment {
                 float totalCalo = mealBreak.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
                 float totalPro = mealBreak.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
                 float totalFat = mealBreak.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
-                float totalCab = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
+                float totalCarb = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
                 tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
                 tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
                 tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
-                tv_carb.setText(totalPro + " " + ConstantUtils.unitCarb);
+                tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
 
             }
         });
@@ -154,11 +184,11 @@ public class MealFragment extends Fragment {
                 float totalCalo = mealBreak.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
                 float totalPro = mealBreak.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
                 float totalFat = mealBreak.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
-                float totalCab = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
+                float totalCarb = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
                 tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
                 tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
                 tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
-                tv_carb.setText(totalPro + " " + ConstantUtils.unitCarb);
+                tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
             }
         });
 
@@ -176,40 +206,7 @@ public class MealFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DataCenter dataCenter = new DataCenter();
-        Bundle bundle = this.getArguments();
-        MethodUtils methodUtils = new MethodUtils();
 
-        if (bundle != null) {
-            String date = bundle.getString("date", "");
-
-            if (date.equals("")) {
-                tv_date.setText("Today");
-                time = methodUtils.getTimeNow();
-
-
-            } else {
-                tv_date.setText(date);
-                time = date;
-            }
-            Meal mealBreak = dataCenter.getMeal(time, ConstantUtils.Breakfast);
-            Meal mealLunch = dataCenter.getMeal(time, ConstantUtils.Lunch);
-            Meal mealDin = dataCenter.getMeal(time, ConstantUtils.Dinner);
-            Meal mealSnack = dataCenter.getMeal(time, ConstantUtils.Snack);
-            tv_total_break.setText(mealBreak.getTotalCalo() + "calories");
-            tv_total_lun.setText(mealLunch.getTotalCalo() + "calories");
-            tv_total_din.setText(mealDin.getTotalCalo() + "calories");
-            tv_total_snack.setText(mealSnack.getTotalCalo() + "calories");
-            float totalCalo = mealBreak.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
-            float totalPro = mealBreak.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
-            float totalFat = mealBreak.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
-            float totalCab = mealBreak.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
-            tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
-            tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
-            tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
-            tv_carb.setText(totalPro + " " + ConstantUtils.unitCarb);
-
-        }
     }
 
     private void init() {
@@ -238,6 +235,7 @@ public class MealFragment extends Fragment {
         layout_lunch = (LinearLayout) getView().findViewById(R.id.layout_lunch);
         layout_din = (LinearLayout) getView().findViewById(R.id.layout_dinner);
         layout_snack = (LinearLayout) getView().findViewById(R.id.layout_snack);
+        layout_listfood = (LinearLayout) getView().findViewById(R.id.layout_listfood);
 
 
     }

@@ -15,6 +15,8 @@ import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -24,7 +26,6 @@ public class MealDetailFragment extends Fragment {
     private Meal meal;
     private MealDetailAdapter adapter;
     private ListView listview;
-
     private TextView tv_total, tv_name_day;
     private ImageView iv_back_left, iv_back_right;
 

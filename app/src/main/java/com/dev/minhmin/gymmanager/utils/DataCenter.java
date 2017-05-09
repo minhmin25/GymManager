@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 
 public class DataCenter {
-    private Meal meal;
+    private Meal meal = new Meal();
     private Food f;
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
@@ -52,6 +53,28 @@ public class DataCenter {
         mRef.updateChildren(updateMeal);
 
 
+    }
+
+    public ArrayList<Food> getListFood() {
+        final ArrayList<Food> foods = new ArrayList<>();
+        ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+//                    if(i.getKey().equals(date)){
+//
+//                    }
+                    Food m = i.getValue(Food.class);
+                    foods.add(m);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return foods;
     }
 
     public void editMealV2(Meal meal) {
@@ -111,8 +134,8 @@ public class DataCenter {
     }
 
     public void deleteItem(final String idFood, String date, String type) {
-        DatabaseReference mRef = ref.child(type).child(date).child("items").child(idFood);
-        mRef.setValue(null);
+//        DatabaseReference mRef = ref.child(type).child(date).child("items").child(idFood);
+//        mRef.setValue(null);
 
         Query query = ref.child(type).child(date).child("items");
         query.addListenerForSingleValueEvent(new ValueEventListener() {

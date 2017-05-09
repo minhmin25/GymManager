@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
+import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -148,6 +149,8 @@ public class MainActivity extends AppCompatActivity
                 if (page == 3) break;
                 page = 3;
                 tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                Fragment fragment = new MealFragment().newInstance();
+                replaceFragment(fragment);
                 break;
             }
             case R.id.rb_exercise: {
