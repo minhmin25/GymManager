@@ -77,7 +77,7 @@ public class FoodDetailFragment extends Fragment {
     }
 
     private void updateUI(Food food) {
-        iv_food.setImageResource(food.getImage());
+        iv_food.setImageResource(food.getImageUrl());
         tv_name.setText(food.getName());
         tv_calo.setText(food.getCalo() + " " + ConstantUtils.unitCalo);
         tv_pro.setText(food.getProtein() + " " + ConstantUtils.unitPro);

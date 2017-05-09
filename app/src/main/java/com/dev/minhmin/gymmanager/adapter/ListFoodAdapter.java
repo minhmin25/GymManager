@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.FoodDetailFragment;
-import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
 import com.dev.minhmin.gymmanager.model.Food;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class ListFoodAdapter extends BaseAdapter {
         viewholder.tvName.setText(listfood.get(i).getName());
         String s = listfood.get(i).getUnit2() + " " + listfood.get(i).getUnit1() + (listfood.get(i).getCalo() + "Calo");
         viewholder.tvNumber.setText(s);
-        viewholder.ivfood.setImageResource(listfood.get(i).getImage());
+        viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
         final Food f = listfood.get(i);
 
         viewholder.ivdetails.setOnClickListener(new View.OnClickListener() {
