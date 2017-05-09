@@ -37,7 +37,7 @@ public class ListFoodFragment extends Fragment {
     ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
     String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
-
+    private int number;
     private ArrayList<Food> listFoods = new ArrayList<>();
     private Button btcan, btadd;
     private ImageView iv_plus, iv_sub, iv_food;
@@ -65,26 +65,26 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
+        // Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
 
 
-        // listFoods = (ArrayList<Food>) dataCenter.getListFood();
-        listFoods.add(f);
+        listFoods = (ArrayList<Food>) dataCenter.getListFood();
+        // listFoods.add(f);
         adapter = new ListFoodAdapter(getActivity(), listFoods);
 
         lvFood.setAdapter(adapter);
+
 
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food = listFoods.get(position);
-                layout_add.setVisibility(View.VISIBLE);
-                tv_name.setText(listFoods.get(position).getName() + "");
-                tv_number_calo.setText(listFoods.get(position).getCalo() + " " + ConstantUtils.unitCalo);
-                tv_number_food.setText("1");
-                tv_don_vi_food.setText("  x" + listFoods.get(position).getCount() + " " + listFoods.get(position).getUnit());
-
+                layout_add.setEnabled(true);
+                tv_name.setText(food.getName());
+                tv_number_calo.setText(food.getCalo() + " Calo");
+                tv_don_vi_food.setText("x" + food.getCount() + " " + food.getUnit());
+                number = Integer.parseInt(tv_number_food.getText().toString());
                 StorageReference mref = sref.child("food/" + listFoods.get(position).getImageUrl());
                 Glide.with(getActivity())
                         .using(new FirebaseImageLoader())
@@ -95,7 +95,6 @@ public class ListFoodFragment extends Fragment {
                 iv_plus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int number = Integer.parseInt(tv_number_food.getText().toString());
                         number++;
                         tv_number_food.setText(number + "");
                     }
@@ -103,7 +102,6 @@ public class ListFoodFragment extends Fragment {
                 iv_sub.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int number = Integer.parseInt(tv_number_food.getText().toString());
                         if (number > 1) {
                             number = number - 1;
                         } else {
@@ -122,11 +120,10 @@ public class ListFoodFragment extends Fragment {
                 btcan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        layout_add.setVisibility(View.INVISIBLE);
+                        layout_add.setEnabled(false);
                     }
                 });
 
-//
 
             }
         });
@@ -144,11 +141,10 @@ public class ListFoodFragment extends Fragment {
         iv_sub = (ImageView) getView().findViewById(R.id.iv_sub);
         tv_name = (TextView) getView().findViewById(R.id.tv_name_food_list_detail);
         tv_number_calo = (TextView) getView().findViewById(R.id.tv_number_calo_food);
-        tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food_fragment);
+        tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food);
         tv_don_vi_food = (TextView) getView().findViewById(R.id.tv_don_vi_food);
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
-        btcan = (Button) getView().findViewById(R.id.bt_cancel);
-        btadd = (Button) getView().findViewById(R.id.bt_add);
+
 
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
 
@@ -157,6 +153,7 @@ public class ListFoodFragment extends Fragment {
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapterspin);
+
 
 
     }
