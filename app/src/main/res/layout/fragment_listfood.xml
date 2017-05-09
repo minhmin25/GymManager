@@ -34,26 +34,26 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="invisible"
         android:id="@+id/relayout_add_food"
-
-
         android:layout_width="match_parent"
+
+
         android:layout_height="match_parent"
-        android:background="#cc000000"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#cc000000"
+        android:visibility="invisible">
 
         <LinearLayout
             android:layout_width="330dp"
 
             android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/rounded_layout"
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
             android:weightSum="1">
 
             <LinearLayout
@@ -161,10 +161,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center_vertical"
-
                 android:layout_width="250dp"
+
                 android:layout_height="48dp"
+                android:gravity="center_vertical"
 
                 android:paddingLeft="25dp">
 
@@ -173,8 +173,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Eaten for : "
-                    android:textSize="14sp"
-                    android:textColor="@color/colorBalck" />
+                    android:textColor="@color/colorBalck"
+                    android:textSize="14sp" />
 
                 <Spinner
                     android:id="@+id/spin_meal"
@@ -188,10 +188,10 @@
 
             <LinearLayout
 
-                android:paddingTop="25dp"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="25dp">
 
                 <Button
                     android:id="@+id/bt_cancel"
@@ -203,10 +203,10 @@
 
                 <Button
                     android:id="@+id/bt_add"
-                    android:layout_marginLeft="20dp"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:background="@drawable/button"
                     android:text="ADD" />
 

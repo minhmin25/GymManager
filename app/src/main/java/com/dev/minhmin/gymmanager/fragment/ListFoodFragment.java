@@ -38,7 +38,7 @@ public class ListFoodFragment extends Fragment {
     String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
     private int number;
-    private ArrayList<Food> listFoods;
+    private ArrayList<Food> listFoods = new ArrayList<>();
     private Button btcan, btadd;
     private ImageView iv_plus, iv_sub, iv_food;
     private TextView tv_name, tv_number_food, tv_number_calo, tv_don_vi_food, tv_detail_don_vi_food;
@@ -65,11 +65,11 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
+        // Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
 
 
-        // listFoods = (ArrayList<Food>) dataCenter.getListFood();
-        listFoods.add(f);
+        listFoods = (ArrayList<Food>) dataCenter.getListFood();
+        // listFoods.add(f);
         adapter = new ListFoodAdapter(getActivity(), listFoods);
 
         lvFood.setAdapter(adapter);
@@ -149,10 +149,10 @@ public class ListFoodFragment extends Fragment {
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
 
 
-//        spinner = (Spinner) getView().findViewById(R.id.spin_meal);
-//        adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
-//        adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-//        spinner.setAdapter(adapterspin);
+        spinner = (Spinner) getView().findViewById(R.id.spin_meal);
+        adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
+        adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapterspin);
 
 
 

@@ -62,13 +62,17 @@ public class ListFoodAdapter extends BaseAdapter {
             viewholder.tvName = (TextView) view.findViewById(R.id.tv_name_food_list);
             viewholder.tvNumber = (TextView) view.findViewById(R.id.tv_number_food_list);
             viewholder.ivfood = (ImageView) view.findViewById(R.id.iv_food_list);
-            viewholder.ivdetails = (ImageView) view.findViewById(R.id.iv_food_list_detail);
+            viewholder.ivdetails = (ImageView) view.findViewById(R.id.iv_detail_food);
+            //CAI NAY K THUOC ITEM VIEW
+            //OK
+            //TICH DAU DO
+            //RỒI CHẠY DEBUG
             view.setTag(viewholder);
         } else {
             viewholder = (Viewholder) view.getTag();
         }
         viewholder.tvName.setText(listfood.get(i).getName());
-        String s = listfood.get(i).getCount() + " " + listfood.get(i).getUnit() + (listfood.get(i).getCalo() + "Calo");
+        String s = listfood.get(i).getCount() + " " + listfood.get(i).getUnit() + " " + (listfood.get(i).getCalo() + " Calo");
         viewholder.tvNumber.setText(s);
         StorageReference mref = sref.child("food/" + listfood.get(i).getImageUrl());
         Glide.with(activity)

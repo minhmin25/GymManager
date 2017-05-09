@@ -69,8 +69,8 @@ public class FoodDetailFragment extends Fragment {
         Bundle bundle = this.getArguments();
         DataCenter dataCenter = new DataCenter();
 
-        if (bundle != null) {
-            String idFood = bundle.getString("idFood", "");
+
+        String idFood = bundle.getString("idFood", "");
             if (!idFood.equals("")) {
 
                 Food food = dataCenter.getFood(idFood);
@@ -80,7 +80,6 @@ public class FoodDetailFragment extends Fragment {
             }
 
 
-        }
     }
 
     private void updateUI(Food food) {
