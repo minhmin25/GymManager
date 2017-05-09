@@ -55,7 +55,7 @@ public class MealDetailAdapter extends BaseAdapter {
         viewholder.tvName.setText(meal.getItems().get(i).getFood().getName());
         String s = meal.getItems().get(i).getFood().getUnit2() + " " + meal.getItems().get(i).getFood().getUnit1() + "(" + meal.getItems().get(i).getTotalCalo() + " Calo";
         viewholder.tvNumber.setText(meal.getItems().get(i).getNumber() + "x" + s);
-        viewholder.iv_food.setImageResource(meal.getItems().get(i).getFood().getImage());
+//        viewholder.iv_food.setImageResource(meal.getItems().get(i).getFood().getImage());
 
         viewholder.iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
