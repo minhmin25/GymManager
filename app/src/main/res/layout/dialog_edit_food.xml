@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/relayout_add_food"
+
         android:layout_width="match_parent"
 
 
