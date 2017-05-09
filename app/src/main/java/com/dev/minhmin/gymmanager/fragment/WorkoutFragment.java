@@ -51,8 +51,8 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
 
     private void getListData() {
         for (int i = 0; i < 10; i++) {
-            Workout w = new Workout("Title " + i, i + 3, "Url " + i, image[i % 7]);
-            listWorkouts.add(w);
+//            Workout w = new Workout("Title " + i, i + 3, "Url " + i, image[i % 7]+"");
+//            listWorkouts.add(w);
         }
     }
 

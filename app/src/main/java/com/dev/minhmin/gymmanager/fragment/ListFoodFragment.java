@@ -23,6 +23,11 @@ import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -65,16 +70,27 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        // Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listFoods.clear();
+                ArrayList<Food> listdata = new ArrayList<>();
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    Food m = i.getValue(Food.class);
+                    listdata.add(m);
+                }
+                listFoods.addAll(listdata);
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        listFoods = (ArrayList<Food>) dataCenter.getListFood();
-        // listFoods.add(f);
+            }
+        });
         adapter = new ListFoodAdapter(getActivity(), listFoods);
-
         lvFood.setAdapter(adapter);
-
-
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -154,7 +170,6 @@ public class ListFoodFragment extends Fragment {
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapterspin);
-
 
 
     }
