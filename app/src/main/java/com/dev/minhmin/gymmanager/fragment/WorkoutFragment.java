@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.dev.minhmin.gymmanager.R;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * Created by Minh min on 4/19/2017.
  */
 
-public class WorkoutFragment extends Fragment {
+public class WorkoutFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private GridView gvWorkout;
     private ArrayList<Workout> listWorkouts = new ArrayList<>();
@@ -45,7 +46,7 @@ public class WorkoutFragment extends Fragment {
         getListData();
         adapter = new ListWorkoutAdapter(getActivity(), listWorkouts);
         gvWorkout.setAdapter(adapter);
-
+        gvWorkout.setOnItemClickListener(this);
     }
 
     private void getListData() {
@@ -53,5 +54,10 @@ public class WorkoutFragment extends Fragment {
             Workout w = new Workout("Title " + i, i + 3, "Url " + i, image[i % 7]);
             listWorkouts.add(w);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
     }
 }
