@@ -11,9 +11,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.FoodDetailFragment;
 import com.dev.minhmin.gymmanager.model.Food;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -23,7 +28,9 @@ import java.util.ArrayList;
 
 public class ListFoodAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Food> listfood;
+    private ArrayList<Food> listfood = new ArrayList<>();
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference sref = storage.getReference();
 
     public ListFoodAdapter(Activity activity, ArrayList<Food> listfood) {
         this.activity = activity;
@@ -61,9 +68,16 @@ public class ListFoodAdapter extends BaseAdapter {
             viewholder = (Viewholder) view.getTag();
         }
         viewholder.tvName.setText(listfood.get(i).getName());
-        String s = listfood.get(i).getUnit2() + " " + listfood.get(i).getUnit1() + (listfood.get(i).getCalo() + "Calo");
+        String s = listfood.get(i).getCount() + " " + listfood.get(i).getUnit() + (listfood.get(i).getCalo() + "Calo");
         viewholder.tvNumber.setText(s);
-        viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
+        StorageReference mref = sref.child("food/" + listfood.get(i).getImageUrl());
+        Glide.with(activity)
+                .using(new FirebaseImageLoader())
+                .load(mref)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(viewholder.ivfood);
+        // viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
         final Food f = listfood.get(i);
 
         viewholder.ivdetails.setOnClickListener(new View.OnClickListener() {

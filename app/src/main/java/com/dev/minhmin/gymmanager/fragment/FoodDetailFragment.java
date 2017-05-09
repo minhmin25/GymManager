@@ -10,10 +10,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -24,6 +29,8 @@ public class FoodDetailFragment extends Fragment {
     private ImageView iv_food, iv_back_left;
     private TextView tv_name, tv_calo, tv_pro, tv_fat, tv_carb, tv_number_unit;
     private Button btadd;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference sref = storage.getReference();
 
     public static FoodDetailFragment newInstance() {
         FoodDetailFragment fragment = new FoodDetailFragment();
@@ -77,13 +84,20 @@ public class FoodDetailFragment extends Fragment {
     }
 
     private void updateUI(Food food) {
-        iv_food.setImageResource(food.getImageUrl());
+        StorageReference mref = sref.child("food/" + food.getImageUrl());
+        Glide.with(getActivity())
+                .using(new FirebaseImageLoader())
+                .load(mref)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(iv_food);
+        //iv_food.setImageResource(food.getImageUrl());
         tv_name.setText(food.getName());
         tv_calo.setText(food.getCalo() + " " + ConstantUtils.unitCalo);
         tv_pro.setText(food.getProtein() + " " + ConstantUtils.unitPro);
         tv_fat.setText(food.getFat() + " " + ConstantUtils.unitFat);
         tv_carb.setText(food.getCarb() + " " + ConstantUtils.unitCarb);
-        tv_number_unit.setText(food.getUnit2() + " " + food.getUnit1());
+        tv_number_unit.setText(food.getCount() + " " + food.getUnit());
     }
 
     private void innit() {
