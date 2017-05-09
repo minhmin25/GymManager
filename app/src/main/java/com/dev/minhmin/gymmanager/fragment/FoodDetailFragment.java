@@ -48,6 +48,8 @@ public class FoodDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
+        Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
+        updateUI(f);
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,14 +72,14 @@ public class FoodDetailFragment extends Fragment {
         DataCenter dataCenter = new DataCenter();
 
 
-        String idFood = bundle.getString("idFood", "");
-            if (!idFood.equals("")) {
-
-                Food food = dataCenter.getFood(idFood);
-                updateUI(food);
-
-
-            }
+//        String idFood = bundle.getString("idFood", "");
+//            if (!idFood.equals("")) {
+//
+//                Food food = dataCenter.getFood(idFood);
+//                updateUI(food);
+//
+//
+//            }
 
 
     }

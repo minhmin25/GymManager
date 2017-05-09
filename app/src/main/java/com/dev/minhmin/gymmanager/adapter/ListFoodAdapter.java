@@ -72,7 +72,7 @@ public class ListFoodAdapter extends BaseAdapter {
             viewholder = (Viewholder) view.getTag();
         }
         viewholder.tvName.setText(listfood.get(i).getName());
-        String s = listfood.get(i).getCount() + " " + listfood.get(i).getUnit() + " " + (listfood.get(i).getCalo() + " Calo");
+        String s = listfood.get(i).getCount() + " " + listfood.get(i).getUnit() + "-" + (listfood.get(i).getCalo() + " Calo");
         viewholder.tvNumber.setText(s);
         StorageReference mref = sref.child("food/" + listfood.get(i).getImageUrl());
         Glide.with(activity)

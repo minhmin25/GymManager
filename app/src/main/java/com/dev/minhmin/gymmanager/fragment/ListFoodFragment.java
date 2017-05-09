@@ -23,11 +23,6 @@ import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -70,27 +65,15 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                listFoods.clear();
-                ArrayList<Food> listdata = new ArrayList<Food>();
-                for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    Food m = i.getValue(Food.class);
-                    listdata.add(m);
-                }
-                listFoods.addAll(listdata);
-                adapter.notifyDataSetChanged();
-            }
+        // Food f = new Food("baker", "Backer", "baker.png", "g", 10, 2, 3, 4, 5);
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+        listFoods = (ArrayList<Food>) dataCenter.getListFood();
+        // listFoods.add(f);
         adapter = new ListFoodAdapter(getActivity(), listFoods);
+
         lvFood.setAdapter(adapter);
+
 
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -151,6 +134,7 @@ public class ListFoodFragment extends Fragment {
 
     private void init() {
 
+        listFoods = new ArrayList<>();
         layout_add = (RelativeLayout) getView().findViewById(R.id.relayout_add_food);
         iv_food = (ImageView) getView().findViewById(R.id.iv_food_list_detail);
         iv_plus = (ImageView) getView().findViewById(R.id.iv_plus);
@@ -160,6 +144,8 @@ public class ListFoodFragment extends Fragment {
         tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food);
         tv_don_vi_food = (TextView) getView().findViewById(R.id.tv_don_vi_food);
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
+
+
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
 
 
@@ -167,6 +153,7 @@ public class ListFoodFragment extends Fragment {
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapterspin);
+
 
 
     }
