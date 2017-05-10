@@ -6,32 +6,24 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
-import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -252,8 +244,9 @@ public class MealDetailFragment extends Fragment {
                         if (i.getKey().equals(idFood)) {
                             Food f = i.getValue(Food.class);
                             LineItem l = new LineItem(f, Integer.parseInt(number));
+                            meal.addLineitem(l);
 //                            l.setId(ref.child(typeMeal).child(date).child("items").push().getKey());
-                            ref.child(typeMeal).child(date).child("items").child(meal.getItems().size() + "").setValue(l.toMap());
+                            ref.child(typeMeal).child(date).updateChildren(meal.toMap());
                             break;
                         }
                     }

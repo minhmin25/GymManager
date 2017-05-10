@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -20,12 +19,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.Meal;
-import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -39,6 +37,7 @@ public class MealDetailAdapter extends BaseAdapter {
     private int number = 0;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 
     public MealDetailAdapter(Activity activity, Meal meal) {
@@ -193,9 +192,10 @@ public class MealDetailAdapter extends BaseAdapter {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i1) {
-                                DataCenter dataCenter = new DataCenter();
-                                dataCenter.deleteItem(meal.getItems().get(i).getId(), date, type);
+//                                DataCenter dataCenter = new DataCenter();
+//                                dataCenter.deleteItem(meal.getItems().get(i).getId(), date, type);
                                 meal.getItems().remove(i);
+                                ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
                                 notifyDataSetChanged();
                                 Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();
                             }
