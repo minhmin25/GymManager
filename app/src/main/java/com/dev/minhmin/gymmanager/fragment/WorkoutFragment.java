@@ -14,6 +14,11 @@ import android.widget.GridView;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.adapter.ListWorkoutAdapter;
 import com.dev.minhmin.gymmanager.model.Workout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,7 +32,7 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     private ArrayList<Workout> listWorkouts = new ArrayList<>();
     private ListWorkoutAdapter adapter;
     private int[] image = new int[]{R.drawable.w1, R.drawable.w2, R.drawable.w3, R.drawable.w4, R.drawable.w5, R.drawable.w6, R.drawable.w7};
-
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
     public static WorkoutFragment newInstance() {
         WorkoutFragment fragment = new WorkoutFragment();
@@ -45,17 +50,25 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         gvWorkout = (GridView) getView().findViewById(R.id.gv_workout);
-        getListData();
+        ref.child("Workout").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listWorkouts.clear();
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    Workout w = i.getValue(Workout.class);
+                    listWorkouts.add(w);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         adapter = new ListWorkoutAdapter(getActivity(), listWorkouts);
         gvWorkout.setAdapter(adapter);
         gvWorkout.setOnItemClickListener(this);
-    }
-
-    private void getListData() {
-        for (int i = 0; i < 10; i++) {
-//            Workout w = new Workout("Title " + i, i + 3, "Url " + i, image[i % 7]+"");
-//            listWorkouts.add(w);
-        }
     }
 
     @Override
