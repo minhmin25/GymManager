@@ -91,7 +91,7 @@ public class Meal implements Serializable {
     public float getTotalCalo() {
         float t = 0;
         for (int i = 0; i < getCount(); i++) {
-            t = t + getItems().get(i).getTotalCalo();
+            t = t + getItems().get(i).totalCalo();
 
         }
         return t;
@@ -100,7 +100,7 @@ public class Meal implements Serializable {
     public float getTotalFat() {
         float t = 0;
         for (int i = 0; i < getCount(); i++) {
-            t = t + getItems().get(i).getTotalFat();
+            t = t + getItems().get(i).totalFat();
 
         }
         return t;
@@ -109,7 +109,7 @@ public class Meal implements Serializable {
     public float getTotalPro() {
         float t = 0;
         for (int i = 0; i < getCount(); i++) {
-            t = t + getItems().get(i).getTotalProtetin();
+            t = t + getItems().get(i).totalProtetin();
 
         }
         return t;
@@ -118,7 +118,7 @@ public class Meal implements Serializable {
     public float getTotalCarb() {
         float t = 0;
         for (int i = 0; i < getCount(); i++) {
-            t = t + getItems().get(i).getTotalCab();
+            t = t + getItems().get(i).totalCab();
 
         }
         return t;
@@ -126,12 +126,8 @@ public class Meal implements Serializable {
 
     public Map<String, Object> toMap() {
         Map<String, Object> value = new HashMap<>();
-        ArrayList<Map<String, Object>> listItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            listItems.add(items.get(i).toMap());
-        }
         value.put("id", id);
-        value.put("items", listItems);
+        value.put("items", items);
         value.put("date", date);
         value.put("type", type);
         return value;

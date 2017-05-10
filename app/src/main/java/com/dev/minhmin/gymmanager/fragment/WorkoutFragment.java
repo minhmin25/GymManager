@@ -1,6 +1,8 @@
 package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -58,6 +60,18 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+        WorkoutExerciseFragment fragment = new WorkoutExerciseFragment().newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putString("key", listWorkouts.get(i).getTitle());
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
+    }
+
 }
