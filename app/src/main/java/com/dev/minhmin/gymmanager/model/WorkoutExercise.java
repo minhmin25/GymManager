@@ -13,16 +13,26 @@ public class WorkoutExercise {
     private int set;
     private String unit;
     private int quantity;
+    private String content;
 
     public WorkoutExercise() {
     }
 
-    public WorkoutExercise(String id, String name, int set, String unit, int quantity) {
+    public WorkoutExercise(String id, String name, int set, String unit, int quantity, String content) {
         this.id = id;
         this.name = name;
         this.set = set;
         this.unit = unit;
         this.quantity = quantity;
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getId() {

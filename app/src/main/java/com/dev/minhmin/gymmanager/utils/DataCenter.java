@@ -85,13 +85,11 @@ public class DataCenter {
 
     public Meal getMeal(final String date, String type) {
 //        final Meal[] meal = {new Meal()};
-        ref.child(type).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("Breakfast").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-//                    if(i.getKey().equals(date)){
-//
-//                    }
                     Meal m = i.getValue(Meal.class);
                     if (m.getDate().equals(date)) {
                         meal = m;

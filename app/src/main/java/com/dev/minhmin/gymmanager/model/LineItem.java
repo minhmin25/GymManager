@@ -36,22 +36,22 @@ public class LineItem implements Serializable {
         this.number = number;
     }
 
-    public float getTotalCalo() {
+    public float totalCalo() {
         float t = (float) number * food.getCalo();
         return t;
     }
 
-    public float getTotalProtetin() {
+    public float totalProtetin() {
         float t = (float) number * food.getProtein();
         return t;
     }
 
-    public float getTotalFat() {
+    public float totalFat() {
         float t = (float) number * food.getFat();
         return t;
     }
 
-    public float getTotalCab() {
+    public float totalCab() {
         float t = (float) number * food.getCarb();
         return t;
     }
