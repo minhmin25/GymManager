@@ -77,7 +77,7 @@ public class MealDetailAdapter extends BaseAdapter {
             viewholder = (Viewholder) view.getTag();
         }
         viewholder.tvName.setText(meal.getItems().get(i).getFood().getName());
-        String s = meal.getItems().get(i).getFood().getCount() + " " + meal.getItems().get(i).getFood().getUnit() + " ( " + meal.getItems().get(i).getTotalCalo() + " Calo" + " )";
+        String s = meal.getItems().get(i).getFood().getCount() + " " + meal.getItems().get(i).getFood().getUnit() + " ( " + meal.getItems().get(i).totalCalo() + " Calo" + " )";
         viewholder.tvNumber.setText(meal.getItems().get(i).getNumber() + "x" + s);
         StorageReference mref = sref.child("food/" + meal.getItems().get(i).getFood().getImageUrl());
         Glide.with(activity)
