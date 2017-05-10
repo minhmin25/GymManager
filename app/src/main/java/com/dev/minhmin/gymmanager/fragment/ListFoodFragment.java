@@ -1,8 +1,13 @@
 package com.dev.minhmin.gymmanager.fragment;
 
+import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +19,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -39,10 +46,13 @@ import java.util.ArrayList;
 
 public class ListFoodFragment extends Fragment {
     private DataCenter dataCenter;
+    private TextView tv_title;
     ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
     String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
-    private int number;
+    private ImageView iv_add_food;
+    private String typeMeal = ConstantUtils.Breakfast;
+    private String date = "";
     private ArrayList<Food> listFoods = new ArrayList<>();
     private Button btcan, btadd;
     private ImageView iv_plus, iv_sub, iv_food;
@@ -70,6 +80,11 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
+        tv_title.setText(ConstantUtils.TITLE_ListFood);
+
+
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -94,13 +109,13 @@ public class ListFoodFragment extends Fragment {
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Food food = listFoods.get(position);
-                layout_add.setEnabled(true);
-                tv_name.setText(food.getName());
-                tv_number_calo.setText(food.getCalo() + " Calo");
-                tv_don_vi_food.setText("x" + food.getCount() + " " + food.getUnit());
-                number = Integer.parseInt(tv_number_food.getText().toString());
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                //   Food food = listFoods.get(position);
+                layout_add.setVisibility(View.VISIBLE);
+                tv_name.setText(listFoods.get(position).getName() + "");
+                tv_number_calo.setText(listFoods.get(position).getCalo() + " " + ConstantUtils.unitCalo);
+                tv_number_food.setText("1");
+                tv_don_vi_food.setText(" x" + listFoods.get(position).getCount() + " " + listFoods.get(position).getUnit());
                 StorageReference mref = sref.child("food/" + listFoods.get(position).getImageUrl());
                 Glide.with(getActivity())
                         .using(new FirebaseImageLoader())
@@ -111,6 +126,7 @@ public class ListFoodFragment extends Fragment {
                 iv_plus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int number = Integer.parseInt(tv_number_food.getText().toString());
                         number++;
                         tv_number_food.setText(number + "");
                     }
@@ -118,26 +134,45 @@ public class ListFoodFragment extends Fragment {
                 iv_sub.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        int number = Integer.parseInt(tv_number_food.getText().toString());
                         if (number > 1) {
                             number = number - 1;
                         } else {
                             number = 1;
                         }
                         tv_number_food.setText(number + "");
+                    }
+                });
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        typeMeal = spinmeal[position].toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
 
                     }
                 });
                 btadd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("typeMeal", typeMeal);
 
+                        bundle.putString("date", date);
+                        bundle.putString("idFood", listFoods.get(position).getId());
+                        bundle.putString("number", tv_number_food.getText().toString());
+                        MealDetailFragment fragment = new MealDetailFragment();
+                        fragment.setArguments(bundle);
+                        replaceFragment(fragment);
 
                     }
                 });
                 btcan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        layout_add.setEnabled(false);
+                        layout_add.setVisibility(View.INVISIBLE);
                     }
                 });
 
@@ -148,19 +183,42 @@ public class ListFoodFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        //   ActionBar actionBar =((MainActivity)context).getSupportActionBar();
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        date = bundle.getString("date", "");
+        typeMeal = bundle.getString("typeMeal", "");
+        if (typeMeal.equals("")) {
+            typeMeal = ConstantUtils.Breakfast;
+        }
+
+        Toast.makeText(getActivity(), "ListFood", Toast.LENGTH_LONG).show();
+
+    }
 
     private void init() {
 
         listFoods = new ArrayList<>();
+        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
         layout_add = (RelativeLayout) getView().findViewById(R.id.relayout_add_food);
         iv_food = (ImageView) getView().findViewById(R.id.iv_food_list_detail);
         iv_plus = (ImageView) getView().findViewById(R.id.iv_plus);
         iv_sub = (ImageView) getView().findViewById(R.id.iv_sub);
         tv_name = (TextView) getView().findViewById(R.id.tv_name_food_list_detail);
         tv_number_calo = (TextView) getView().findViewById(R.id.tv_number_calo_food);
-        tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food);
+        tv_number_food = (TextView) getView().findViewById(R.id.tv_number_food_fragment);
         tv_don_vi_food = (TextView) getView().findViewById(R.id.tv_don_vi_food);
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
+        btcan = (Button) getView().findViewById(R.id.bt_cancel);
+        btadd = (Button) getView().findViewById(R.id.bt_add);
 
 
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
@@ -172,6 +230,13 @@ public class ListFoodFragment extends Fragment {
         spinner.setAdapter(adapterspin);
 
 
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
     }
 
 

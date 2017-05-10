@@ -2,11 +2,16 @@ package com.dev.minhmin.gymmanager.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -33,6 +39,7 @@ public class MealDetailAdapter extends BaseAdapter {
     private int number = 0;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+
 
     public MealDetailAdapter(Activity activity, Meal meal) {
         this.activity = activity;
@@ -64,12 +71,13 @@ public class MealDetailAdapter extends BaseAdapter {
             viewholder.tvNumber = (TextView) view.findViewById(R.id.tv_number_food);
             viewholder.iv_edit = (ImageView) view.findViewById(R.id.iv_edit);
             viewholder.iv_delete = (ImageView) view.findViewById(R.id.iv_delete);
+            viewholder.iv_food = (ImageView) view.findViewById(R.id.iv_item_meal);
             view.setTag(viewholder);
         } else {
             viewholder = (Viewholder) view.getTag();
         }
         viewholder.tvName.setText(meal.getItems().get(i).getFood().getName());
-        String s = meal.getItems().get(i).getFood().getCount() + " " + meal.getItems().get(i).getFood().getUnit() + "(" + meal.getItems().get(i).getTotalCalo() + " Calo";
+        String s = meal.getItems().get(i).getFood().getCount() + " " + meal.getItems().get(i).getFood().getUnit() + " ( " + meal.getItems().get(i).getTotalCalo() + " Calo" + " )";
         viewholder.tvNumber.setText(meal.getItems().get(i).getNumber() + "x" + s);
         StorageReference mref = sref.child("food/" + meal.getItems().get(i).getFood().getImageUrl());
         Glide.with(activity)
@@ -78,7 +86,6 @@ public class MealDetailAdapter extends BaseAdapter {
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(viewholder.iv_food);
-//        viewholder.iv_food.setImageResource(meal.getItems().get(i).getFood().getImage());
         final String idFood = meal.getItems().get(i).getFood().getId();
         final String date = meal.getDate();
         final String type = meal.getType();
@@ -90,19 +97,24 @@ public class MealDetailAdapter extends BaseAdapter {
                 View view_dialog = activity.getLayoutInflater().inflate(R.layout.dialog_edit_food, null);
                 ImageView iv_food, iv_plus, iv_sub;
                 Spinner spinner;
+
                 final TextView tv_name, tv_number_calo, tv_don_vi_food, tv_number_food;
+                Button bt_add, bt_cancel;
 
                 spinner = (Spinner) view_dialog.findViewById(R.id.spin_dialog_meal);
                 ArrayAdapter<String> adapterspin;
-                String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
+                String spinmeal[] = {meal.getType()};
 //
                 adapterspin = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, spinmeal);
                 adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 spinner.setAdapter(adapterspin);
+
                 tv_name = (TextView) view_dialog.findViewById(R.id.tv_dialog_name);
                 tv_don_vi_food = (TextView) view_dialog.findViewById(R.id.tv_dialog_don_vi_food);
                 tv_number_calo = (TextView) view_dialog.findViewById(R.id.tv_dialog_number_calo);
                 tv_number_food = (TextView) view_dialog.findViewById(R.id.tv_dialog_number_food);
+                bt_add = (Button) view_dialog.findViewById(R.id.bt_dialog_add);
+                bt_cancel = (Button) view_dialog.findViewById(R.id.bt_dialog_cancel);
                 tv_name.setText(food.getName());
 
                 iv_food = (ImageView) view_dialog.findViewById(R.id.iv_dialog_food);
@@ -110,7 +122,7 @@ public class MealDetailAdapter extends BaseAdapter {
                 iv_sub = (ImageView) view_dialog.findViewById(R.id.iv_dialog_sub);
 
                 tv_number_calo.setText(food.getCalo() + " Calo");
-                tv_don_vi_food.setText("x" + food.getCount() + " " + food.getUnit());
+                tv_don_vi_food.setText("  " + "x" + food.getCount() + " " + food.getUnit());
                 tv_number_food.setText(meal.getItems().get(i).getNumber() + "");
                 StorageReference mref = sref.child("food/" + meal.getItems().get(i).getFood().getImageUrl());
                 Glide.with(activity)
@@ -145,20 +157,33 @@ public class MealDetailAdapter extends BaseAdapter {
                     }
                 });
 
-                builder.setView(view_dialog)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+
+                builder.setView(view_dialog);
 
 
-                            }
-                        })
-                        .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+                bt_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.cancel();
+
+                    }
+                });
+                bt_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        meal.getItems().get(i).setNumber(Integer.parseInt(tv_number_food.getText().toString()));
+                        notifyDataSetChanged();
+                        dialog.cancel();
+
+                    }
+                });
+
+
+
+
+
             }
         });
 
@@ -172,7 +197,7 @@ public class MealDetailAdapter extends BaseAdapter {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i1) {
                                 DataCenter dataCenter = new DataCenter();
-                                dataCenter.deleteItem(idFood, date, type);
+                                // dataCenter.deleteItem(idFood, date, type);
                                 meal.getItems().remove(i);
                                 notifyDataSetChanged();
                                 Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();
@@ -194,5 +219,12 @@ public class MealDetailAdapter extends BaseAdapter {
     private class Viewholder {
         TextView tvName, tvNumber;
         ImageView iv_edit, iv_delete, iv_food;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
     }
 }

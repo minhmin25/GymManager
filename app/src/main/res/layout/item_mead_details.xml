@@ -13,7 +13,7 @@
         android:paddingLeft="10dp">
 
         <ImageView
-            android:id="@+id/iv_iteam_meat"
+            android:id="@+id/iv_item_meal"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_weight="0.25"
