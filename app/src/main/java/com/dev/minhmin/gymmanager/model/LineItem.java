@@ -11,10 +11,17 @@ import java.util.Map;
 public class LineItem implements Serializable {
     private Food food;
     private int number;
+    private String id;
 
     public LineItem(Food food, int number) {
         this.food = food;
         this.number = number;
+    }
+
+    public LineItem(Food food, int number, String id) {
+        this.food = food;
+        this.number = number;
+        this.id = id;
     }
 
     public LineItem() {
@@ -34,6 +41,14 @@ public class LineItem implements Serializable {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public float totalCalo() {
@@ -58,7 +73,7 @@ public class LineItem implements Serializable {
 
     public Map<String, Object> toMap() {
         Map<String, Object> value = new HashMap<>();
-        value.put("id", food.getId());
+        value.put("id", id);
         value.put("number", number);
         value.put("food", food.toMap());
         return value;

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
+import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
+import com.dev.minhmin.gymmanager.model.LineItem;
+import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -46,7 +50,9 @@ import java.util.ArrayList;
 
 public class ListFoodFragment extends Fragment {
     private DataCenter dataCenter;
+    private Food food = new Food();
     private TextView tv_title;
+    private Meal meal = new Meal();
     ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
     String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
@@ -84,7 +90,6 @@ public class ListFoodFragment extends Fragment {
         tv_title.setText(ConstantUtils.TITLE_ListFood);
 
 
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -109,8 +114,8 @@ public class ListFoodFragment extends Fragment {
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                //   Food food = listFoods.get(position);
+            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
+                food = listFoods.get(position);
                 layout_add.setVisibility(View.VISIBLE);
                 tv_name.setText(listFoods.get(position).getName() + "");
                 tv_number_calo.setText(listFoods.get(position).getCalo() + " " + ConstantUtils.unitCalo);
@@ -151,22 +156,20 @@ public class ListFoodFragment extends Fragment {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
-
                     }
                 });
                 btadd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.e("ahihi", "btađ");
                         Bundle bundle = new Bundle();
                         bundle.putString("typeMeal", typeMeal);
-
                         bundle.putString("date", date);
                         bundle.putString("idFood", listFoods.get(position).getId());
                         bundle.putString("number", tv_number_food.getText().toString());
                         MealDetailFragment fragment = new MealDetailFragment();
                         fragment.setArguments(bundle);
                         replaceFragment(fragment);
-
                     }
                 });
                 btcan.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +178,6 @@ public class ListFoodFragment extends Fragment {
                         layout_add.setVisibility(View.INVISIBLE);
                     }
                 });
-
 
             }
         });

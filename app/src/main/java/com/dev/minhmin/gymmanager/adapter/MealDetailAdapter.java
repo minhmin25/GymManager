@@ -181,9 +181,6 @@ public class MealDetailAdapter extends BaseAdapter {
                 });
 
 
-
-
-
             }
         });
 
@@ -197,7 +194,7 @@ public class MealDetailAdapter extends BaseAdapter {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i1) {
                                 DataCenter dataCenter = new DataCenter();
-                                // dataCenter.deleteItem(idFood, date, type);
+                                dataCenter.deleteItem(meal.getItems().get(i).getId(), date, type);
                                 meal.getItems().remove(i);
                                 notifyDataSetChanged();
                                 Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();

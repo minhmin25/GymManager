@@ -88,6 +88,10 @@ public class Meal implements Serializable {
         }
     }
 
+    public void addLineitem(LineItem l) {
+        items.add(l);
+    }
+
     public float getTotalCalo() {
         float t = 0;
         for (int i = 0; i < getCount(); i++) {

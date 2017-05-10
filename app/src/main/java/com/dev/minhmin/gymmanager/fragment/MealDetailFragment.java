@@ -49,6 +49,7 @@ public class MealDetailFragment extends Fragment {
     private String idFood = "";
     private String number = "";
     private TextView tv_title;
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
     public static MealDetailFragment newInstance() {
         MealDetailFragment fragment = new MealDetailFragment();
@@ -72,69 +73,59 @@ public class MealDetailFragment extends Fragment {
         iv_add_food = (ImageView) view.findViewById(R.id.iv_add);
 
         final MethodUtils methodUtils = new MethodUtils();
-        ArrayList<LineItem> items = new ArrayList<>();
-        Food f = new Food("baker", "Baker", "baker.png", "g", 10, 1, 2, 3, 4);
-        Food f1 = new Food("egg", "Egg", "egg.png", "g", 10, 1, 2, 3, 4);
-        if (!idFood.equals("") && !number.equals("")) {
+//        ArrayList<LineItem> items = new ArrayList<>();
+//        Food f = new Food("baker", "Baker", "baker.png", "g", 10, 1, 2, 3, 4);
+//        Food f1 = new Food("egg", "Egg", "egg.png", "g", 10, 1, 2, 3, 4);
+//
+//
+//        LineItem lineItem = new LineItem(f, 2);
+//        LineItem lineItem1 = new LineItem(f1, 3);
+//
+//
+//        items.add(lineItem);
+//        items.add(lineItem1);
+        DatabaseReference ref;
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    Meal m = i.getValue(Meal.class);
+                    if (m.getDate().equals(date)) {
+                        meal = m;
+                        tv_total.setText(" " + meal.getTotalCalo() + " ");
+                        adapter = new MealDetailAdapter(getActivity(), meal);
+                        tv_total.setText(" " + meal.getTotalCalo() + " ");
+                        listview.setAdapter(adapter);
 
-            Food f2 = new Food(idFood, "A", "egg.png", "g", 10, 1, 1, 1, 1);
-            LineItem lineItem2 = new LineItem(f2, Integer.parseInt(number));
-            items.add(lineItem2);
+                    }
 
-        }
-
-        LineItem lineItem = new LineItem(f, 2);
-        LineItem lineItem1 = new LineItem(f1, 3);
+                }
 
 
-        items.add(lineItem);
-        items.add(lineItem1);
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        Meal meal_1 = new Meal("10-05-2017", typeMeal, items, "10-05-2017");
-
-        meal = meal_1;
-
+            }
+        });
+        adapter = new MealDetailAdapter(getActivity(), meal);
+        tv_total.setText(" " + meal.getTotalCalo() + " ");
+        listview.setAdapter(adapter);
         String timeNow = methodUtils.getTimeNow();
         if (timeNow.equals(date)) {
             tv_name_day.setText("Today");
         } else {
             tv_name_day.setText(date);
         }
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref.child(typeMeal).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Meal m = new Meal();
-//                for (DataSnapshot i : dataSnapshot.getChildren()) {
-//                    Log.e("ahihi", i.toString());
-//                    if (i.getKey().equals(date)) {
-//                        Log.e("a", "a");
-////                        m = i.getValue(Meal.class);
-//                    }
-//                    // sai day ak chăc thế, nó k lấy đk
-////                            Meal m = i.getValue(Meal.class);
-////                            if (m.getDate().equals(date)) {
-////
-////
-////                            }
-//                }
-//                meal = m;
-//                tv_total.setText(meal.getTotalCalo() + " ");
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-        tv_total.setText(" " + meal.getTotalCalo() + " ");
-        adapter = new MealDetailAdapter(getActivity(), meal);
-        listview.setAdapter(adapter);
+
+
         iv_back_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                meal = new Meal();
+                tv_total.setText("");
                 String time = methodUtils.UpDownDay(date, -1);
                 if (time.equals(methodUtils.getTimeNow())) {
                     tv_name_day.setText("Today");
@@ -144,6 +135,36 @@ public class MealDetailFragment extends Fragment {
 
                 }
                 date = time;
+                DatabaseReference ref;
+                ref = FirebaseDatabase.getInstance().getReference();
+                ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot i : dataSnapshot.getChildren()) {
+                            Meal m = i.getValue(Meal.class);
+                            if (m.getDate().equals(date)) {
+                                meal = m;
+                                adapter = new MealDetailAdapter(getActivity(), meal);
+                                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                                listview.setAdapter(adapter);
+
+
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                adapter = new MealDetailAdapter(getActivity(), meal);
+                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                listview.setAdapter(adapter);
+
                 //lay du lieu
 
 
@@ -152,6 +173,8 @@ public class MealDetailFragment extends Fragment {
         iv_back_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                meal = new Meal();
+                tv_total.setText("");
                 String time = methodUtils.UpDownDay(date, 1);
                 if (time.equals(methodUtils.getTimeNow())) {
                     tv_name_day.setText("Today");
@@ -161,6 +184,37 @@ public class MealDetailFragment extends Fragment {
 
                 }
                 date = time;
+                DatabaseReference ref;
+                ref = FirebaseDatabase.getInstance().getReference();
+                ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot i : dataSnapshot.getChildren()) {
+                            Meal m = i.getValue(Meal.class);
+                            if (m.getDate().equals(date)) {
+                                meal = m;
+                                adapter = new MealDetailAdapter(getActivity(), meal);
+                                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                                listview.setAdapter(adapter);
+                            }
+
+
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                adapter = new MealDetailAdapter(getActivity(), meal);
+                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                listview.setAdapter(adapter);
+
+                //lay du lieu
+
             }
         });
         iv_add_food.setOnClickListener(new View.OnClickListener() {
@@ -185,59 +239,32 @@ public class MealDetailFragment extends Fragment {
 
 
         Bundle bundle = this.getArguments();
-        typeMeal = bundle.getString("typeMeal", "");
+        if (bundle != null) {
+            typeMeal = bundle.getString("typeMeal", "");
+            date = bundle.getString("date", "");
+            number = bundle.getString("number", "");
+            idFood = bundle.getString("idFood", "");
 
+            ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot i : dataSnapshot.getChildren()) {
+                        if (i.getKey().equals(idFood)) {
+                            Food f = i.getValue(Food.class);
+                            LineItem l = new LineItem(f, Integer.parseInt(number));
+//                            l.setId(ref.child(typeMeal).child(date).child("items").push().getKey());
+                            ref.child(typeMeal).child(date).child("items").child(meal.getItems().size() + "").setValue(l.toMap());
+                            break;
+                        }
+                    }
+                }
 
-        date = bundle.getString("date", "");
-        number = bundle.getString("number", "");
-        idFood = bundle.getString("idFood", "");
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-
-//        String timeNow = methodUtils.getTimeNow();
-//            if (timeNow.equals(date)) {
-//                tv_name_day.setText("Today");
-//            } else {
-//                tv_name_day.setText(date);
-//            }
-
-//        if (bundle != null) {
-//            String typeMeal = bundle.getString("typeMeal", "");
-//            final String date = bundle.getString("date", "");
-//
-//            String timeNow = methodUtils.getTimeNow();
-//            if (timeNow.equals(date)) {
-//                tv_name_day.setText("Today");
-//            } else {
-//                tv_name_day.setText(date);
-//            }
-//
-//
-////            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-////            ref.child(typeMeal).addListenerForSingleValueEvent(new ValueEventListener() {
-////                @Override
-////                public void onDataChange(DataSnapshot dataSnapshot) {
-////                    for (DataSnapshot i : dataSnapshot.getChildren()) {
-////                        if (i.getKey().equals(date)) {
-////                            meal = i.getValue(Meal.class);
-////                            adapter.notifyDataSetChanged();
-////                        }
-//////                            Meal m = i.getValue(Meal.class);
-//////                            if (m.getDate().equals(date)) {
-//////
-//////
-//////                            }
-////                    }
-////                }
-////
-////                @Override
-////                public void onCancelled(DatabaseError databaseError) {
-////
-////                }
-////            });
-////
-////
-//
-//      }
+                }
+            });
+        }
 
     }
 
@@ -258,7 +285,6 @@ public class MealDetailFragment extends Fragment {
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
     }
-
 
 
 }
