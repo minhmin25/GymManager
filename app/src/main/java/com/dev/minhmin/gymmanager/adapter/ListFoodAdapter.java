@@ -87,13 +87,11 @@ public class ListFoodAdapter extends BaseAdapter {
         viewholder.ivdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Bundle bundle = new Bundle();
                 bundle.putString("idFood", f.getId());
                 FoodDetailFragment fragment = new FoodDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
-
 
             }
         });

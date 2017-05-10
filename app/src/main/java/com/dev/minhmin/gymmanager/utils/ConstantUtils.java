@@ -8,6 +8,12 @@ public class ConstantUtils {
     public static final String TITLE_HOME = "Home";
     public static final String TTLE_WORKOUT = "Workout";
     public static final String TITLE_MEAL = "Meal";
+    public static final String TITLE_ListFood = "ListFood";
+    public static final String TITLE_MealBreakFast = "Breakfast";
+    public static final String TITLE_MealDinner = "Dinner";
+    public static final String TITLE_MealLunch = "Lunch";
+    public static final String TITLE_MealSnack = "Snack";
+    public static final String TITLE_FoodDeail = "Food Details";
     public static final String TITLE_EXERCISE = "Exercise";
     public static final String TITLE_PROFILE = "Profile";
     public static final String Breakfast = "Breakfast";

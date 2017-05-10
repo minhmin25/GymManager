@@ -1,6 +1,7 @@
 package com.dev.minhmin.gymmanager.utils;
 
 import com.dev.minhmin.gymmanager.model.Food;
+import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,6 +42,12 @@ public class DataCenter {
         DatabaseReference mRef = ref.child(meal.getType()).child(meal.getDate());
         mRef.setValue(meal.toMap());
     }
+
+    public void addLineitem(Meal m, LineItem l) {
+        DatabaseReference mref = ref.child(m.getType()).child(m.getDate()).child("items");
+        mref.updateChildren(l.toMap());
+    }
+
 
     public void editMeal(Meal meal) {
         DatabaseReference mRef = ref.child(meal.getType()).child(meal.getDate());
@@ -131,27 +138,27 @@ public class DataCenter {
         return f;
     }
 
-    public void deleteItem(final String idFood, String date, String type) {
-//        DatabaseReference mRef = ref.child(type).child(date).child("items").child(idFood);
-//        mRef.setValue(null);
+    public void deleteItem(String id, String date, String type) {
+        DatabaseReference mRef = ref.child(type).child(date).child("items").child(0 + "");
+        mRef.setValue(null);
 
-        Query query = ref.child(type).child(date).child("items");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    if (i.getKey().equals(idFood)) {
-                        i.getRef().removeValue();
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        Query query = ref.child(type).child(date).child("items");
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot i : dataSnapshot.getChildren()) {
+//                    if (i.getKey().equals(idFood)) {
+//                        i.getRef().removeValue();
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
 }

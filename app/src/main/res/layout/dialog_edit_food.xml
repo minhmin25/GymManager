@@ -7,25 +7,25 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-
-
         android:layout_height="match_parent"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="#cc000000"
+        android:background="@drawable/rounded_layout"
+
         android:visibility="visible">
 
         <LinearLayout
             android:layout_width="330dp"
 
             android:layout_height="300dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/rounded_layout"
+
             android:orientation="vertical"
             android:paddingLeft="10dp"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
 
             <LinearLayout
 
@@ -35,12 +35,14 @@
                 android:paddingTop="20dp">
 
                 <ImageView
+
                     android:id="@+id/iv_dialog_food"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_weight="0.25" />
 
                 <LinearLayout
+
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
@@ -54,7 +56,7 @@
 
 
                         android:textColor="@color/colorBalck"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -72,6 +74,7 @@
 
             <LinearLayout
                 android:layout_width="301dp"
+                android:background="@color/colorGray"
 
                 android:layout_height="64dp"
                 android:layout_marginTop="20dp"
@@ -80,21 +83,21 @@
                 android:paddingLeft="25dp">
 
                 <LinearLayout
-                    android:layout_width="89dp"
+                    android:layout_width="100dp"
 
-                    android:layout_height="72dp"
+                    android:layout_height="88dp"
                     android:gravity="center_vertical">
 
                     <ImageView
                         android:id="@+id/iv_dialog_plus"
-                        android:layout_width="56dp"
+                        android:layout_width="72dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/plu" />
 
                     <TextView
                         android:id="@+id/tv_dialog_number_food"
-                        android:layout_width="56dp"
+                        android:layout_width="72dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -104,7 +107,7 @@
 
                     <ImageView
                         android:id="@+id/iv_dialog_sub"
-                        android:layout_width="56dp"
+                        android:layout_width="72dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:src="@drawable/sub" />
@@ -117,7 +120,7 @@
                     android:layout_height="wrap_content"
 
                     android:textColor="@color/colorBalck"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
 
@@ -126,12 +129,13 @@
                     android:layout_height="wrap_content"
 
                     android:textColor="@color/colorGrayText"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
 
             </LinearLayout>
 
             <LinearLayout
+
                 android:layout_width="250dp"
 
                 android:layout_height="48dp"
@@ -145,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:text="Eaten for : "
                     android:textColor="@color/colorBalck"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
                 <Spinner
                     android:id="@+id/spin_dialog_meal"
@@ -153,6 +157,33 @@
                     android:layout_height="wrap_content">
 
                 </Spinner>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="25dp">
+
+                <Button
+                    android:id="@+id/bt_dialog_cancel"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button"
+                    android:text="Cancel" />
+
+                <Button
+                    android:id="@+id/bt_dialog_add"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/button"
+                    android:text="ADD" />
 
 
             </LinearLayout>
