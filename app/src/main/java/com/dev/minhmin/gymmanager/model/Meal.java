@@ -76,19 +76,16 @@ public class Meal implements Serializable {
     }
 
     public void removeItem(LineItem item) {
-        int code = Integer.parseInt(item.getFood().getId());
-        for (int i = 0; i < items.size(); i++) {
-            LineItem lineItem = items.get(i);
-            if (Integer.parseInt(lineItem.getFood().getId()) == code) {
-                items.remove(i);
-
-                return;
-            }
-
-        }
     }
 
     public void addLineitem(LineItem l) {
+        int number = l.getNumber();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getFood().getId().equals(l.getFood().getId())) {
+                items.get(i).setNumber(number + items.get(i).getNumber());
+                return;
+            }
+        }
         items.add(l);
     }
 

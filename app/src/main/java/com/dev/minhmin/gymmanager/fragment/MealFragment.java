@@ -201,9 +201,6 @@ public class MealFragment extends Fragment {
         });
 
 
-
-
-
         layout_break.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,7 +230,6 @@ public class MealFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-
                 bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment();
                 fragment.setArguments(bundle);
@@ -268,6 +264,10 @@ public class MealFragment extends Fragment {
         iv_back_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mealBreakfast = new Meal();
+                mealDin = new Meal();
+                mealLunch = new Meal();
+                mealSnack = new Meal();
                 time = methodUtils.UpDownDay(time, -1);
 
                 if (time.equals(methodUtils.getTimeNow())) {
@@ -395,6 +395,18 @@ public class MealFragment extends Fragment {
 
                     }
                 });
+                tv_total_break.setText(mealBreakfast.getTotalCalo() + "calories");
+                tv_total_lun.setText(mealLunch.getTotalCalo() + "calories");
+                tv_total_din.setText(mealDin.getTotalCalo() + "calories");
+                tv_total_snack.setText(mealSnack.getTotalCalo() + "calories");
+                float totalCalo = mealBreakfast.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
+                float totalPro = mealBreakfast.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
+                float totalFat = mealBreakfast.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
+                float totalCarb = mealBreakfast.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
+                tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
+                tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
+                tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
+                tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
 
 
             }
@@ -402,6 +414,10 @@ public class MealFragment extends Fragment {
         iv_back_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mealBreakfast = new Meal();
+                mealDin = new Meal();
+                mealLunch = new Meal();
+                mealSnack = new Meal();
                 DataCenter dataCenter = new DataCenter();
                 time = methodUtils.UpDownDay(time, 1);
 
@@ -532,6 +548,19 @@ public class MealFragment extends Fragment {
 
                     }
                 });
+
+                tv_total_break.setText(mealBreakfast.getTotalCalo() + "calories");
+                tv_total_lun.setText(mealLunch.getTotalCalo() + "calories");
+                tv_total_din.setText(mealDin.getTotalCalo() + "calories");
+                tv_total_snack.setText(mealSnack.getTotalCalo() + "calories");
+                float totalCalo = mealBreakfast.getTotalCalo() + mealLunch.getTotalCalo() + mealDin.getTotalCalo() + mealSnack.getTotalCalo();
+                float totalPro = mealBreakfast.getTotalPro() + mealLunch.getTotalPro() + mealDin.getTotalPro() + mealSnack.getTotalPro();
+                float totalFat = mealBreakfast.getTotalFat() + mealLunch.getTotalFat() + mealDin.getTotalFat() + mealSnack.getTotalFat();
+                float totalCarb = mealBreakfast.getTotalCarb() + mealLunch.getTotalCarb() + mealDin.getTotalCarb() + mealSnack.getTotalCarb();
+                tv_calo.setText(totalCalo + " " + ConstantUtils.unitCalo);
+                tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
+                tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
+                tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
 
             }
         });

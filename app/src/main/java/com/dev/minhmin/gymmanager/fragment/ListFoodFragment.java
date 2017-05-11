@@ -33,6 +33,7 @@ import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
+import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -109,7 +110,10 @@ public class ListFoodFragment extends Fragment {
 
             }
         });
-        adapter = new ListFoodAdapter(getActivity(), listFoods);
+        // adapter = new ListFoodAdapter(getActivity(), listFoods);
+        adapter = new ListFoodAdapter(getActivity(), date, listFoods);
+        //  adapter.setDate("11-05-2017");
+        adapter.notifyDataSetChanged();
         lvFood.setAdapter(adapter);
 
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -161,15 +165,22 @@ public class ListFoodFragment extends Fragment {
                 btadd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("ahihi", "btađ");
-                        Bundle bundle = new Bundle();
-                        bundle.putString("typeMeal", typeMeal);
-                        bundle.putString("date", date);
-                        bundle.putString("idFood", listFoods.get(position).getId());
-                        bundle.putString("number", tv_number_food.getText().toString());
-                        MealDetailFragment fragment = new MealDetailFragment();
-                        fragment.setArguments(bundle);
-                        replaceFragment(fragment);
+                        MethodUtils methodUtils = new MethodUtils();
+                        if (methodUtils.compareDate(date) == 1) {
+                            layout_add.setVisibility(View.INVISIBLE);
+                            Toast.makeText(getActivity(), "Ngày " + date + " đã qua, Bạn không thể thêm food", Toast.LENGTH_LONG).show();
+
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("typeMeal", typeMeal);
+                            bundle.putString("date", date);
+                            bundle.putString("idFood", listFoods.get(position).getId());
+                            bundle.putString("number", tv_number_food.getText().toString());
+                            MealDetailFragment fragment = new MealDetailFragment();
+                            fragment.setArguments(bundle);
+                            replaceFragment(fragment);
+                        }
+
                     }
                 });
                 btcan.setOnClickListener(new View.OnClickListener() {
@@ -201,6 +212,7 @@ public class ListFoodFragment extends Fragment {
         if (typeMeal.equals("")) {
             typeMeal = ConstantUtils.Breakfast;
         }
+//        adapter.setDate(date);
 
         Toast.makeText(getActivity(), "ListFood", Toast.LENGTH_LONG).show();
 
