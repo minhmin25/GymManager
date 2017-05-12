@@ -220,9 +220,9 @@ public class MainActivity extends AppCompatActivity
             ivAdd.setVisibility(View.INVISIBLE);
         }
         if (isShowSearchview) {
+            tvTitleActionbar.setVisibility(View.GONE);
             searchView.setVisibility(View.VISIBLE);
         } else {
-            tvTitleActionbar.setVisibility(View.GONE);
             searchView.setVisibility(View.GONE);
         }
 
