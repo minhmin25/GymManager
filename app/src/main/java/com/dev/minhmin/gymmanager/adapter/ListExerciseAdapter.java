@@ -16,12 +16,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.Exercise;
-import com.dev.minhmin.gymmanager.model.Food;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -60,9 +57,8 @@ public class ListExerciseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        //return null;
         Viewholder viewholder;
-        if(view == null){
+        if (view == null) {
             view = activity.getLayoutInflater().inflate(R.layout.item_list_exercise, parent, false);
             viewholder = new Viewholder();
             viewholder.iv_exercise = (ImageView) view.findViewById(R.id.iv_exercise_image);
@@ -73,7 +69,7 @@ public class ListExerciseAdapter extends BaseAdapter {
         }
 
         viewholder.tv_exercise_title.setText(listExercise.get(position).getName());
-        StorageReference mref = sref.child("exercise/"+listExercise.get(position).getImageUrl());
+        StorageReference mref = sref.child("exercise/" + listExercise.get(position).getImageUrl());
         Glide.with(activity)
                 .using(new FirebaseImageLoader())
                 .load(mref)
@@ -106,7 +102,7 @@ public class ListExerciseAdapter extends BaseAdapter {
         return view;
     }
 
-    private class Viewholder{
+    private class Viewholder {
         ImageView iv_exercise;
         TextView tv_exercise_title;
     }
