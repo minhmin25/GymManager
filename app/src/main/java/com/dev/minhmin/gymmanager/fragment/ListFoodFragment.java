@@ -89,7 +89,8 @@ public class ListFoodFragment extends Fragment {
         init();
         tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
         tv_title.setText(ConstantUtils.TITLE_ListFood);
-
+        View view = ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView();
+        iv_add_food = (ImageView) view.findViewById(R.id.iv_add);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -192,8 +193,26 @@ public class ListFoodFragment extends Fragment {
 
             }
         });
+        iv_add_food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("typeMeal", typeMeal);
+                bundle.putString("date", date);
+                AddFoodFragment fragment = new AddFoodFragment();
+                fragment.setArguments(bundle);
+                replaceFragment(fragment);
+            }
+        });
 
 
+
+    }
+
+    public void setChange(Food f) {
+        listFoods.add(f);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -202,7 +221,6 @@ public class ListFoodFragment extends Fragment {
         //   ActionBar actionBar =((MainActivity)context).getSupportActionBar();
 
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -212,12 +230,14 @@ public class ListFoodFragment extends Fragment {
         if (typeMeal.equals("")) {
             typeMeal = ConstantUtils.Breakfast;
         }
+        if (date.equals("")) {
+            MethodUtils methodUtils = new MethodUtils();
+            date = methodUtils.getTimeNow();
+        }
 //        adapter.setDate(date);
 
-        Toast.makeText(getActivity(), "ListFood", Toast.LENGTH_LONG).show();
 
     }
-
     private void init() {
 
         listFoods = new ArrayList<>();
@@ -233,11 +253,7 @@ public class ListFoodFragment extends Fragment {
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
         btcan = (Button) getView().findViewById(R.id.bt_cancel);
         btadd = (Button) getView().findViewById(R.id.bt_add);
-
-
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
-
-
         spinner = (Spinner) getView().findViewById(R.id.spin_meal);
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -245,13 +261,11 @@ public class ListFoodFragment extends Fragment {
 
 
     }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
     }
-
 
 }
