@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.FoodDetailFragment;
 import com.dev.minhmin.gymmanager.model.Food;
+import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,13 +29,31 @@ import java.util.ArrayList;
 
 public class ListFoodAdapter extends BaseAdapter {
     private Activity activity;
+    private String date = "";
+
     private ArrayList<Food> listfood = new ArrayList<>();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private MethodUtils methodUtils = new MethodUtils();
 
     public ListFoodAdapter(Activity activity, ArrayList<Food> listfood) {
         this.activity = activity;
         this.listfood = listfood;
+
+    }
+
+    public ListFoodAdapter(Activity activity, String date, ArrayList<Food> listfood) {
+        this.activity = activity;
+        this.date = date;
+        this.listfood = listfood;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
@@ -89,6 +108,7 @@ public class ListFoodAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("idFood", f.getId());
+                bundle.putString("date", date);
                 FoodDetailFragment fragment = new FoodDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);

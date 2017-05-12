@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
@@ -65,17 +66,7 @@ public class MealDetailFragment extends Fragment {
         iv_add_food = (ImageView) view.findViewById(R.id.iv_add);
 
         final MethodUtils methodUtils = new MethodUtils();
-//        ArrayList<LineItem> items = new ArrayList<>();
-//        Food f = new Food("baker", "Baker", "baker.png", "g", 10, 1, 2, 3, 4);
-//        Food f1 = new Food("egg", "Egg", "egg.png", "g", 10, 1, 2, 3, 4);
-//
-//
-//        LineItem lineItem = new LineItem(f, 2);
-//        LineItem lineItem1 = new LineItem(f1, 3);
-//
-//
-//        items.add(lineItem);
-//        items.add(lineItem1);
+
         DatabaseReference ref;
         ref = FirebaseDatabase.getInstance().getReference();
         ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
@@ -233,30 +224,45 @@ public class MealDetailFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             typeMeal = bundle.getString("typeMeal", "");
-            date = bundle.getString("date", "");
             number = bundle.getString("number", "");
             idFood = bundle.getString("idFood", "");
 
-            ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot i : dataSnapshot.getChildren()) {
-                        if (i.getKey().equals(idFood)) {
-                            Food f = i.getValue(Food.class);
-                            LineItem l = new LineItem(f, Integer.parseInt(number));
-                            meal.addLineitem(l);
+            date = bundle.getString("date", "");
+            MethodUtils methodUtils = new MethodUtils();
+            if (methodUtils.compareDate(date) == 1) {
+                Toast.makeText(getActivity(), "Ngày " + date + " đã qua, Bạn không thể thêm food", Toast.LENGTH_LONG).show();
+            } else {
+                meal.setDate(date);
+                meal.setId(date);
+                meal.setType(typeMeal);
+                ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot i : dataSnapshot.getChildren()) {
+                            if (i.getKey().equals(idFood)) {
+                                Food f = i.getValue(Food.class);
+                                LineItem l = new LineItem(f, Integer.parseInt(number));
+                                meal.addLineitem(l);
 //                            l.setId(ref.child(typeMeal).child(date).child("items").push().getKey());
-                            ref.child(typeMeal).child(date).updateChildren(meal.toMap());
-                            break;
+                                ref.child(typeMeal).child(date).updateChildren(meal.toMap());
+                                break;
+                            }
                         }
                     }
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                }
-            });
+                    }
+                });
+            }
+
+
+
+
+
+
+
         }
 
     }

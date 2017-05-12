@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.Meal;
+import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -172,9 +173,18 @@ public class MealDetailAdapter extends BaseAdapter {
                 bt_add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        meal.getItems().get(i).setNumber(Integer.parseInt(tv_number_food.getText().toString()));
-                        notifyDataSetChanged();
-                        dialog.cancel();
+                        MethodUtils methodUtils = new MethodUtils();
+                        if (methodUtils.compareDate(date) == 1) {
+                            dialog.cancel();
+                            Toast.makeText(activity, "Ngày " + date + " đã qua, Bạn không thể thêm food", Toast.LENGTH_LONG).show();
+                        } else {
+                            meal.getItems().get(i).setNumber(Integer.parseInt(tv_number_food.getText().toString()));
+                            ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
+                            notifyDataSetChanged();
+                            Toast.makeText(activity, "Edit successfully", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        }
+
 
                     }
                 });
