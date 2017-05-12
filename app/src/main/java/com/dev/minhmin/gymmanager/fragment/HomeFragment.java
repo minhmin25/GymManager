@@ -1,8 +1,6 @@
 package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,8 +10,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListBlogAdapter;
 import com.dev.minhmin.gymmanager.model.Blog;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_HOME, false, false, false);
         View viewGroup = inflater.inflate(R.layout.fragment_home, container, false);
         lvBlog = (ListView) viewGroup.findViewById(R.id.lv_blog);
         adapter = new ListBlogAdapter(getActivity(), listBlogs);
@@ -68,10 +69,15 @@ public class HomeFragment extends Fragment {
                 bundle.putString("key", listBlogs.get(i).getId());
                 BlogDetailFragment fragment = new BlogDetailFragment().newInstance();
                 fragment.setArguments(bundle);
-                replaceFragment(fragment);
+                ((MainActivity) getActivity()).replaceFragment(fragment);
             }
         });
         return viewGroup;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -80,11 +86,4 @@ public class HomeFragment extends Fragment {
 
     }
 
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fm = getActivity().getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
-        ft.commit();
-    }
 }

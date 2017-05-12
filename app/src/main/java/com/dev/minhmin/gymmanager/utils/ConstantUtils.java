@@ -6,7 +6,7 @@ package com.dev.minhmin.gymmanager.utils;
 
 public class ConstantUtils {
     public static final String TITLE_HOME = "Home";
-    public static final String TTLE_WORKOUT = "Workout";
+    public static final String TITLE_WORKOUT = "Workout";
     public static final String TITLE_MEAL = "Meal";
     public static final String TITLE_ListFood = "ListFood";
     public static final String TITLE_MealBreakFast = "Breakfast";
@@ -24,6 +24,10 @@ public class ConstantUtils {
     public static final String unitPro = "g";
     public static final String unitFat = "g";
     public static final String unitCarb = "g";
+    public static final int EXERCISE_BACK = 2;
+
+    public static final String FRAGMENT_TAG_MEAL_DETAIL = "MEAL_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_FOOD = "LIST_FOOD_FRAGMENT";
 
 
 }

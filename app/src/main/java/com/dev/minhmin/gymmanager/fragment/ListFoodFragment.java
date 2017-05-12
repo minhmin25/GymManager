@@ -1,14 +1,12 @@
 package com.dev.minhmin.gymmanager.fragment;
 
-import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
-import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
-import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
@@ -70,6 +66,11 @@ public class ListFoodFragment extends Fragment {
     private ListFoodAdapter adapter;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private onAddNewFoodListener mCallback;
+
+    public interface onAddNewFoodListener {
+        boolean addNewFood();
+    }
 
     public static ListFoodFragment newInstance() {
         ListFoodFragment fragment = new ListFoodFragment();
@@ -80,6 +81,7 @@ public class ListFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_listfood, container, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_ListFood, true, true, true);
         return viewGroup;
     }
 
@@ -87,11 +89,6 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-        tv_title.setText(ConstantUtils.TITLE_ListFood);
-        View view = ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView();
-        iv_add_food = (ImageView) view.findViewById(R.id.iv_add);
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -193,21 +190,16 @@ public class ListFoodFragment extends Fragment {
 
             }
         });
-        iv_add_food.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Bundle bundle = new Bundle();
-                bundle.putString("typeMeal", typeMeal);
-                bundle.putString("date", date);
-                AddFoodFragment fragment = new AddFoodFragment();
-                fragment.setArguments(bundle);
-                replaceFragment(fragment);
-            }
-        });
+    }
 
-
-
+    public void transToAddFoodFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString("typeMeal", typeMeal);
+        bundle.putString("date", date);
+        AddFoodFragment fragment = new AddFoodFragment();
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
 
     public void setChange(Food f) {
@@ -216,11 +208,16 @@ public class ListFoodFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //   ActionBar actionBar =((MainActivity)context).getSupportActionBar();
-
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (ListFoodFragment.onAddNewFoodListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,6 +235,7 @@ public class ListFoodFragment extends Fragment {
 
 
     }
+
     private void init() {
 
         listFoods = new ArrayList<>();
@@ -261,6 +259,7 @@ public class ListFoodFragment extends Fragment {
 
 
     }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

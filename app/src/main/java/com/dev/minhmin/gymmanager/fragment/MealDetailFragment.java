@@ -1,11 +1,11 @@
 package com.dev.minhmin.gymmanager.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,30 +43,42 @@ public class MealDetailFragment extends Fragment {
     private String typeMeal = "";
     private String idFood = "";
     private String number = "";
-    private TextView tv_title;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    private OnAddFoodListener mCallback;
 
     public static MealDetailFragment newInstance() {
         MealDetailFragment fragment = new MealDetailFragment();
         return fragment;
     }
 
+    public interface OnAddFoodListener {
+        void addFood();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).updateActionbar(typeMeal, true, true, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
         return viewGroup;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (OnAddFoodListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-        tv_title.setText(typeMeal.toString());
-        View view = ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView();
-        iv_add_food = (ImageView) view.findViewById(R.id.iv_add);
-
+//        iv_add_food = (ImageView) getActivity().findViewById(R.id.iv_add);
         final MethodUtils methodUtils = new MethodUtils();
 
         DatabaseReference ref;
@@ -84,8 +98,6 @@ public class MealDetailFragment extends Fragment {
                     }
 
                 }
-
-
             }
 
             @Override
@@ -200,26 +212,22 @@ public class MealDetailFragment extends Fragment {
 
             }
         });
-        iv_add_food.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("typeMeal", typeMeal);
-                bundle.putString("date", date);
-                ListFoodFragment fragment = new ListFoodFragment();
-                fragment.setArguments(bundle);
-                replaceFragment(fragment);
 
-            }
-        });
+    }
 
+    public void transToListFoodFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString("typeMeal", typeMeal);
+        bundle.putString("date", date);
+        ListFoodFragment fragment = new ListFoodFragment();
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -258,30 +266,23 @@ public class MealDetailFragment extends Fragment {
             }
 
 
-
-
-
-
-
         }
 
     }
 
     private void innit() {
-
         tv_name_day = (TextView) getView().findViewById(R.id.tv_name_day);
         tv_total = (TextView) getView().findViewById(R.id.tv_total_calo);
         iv_back_left = (ImageView) getView().findViewById(R.id.iv_back_day);
         iv_back_right = (ImageView) getView().findViewById(R.id.iv_next_day);
         listview = (ListView) getView().findViewById(R.id.lv_food_meat);
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
     }
 

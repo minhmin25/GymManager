@@ -12,8 +12,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListWorkoutAdapter;
 import com.dev.minhmin.gymmanager.model.Workout;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +43,7 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_WORKOUT, false, false, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_workout, container, false);
         return viewGroup;
     }
@@ -68,6 +71,11 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
         adapter = new ListWorkoutAdapter(getActivity(), listWorkouts);
         gvWorkout.setAdapter(adapter);
         gvWorkout.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

@@ -23,14 +23,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.fragment.ExerciseFragment;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
+import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
+import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
 
     private RadioGroup bottomBar;
     private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbProfile;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findViewByID();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -57,20 +61,30 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
         getSupportActionBar().setCustomView(customActionbar);
-        tvTitleActionbar = (TextView) findViewById(R.id.tv_title_actionbar);
-        findViewByID();
+
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!addNewFood()) {
+                    addFood();
+                }
+            }
+        });
         bottomBar.setOnCheckedChangeListener(this);
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
+
     }
 
     private void findViewByID() {
+        tvTitleActionbar = (TextView) findViewById(R.id.tv_title_actionbar);
+        searchView = (SearchView) findViewById(R.id.search_view);
         ivAdd = (ImageView) findViewById(R.id.iv_add);
         ivBack = (ImageView) findViewById(R.id.iv_actionbar_back);
         bottomBar = (RadioGroup) findViewById(R.id.bottom_bar);
@@ -149,7 +163,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_home: {
                 if (page == 1) break;
                 page = 1;
-                tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
                 Fragment fragment = new HomeFragment().newInstance();
                 replaceFragment(fragment);
                 break;
@@ -157,7 +170,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_workout: {
                 if (page == 2) break;
                 page = 2;
-                tvTitleActionbar.setText(ConstantUtils.TTLE_WORKOUT);
                 Fragment fragment = new WorkoutFragment().newInstance();
                 replaceFragment(fragment);
                 break;
@@ -165,7 +177,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_meal: {
                 if (page == 3) break;
                 page = 3;
-                tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
                 Fragment fragment = new MealFragment().newInstance();
                 replaceFragment(fragment);
                 break;
@@ -173,13 +184,13 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_exercise: {
                 if (page == 4) break;
                 page = 4;
-                tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                Fragment fragment = new ExerciseFragment().newInstance();
+                replaceFragment(fragment);
                 break;
             }
             case R.id.rb_profile: {
                 if (page == 5) break;
                 page = 5;
-                tvTitleActionbar.setText(ConstantUtils.TITLE_PROFILE);
                 Fragment fragment = new ProfileFragment().newInstance();
                 replaceFragment(fragment);
                 break;
@@ -187,7 +198,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
@@ -196,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
     public void updateActionbar(String title, boolean isShowBack, boolean isShowAdd, boolean isShowSearchview) {
         tvTitleActionbar.setText(title);
-        if (isShowAdd) {
+        if (isShowBack) {
             toggle.setDrawerIndicatorEnabled(false);
             ivBack.setVisibility(View.VISIBLE);
         } else {
@@ -211,8 +222,27 @@ public class MainActivity extends AppCompatActivity
         if (isShowSearchview) {
             searchView.setVisibility(View.VISIBLE);
         } else {
+            tvTitleActionbar.setVisibility(View.GONE);
             searchView.setVisibility(View.GONE);
         }
 
+    }
+
+    @Override
+    public void addFood() {
+        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+        if (fragment != null) {
+            fragment.transToListFoodFragment();
+        }
+    }
+
+    @Override
+    public boolean addNewFood() {
+        ListFoodFragment fragment = (ListFoodFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+        if (fragment != null) {
+            fragment.transToAddFoodFragment();
+            return true;
+        }
+        return false;
     }
 }
