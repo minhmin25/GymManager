@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,17 +25,14 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     //    private ArrayList<WorkoutExercise> listdata = new ArrayList<>();
     private ArrayList<String> listHeader = new ArrayList<>();
     private HashMap<String, ArrayList<WorkoutExercise>> listData = new HashMap<>();
+    private onCheckedChangeListener mCallback;
+    private int index;
 
-//    public ExpandableListworkoutAdapter(Activity activity, ArrayList<WorkoutExercise> listdata) {
-//        this.activity = activity;
-//        this.listdata = listdata;
-//    }
-
-
-    public ExpandableListworkoutAdapter(Activity activity, ArrayList<String> listHeader, HashMap<String, ArrayList<WorkoutExercise>> listData) {
+    public ExpandableListworkoutAdapter(Activity activity, ArrayList<String> listHeader, HashMap<String, ArrayList<WorkoutExercise>> listData, onCheckedChangeListener callback) {
         this.activity = activity;
         this.listHeader = listHeader;
         this.listData = listData;
+        this.mCallback = callback;
     }
 
     @Override
@@ -75,10 +74,11 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
         GroupHolder holder;
         if (view == null) {
-            view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_header, viewGroup, false);
+            view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_header, null);
             holder = new GroupHolder();
             holder.tvTitle = (TextView) view.findViewById(R.id.tv_expandable_list_header);
             holder.ivDetail = (ImageView) view.findViewById(R.id.iv_expandable_list_detail);
+            holder.cbComplete = (CheckBox) view.findViewById(R.id.cb_expandable_list_complete);
             view.setTag(holder);
         } else {
             holder = (GroupHolder) view.getTag();
@@ -90,6 +90,17 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(activity, "clicked", Toast.LENGTH_SHORT).show();
             }
         });
+        index = i;
+        holder.cbComplete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    mCallback.onIncrease(listData.get(listHeader.get(index)).get(0).getKalo());
+                } else {
+                    mCallback.onDecrease(listData.get(listHeader.get(index)).get(0).getKalo());
+                }
+            }
+        });
         return view;
     }
 
@@ -97,11 +108,12 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         ChildHolder holder;
         if (view == null) {
-            view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_child, viewGroup, false);
+            view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_child, null);
             holder = new ChildHolder();
-            holder.tvSet = (TextView) view.findViewById(R.id.tv_workout_exercise_set);
+            holder.tvSet = (TextView) view.findViewById(R.id.tv_expandable_list_set);
             holder.tvQuantity = (TextView) view.findViewById(R.id.tv_expandable_list_quantity);
             holder.tvContent = (TextView) view.findViewById(R.id.tv_expandable_list_content);
+            holder.tvKalo = (TextView) view.findViewById(R.id.tv_expandable_list_kalo);
             view.setTag(holder);
         } else {
             holder = (ChildHolder) view.getTag();
@@ -109,6 +121,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         holder.tvSet.setText("Set: " + listData.get(listHeader.get(i)).get(i1).getSet());
         holder.tvQuantity.setText(listData.get(listHeader.get(i)).get(i1).getQuantity() + " " + listData.get(listHeader.get(i)).get(i1).getUnit() + " each set");
         holder.tvContent.setText(listData.get(listHeader.get(i)).get(i1).getContent());
+        holder.tvKalo.setText("Total kalo: " + listData.get(listHeader.get(i)).get(i1).getKalo());
         return view;
     }
 
@@ -117,12 +130,19 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
+    public interface onCheckedChangeListener {
+        void onIncrease(float kalo);
+
+        void onDecrease(float kalo);
+    }
+
     private class ChildHolder {
-        TextView tvSet, tvQuantity, tvContent;
+        TextView tvSet, tvQuantity, tvContent, tvKalo;
     }
 
     private class GroupHolder {
         TextView tvTitle;
         ImageView ivDetail;
+        CheckBox cbComplete;
     }
 }
