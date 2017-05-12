@@ -66,8 +66,8 @@ public class FoodDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-        tv_title.setText(ConstantUtils.TITLE_FoodDeail);
+//        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
+//        tv_title.setText(ConstantUtils.TITLE_FoodDeail);
 
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
