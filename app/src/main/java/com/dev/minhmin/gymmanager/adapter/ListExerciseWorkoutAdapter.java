@@ -1,13 +1,10 @@
 package com.dev.minhmin.gymmanager.adapter;
 
-import android.content.Context;
-import android.view.LayoutInflater;
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
@@ -18,108 +15,54 @@ import java.util.ArrayList;
  * Created by Minh min on 5/9/2017.
  */
 
-public class ListExerciseWorkoutAdapter extends BaseExpandableListAdapter {
+public class ListExerciseWorkoutAdapter extends BaseAdapter {
 
-    private Context context;
-    private ArrayList<WorkoutExercise> listExercise;
+    private Activity activity;
+    private ArrayList<WorkoutExercise> listData = new ArrayList<>();
 
-
-    public ListExerciseWorkoutAdapter(Context context, ArrayList<WorkoutExercise> listExercise) {
-        this.context = context;
-        this.listExercise = listExercise;
+    public ListExerciseWorkoutAdapter(Activity activity, ArrayList<WorkoutExercise> listData) {
+        this.activity = activity;
+        this.listData = listData;
     }
 
     @Override
-    public int getGroupCount() {
-        return listExercise.size();
+    public int getCount() {
+        return listData.size();
     }
 
     @Override
-    public int getChildrenCount(int i) {
-        return listExercise.size();
+    public Object getItem(int i) {
+        return listData.get(i);
     }
 
     @Override
-    public Object getGroup(int i) {
-        return listExercise.get(i);
-    }
-
-    @Override
-    public Object getChild(int i, int i1) {
-        return listExercise.get(i);
-    }
-
-    @Override
-    public long getGroupId(int i) {
+    public long getItemId(int i) {
         return i;
     }
 
     @Override
-    public long getChildId(int i, int i1) {
-        return i;
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-    @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
-        HeaderViewholder viewholder;
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        Viewholder viewholder;
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.item_list_workout_exercise_header, viewGroup, false);
-            viewholder = new HeaderViewholder();
-            viewholder.tvHeader = (TextView) view.findViewById(R.id.tv_workout_exercise_header);
-            viewholder.ivDetail = (ImageView) view.findViewById(R.id.iv_workout_exercise_detail);
-            view.setTag(viewholder);
-//            view = inflater.inflate(R.layout.item_list_workout_exercise_header, null);
-        } else {
-            viewholder = (HeaderViewholder) view.getTag();
-        }
-        viewholder.tvHeader.setText(listExercise.get(i).getName());
-        viewholder.ivDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT);
-            }
-        });
-        return view;
-    }
-
-    @Override
-    public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        ChildViewholder viewholder;
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.item_list_workout_exercise_child, viewGroup, false);
-//            view = inflater.inflate(R.layout.item_list_workout_exercise_child, null);
-            viewholder = new ChildViewholder();
+            view = activity.getLayoutInflater().inflate(R.layout.item_list_workout_exercise, viewGroup, false);
+            viewholder = new Viewholder();
+            viewholder.tvName = (TextView) view.findViewById(R.id.tv_workout_exercise_name);
             viewholder.tvSet = (TextView) view.findViewById(R.id.tv_workout_exercise_set);
             viewholder.tvQuantity = (TextView) view.findViewById(R.id.tv_workout_exercise_quantity);
             viewholder.tvContent = (TextView) view.findViewById(R.id.tv_workout_exercise_content);
             view.setTag(viewholder);
         } else {
-            viewholder = (ChildViewholder) view.getTag();
+            viewholder = (Viewholder) view.getTag();
         }
-        viewholder.tvSet.setText(listExercise.get(i).getSet() + " Set");
-        viewholder.tvQuantity.setText(listExercise.get(i).getQuantity() + " " + listExercise.get(i).getQuantity() + " each set");
-        viewholder.tvContent.setText(listExercise.get(i).getContent());
+        viewholder.tvName.setText(listData.get(i).getName());
+        viewholder.tvSet.setText("Set: " + listData.get(i).getSet() + "");
+        viewholder.tvQuantity.setText(listData.get(i).getQuantity() + " " + listData.get(i).getUnit() + " each set");
+        viewholder.tvContent.setText(listData.get(i).getContent());
         return view;
     }
 
-    @Override
-    public boolean isChildSelectable(int i, int i1) {
-        return true;
+    private class Viewholder {
+        private TextView tvName, tvSet, tvQuantity, tvContent;
     }
 
-    private class HeaderViewholder {
-        TextView tvHeader;
-        ImageView ivDetail;
-    }
-
-    private class ChildViewholder {
-        TextView tvSet, tvQuantity, tvContent;
-    }
 }

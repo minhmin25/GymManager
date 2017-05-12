@@ -7,8 +7,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Workout;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -56,7 +61,13 @@ public class ListWorkoutAdapter extends BaseAdapter {
         }
         viewholder.tvTitle.setText(listWorkouts.get(i).getTitle());
         viewholder.tvTime.setText(listWorkouts.get(i).getTime() + " Weeks");
-        viewholder.ivImage.setImageResource(listWorkouts.get(i).getThumbUrl());
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("workout").child(listWorkouts.get(i).getImageUrl());
+        Glide.with(activity)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(viewholder.ivImage);
         return view;
     }
 

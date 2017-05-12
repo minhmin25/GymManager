@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ListView
+        android:id="@+id/lv_workout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+    </ListView>
+
     <ExpandableListView
-        android:id="@+id/elv_workout"
+        android:id="@+id/exListview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

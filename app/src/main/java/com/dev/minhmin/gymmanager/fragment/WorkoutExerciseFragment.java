@@ -3,13 +3,14 @@ package com.dev.minhmin.gymmanager.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.adapter.ListExerciseWorkoutAdapter;
+import com.dev.minhmin.gymmanager.adapter.ExpandableListworkoutAdapter;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Minh min on 5/10/2017.
@@ -26,10 +28,14 @@ import java.util.ArrayList;
 public class WorkoutExerciseFragment extends Fragment {
 
     private ArrayList<WorkoutExercise> listWorkoutExercises = new ArrayList<>();
-    private String key;
-    private ExpandableListView elvWorkout;
-    private ListExerciseWorkoutAdapter adapter;
+    private String key = "0";
+    //    private ListView lvWorkout;
+//    private ListExerciseWorkoutAdapter adapter;
+    private ExpandableListView exListview;
+    private ExpandableListworkoutAdapter adapter;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    private ArrayList<String> listHeader = new ArrayList<>();
+    private HashMap<String, ArrayList<WorkoutExercise>> listdata = new HashMap<>();
 
     public static WorkoutExerciseFragment newInstance() {
         WorkoutExerciseFragment fragment = new WorkoutExerciseFragment();
@@ -46,13 +52,20 @@ public class WorkoutExerciseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        elvWorkout = (ExpandableListView) getActivity().findViewById(R.id.elv_workout);
-        ref.child("Workout").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+        exListview = (ExpandableListView) getView().findViewById(R.id.exListview);
+//        lvWorkout = (ListView) getView().findViewById(R.id.lv_workout);
+        ref.child("Workout").child(key).child("listWorkoutExercise").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("ahihi", dataSnapshot.toString());
                 listWorkoutExercises.clear();
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    listWorkoutExercises.add(i.getValue(WorkoutExercise.class));
+                    WorkoutExercise w = i.getValue(WorkoutExercise.class);
+                    listWorkoutExercises.add(w);
+                    listHeader.add(w.getName());
+                    ArrayList<WorkoutExercise> list = new ArrayList<WorkoutExercise>();
+                    list.add(w);
+                    listdata.put(w.getName(), list);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -62,8 +75,10 @@ public class WorkoutExerciseFragment extends Fragment {
 
             }
         });
-        adapter = new ListExerciseWorkoutAdapter(getActivity(), listWorkoutExercises);
-        elvWorkout.setAdapter(adapter);
+//        adapter = new ListExerciseWorkoutAdapter(getActivity(), listWorkoutExercises);
+//        lvWorkout.setAdapter(adapter);
+        adapter = new ExpandableListworkoutAdapter(getActivity(), listHeader, listdata);
+        exListview.setAdapter(adapter);
     }
 
     @Override
@@ -73,6 +88,7 @@ public class WorkoutExerciseFragment extends Fragment {
         if (bundle != null) {
             key = bundle.getString("key");
         }
+
     }
 
 }

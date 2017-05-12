@@ -11,16 +11,68 @@ public class Exercise {
     private ArrayList<String> imageUrl;
     private String videoUrl;
     private String content;
+    private String calo;
+    private String type;
 
     public Exercise() {
+
     }
 
-    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content) {
-
+    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content, String calo, String type) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.content = content;
+        this.calo = calo;
+        this.type = type;
+    }
+
+    public String getCalo() {
+        return calo;
+    }
+
+    public void setCalo(String calo) {
+        this.calo = calo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<String> getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(ArrayList<String> imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 
