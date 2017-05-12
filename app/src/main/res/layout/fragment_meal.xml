@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:background="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -52,8 +51,8 @@
             android:id="@+id/layout_breakfast"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:paddingTop="10dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingTop="10dp">
 
             <ImageView
                 android:id="@+id/iv_breakfast"
@@ -89,10 +88,10 @@
 
         <LinearLayout
             android:id="@+id/layout_lunch"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/colorGray"
+            android:gravity="center_vertical"
             android:paddingTop="10dp">
 
             <ImageView
@@ -129,10 +128,10 @@
 
         <LinearLayout
             android:id="@+id/layout_dinner"
-            android:gravity="center_vertical"
-
             android:layout_width="match_parent"
+
             android:layout_height="36dp"
+            android:gravity="center_vertical"
             android:paddingTop="10dp">
 
             <ImageView
@@ -169,10 +168,10 @@
 
         <LinearLayout
             android:id="@+id/layout_snack"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:background="@color/colorGray"
+            android:gravity="center_vertical"
             android:paddingTop="10dp">
 
             <ImageView
@@ -247,22 +246,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="387dp"
             android:layout_height="78dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.08"
             android:background="@color/colorGray3"
-            android:paddingLeft="20dp"
             android:gravity="bottom"
             android:paddingBottom="5dp"
-            android:layout_weight="0.08">
+            android:paddingLeft="20dp">
 
             <TextView
-                android:textStyle="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DAY FOOD TOTALS : "
                 android:textColor="@color/colorOre"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -376,8 +375,6 @@
 
 
         </LinearLayout>
-
-
 
 
     </LinearLayout>

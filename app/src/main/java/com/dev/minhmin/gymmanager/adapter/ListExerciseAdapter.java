@@ -102,15 +102,15 @@ public class ListExerciseAdapter extends BaseAdapter {
         return view;
     }
 
-    private class Viewholder {
-        ImageView iv_exercise;
-        TextView tv_exercise_title;
-    }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    private class Viewholder {
+        ImageView iv_exercise;
+        TextView tv_exercise_title;
     }
 }

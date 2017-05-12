@@ -1,9 +1,5 @@
 package com.dev.minhmin.gymmanager.utils;
 
-import android.widget.EditText;
-
-import com.dev.minhmin.gymmanager.model.Food;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

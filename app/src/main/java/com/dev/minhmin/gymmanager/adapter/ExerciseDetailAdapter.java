@@ -38,12 +38,11 @@ import java.util.List;
 
 public class ExerciseDetailAdapter extends BaseAdapter {
 
-    private Exercise exercise;
     Activity activity;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference sref = storage.getReference();
     List<String> listWorkout = new ArrayList<String>();
-
+    private Exercise exercise;
 
     @Override
     public int getCount() {
@@ -139,17 +138,17 @@ public class ExerciseDetailAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class Viewholder {
-        TextView tvTitle, tvCalo, tvInstruction;
-        ImageView ivExercise;
-        Button btAdd;
-
-    }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    private class Viewholder {
+        TextView tvTitle, tvCalo, tvInstruction;
+        ImageView ivExercise;
+        Button btAdd;
+
     }
 }

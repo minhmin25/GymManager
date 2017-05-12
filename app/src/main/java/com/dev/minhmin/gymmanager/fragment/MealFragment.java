@@ -31,16 +31,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MealFragment extends Fragment {
     private static String time = "";
+    final MethodUtils methodUtils = new MethodUtils();
     private Meal mealBreakfast = new Meal();
     private Meal mealLunch = new Meal();
     private Meal mealDin = new Meal();
     private Meal mealSnack = new Meal();
-
     private ImageView iv_breakfast, iv_lun, iv_din, iv_snack, iv_listfood, iv_back_left, iv_back_right;
     private TextView tv_break, tv_lun, tv_din, tv_snack, tv_listfood, tv_calo, tv_pro, tv_carb, tv_fat, tv_total_break, tv_total_lun, tv_total_din, tv_total_snack, tv_date;
     private String date = "";
     private LinearLayout layout_break, layout_lunch, layout_din, layout_snack, layout_listfood;
-    final MethodUtils methodUtils = new MethodUtils();
 
     public static MealFragment newInstance() {
         MealFragment fragment = new MealFragment();

@@ -34,13 +34,13 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 
 public class AddFoodFragment extends Fragment {
+    private final static int CAMERA_REQUEST = 1;
+    private final static int GALLERY_REQUEST = 0;
     private EditText et_name, et_unit, et_count, et_calo, et_pro, et_fat, et_carb;
     private LinearLayout layout_add;
     private Button bt_addd, bt_can;
     private ImageView iv_food;
     private TextView tv_title;
-    private final static int CAMERA_REQUEST = 1;
-    private final static int GALLERY_REQUEST = 0;
     private String url = "";
     private boolean hasImage = false;
 

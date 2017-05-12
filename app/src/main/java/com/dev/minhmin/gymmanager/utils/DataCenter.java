@@ -7,7 +7,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -19,16 +18,15 @@ import java.util.Map;
  */
 
 public class DataCenter {
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private Meal meal = new Meal();
     private Food f;
     private ArrayList<Food> foods = new ArrayList<>();
-    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 //    public Meal getMeal(String date, String loai) {
 //        Meal meal = new Meal();
 //        return meal;
 //    }
-
 
     public void addFood(Food food) {
         DatabaseReference mRef = ref.child("Food").push();

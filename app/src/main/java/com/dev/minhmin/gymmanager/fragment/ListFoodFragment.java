@@ -46,12 +46,12 @@ import java.util.ArrayList;
  */
 
 public class ListFoodFragment extends Fragment {
+    ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
+    String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private DataCenter dataCenter;
     private Food food = new Food();
     private TextView tv_title;
     private Meal meal = new Meal();
-    ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
-    String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
     private ImageView iv_add_food;
     private String typeMeal = ConstantUtils.Breakfast;
@@ -67,10 +67,6 @@ public class ListFoodFragment extends Fragment {
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private onAddNewFoodListener mCallback;
-
-    public interface onAddNewFoodListener {
-        boolean addNewFood();
-    }
 
     public static ListFoodFragment newInstance() {
         ListFoodFragment fragment = new ListFoodFragment();
@@ -265,6 +261,10 @@ public class ListFoodFragment extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    public interface onAddNewFoodListener {
+        boolean addNewFood();
     }
 
 }

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by Butalo on 10/05/2017.
  */
 
-public class ExerciseDetailFragment extends Fragment{
+public class ExerciseDetailFragment extends Fragment {
 
     public static ExerciseDetailFragment newInstance() {
         ExerciseDetailFragment fragment = new ExerciseDetailFragment();

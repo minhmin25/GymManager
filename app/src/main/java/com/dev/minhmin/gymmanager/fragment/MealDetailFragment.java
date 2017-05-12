@@ -51,10 +51,6 @@ public class MealDetailFragment extends Fragment {
         return fragment;
     }
 
-    public interface OnAddFoodListener {
-        void addFood();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -224,7 +220,6 @@ public class MealDetailFragment extends Fragment {
         replaceFragment(fragment);
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -284,6 +279,10 @@ public class MealDetailFragment extends Fragment {
         ft.addToBackStack(fragment.getClass().getName());
         ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
+    }
+
+    public interface OnAddFoodListener {
+        void addFood();
     }
 
 
