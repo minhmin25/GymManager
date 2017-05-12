@@ -31,7 +31,6 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     private GridView gvWorkout;
     private ArrayList<Workout> listWorkouts = new ArrayList<>();
     private ListWorkoutAdapter adapter;
-    private int[] image = new int[]{R.drawable.w1, R.drawable.w2, R.drawable.w3, R.drawable.w4, R.drawable.w5, R.drawable.w6, R.drawable.w7};
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
     public static WorkoutFragment newInstance() {
@@ -75,12 +74,13 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         WorkoutExerciseFragment fragment = new WorkoutExerciseFragment().newInstance();
         Bundle bundle = new Bundle();
-        bundle.putString("key", listWorkouts.get(i).getTitle());
+        bundle.putString("key", i + "");
         fragment.setArguments(bundle);
         replaceFragment(fragment);
     }
 
     private void replaceFragment(Fragment fragment) {
+
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);

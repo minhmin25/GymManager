@@ -2,19 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
-        android:id="@+id/tv_workout_exercise_header"
+        android:id="@+id/tv_expandable_list_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp" />
+        android:textSize="25sp" />
 
     <ImageView
-        android:id="@+id/iv_workout_exercise_detail"
+        android:id="@+id/iv_expandable_list_detail"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/back_right" />
-
 </RelativeLayout>

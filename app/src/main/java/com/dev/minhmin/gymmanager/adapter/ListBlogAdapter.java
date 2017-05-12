@@ -7,8 +7,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Blog;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -58,6 +63,13 @@ public class ListBlogAdapter extends BaseAdapter {
 
         viewholder.tvTitle.setText(listBlogs.get(i).getTitle());
         viewholder.tvIntro.setText(listBlogs.get(i).getIntro());
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("blog").child(listBlogs.get(i).getImageUrl());
+        Glide.with(activity)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(viewholder.ivImage);
 //        viewholder.ivImage.setImageResource(listBlogs.get(i).getThumbUrl());
         viewholder.tvReadBlog.setOnClickListener(new View.OnClickListener() {
             @Override

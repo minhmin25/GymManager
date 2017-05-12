@@ -11,10 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     private RadioGroup bottomBar;
     private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbProfile;
     private TextView tvTitleActionbar;
+    private ActionBarDrawerToggle toggle;
+    private ImageView ivBack, ivAdd;
+    private SearchView searchView;
     private int page = 1;
 
     @Override
@@ -40,27 +45,33 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
+//        toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
         getSupportActionBar().setCustomView(customActionbar);
-        tvTitleActionbar = (TextView) customActionbar.findViewById(R.id.tv_title_actionbar);
+        tvTitleActionbar = (TextView) findViewById(R.id.tv_title_actionbar);
         findViewByID();
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         bottomBar.setOnCheckedChangeListener(this);
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
-
     }
 
     private void findViewByID() {
+        ivAdd = (ImageView) findViewById(R.id.iv_add);
+        ivBack = (ImageView) findViewById(R.id.iv_actionbar_back);
         bottomBar = (RadioGroup) findViewById(R.id.bottom_bar);
         rbHome = (RadioButton) findViewById(R.id.rb_home);
         rbWorkout = (RadioButton) findViewById(R.id.rb_workout);
@@ -175,5 +186,27 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    public void updateActionbar(String title, boolean isShowBack, boolean isShowAdd, boolean isShowSearchview) {
+        tvTitleActionbar.setText(title);
+        if (isShowAdd) {
+            toggle.setDrawerIndicatorEnabled(false);
+            ivBack.setVisibility(View.VISIBLE);
+        } else {
+            toggle.setDrawerIndicatorEnabled(true);
+            ivBack.setVisibility(View.GONE);
+        }
+        if (isShowAdd) {
+            ivAdd.setVisibility(View.VISIBLE);
+        } else {
+            ivAdd.setVisibility(View.INVISIBLE);
+        }
+        if (isShowSearchview) {
+            searchView.setVisibility(View.VISIBLE);
+        } else {
+            searchView.setVisibility(View.GONE);
+        }
+
     }
 }

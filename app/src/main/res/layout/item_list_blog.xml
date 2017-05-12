@@ -8,6 +8,7 @@
         android:id="@+id/tv_blog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="blog 1"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp" />
 

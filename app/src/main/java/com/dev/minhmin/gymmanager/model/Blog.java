@@ -5,21 +5,14 @@ package com.dev.minhmin.gymmanager.model;
  */
 
 public class Blog {
+    private String id;
     private String title;
     private String content;
     private String intro;
     private String imageUrl;
-    private int thumbUrl;
 
-    public Blog(String title, String content, String intro, String imageUrl, int thumbUrl) {
-        this.title = title;
-        this.content = content;
-        this.intro = intro;
-        this.imageUrl = imageUrl;
-        this.thumbUrl = thumbUrl;
-    }
-
-    public Blog(String title, String content, String intro, String imageUrl) {
+    public Blog(String id, String title, String content, String intro, String imageUrl) {
+        this.id = id;
         this.title = title;
         this.content = content;
         this.intro = intro;
@@ -27,6 +20,14 @@ public class Blog {
     }
 
     public Blog() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -62,11 +63,4 @@ public class Blog {
         this.imageUrl = imageUrl;
     }
 
-    public int getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(int thumbUrl) {
-        this.thumbUrl = thumbUrl;
-    }
 }

@@ -13,18 +13,16 @@ public class Workout {
     private String title;
     private int time;
     private String imageUrl;
-    private int thumbUrl;
     private ArrayList<WorkoutExercise> listWorkoutExercise;
 
     public Workout() {
     }
 
-    public Workout(String id, String title, int time, String imageUrl, int thumbUrl, ArrayList<WorkoutExercise> listWorkoutExercise) {
+    public Workout(String id, String title, int time, String imageUrl, ArrayList<WorkoutExercise> listWorkoutExercise) {
         this.id = id;
         this.title = title;
         this.time = time;
         this.imageUrl = imageUrl;
-        this.thumbUrl = thumbUrl;
         this.listWorkoutExercise = listWorkoutExercise;
     }
 
@@ -52,14 +50,6 @@ public class Workout {
         this.imageUrl = imageUrl;
     }
 
-    public int getThumbUrl() {
-        return thumbUrl;
-    }
-
-    public void setThumbUrl(int thumbUrl) {
-        this.thumbUrl = thumbUrl;
-    }
-
     public ArrayList<WorkoutExercise> getListWorkoutExercise() {
         return listWorkoutExercise;
     }
@@ -74,12 +64,8 @@ public class Workout {
         value.put("title", title);
         value.put("time", time);
         value.put("imageUrl", imageUrl);
-        value.put("thumbUrl", thumbUrl);
         ArrayList<Map<String, Object>> list = new ArrayList<>();
-        for (WorkoutExercise i : listWorkoutExercise) {
-            list.add(i.toMap());
-        }
-        value.put("listWorkoutExercise", list);
+        value.put("listWorkoutExercise", listWorkoutExercise);
         return value;
     }
 }
