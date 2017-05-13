@@ -24,6 +24,13 @@ public class ConstantUtils {
     public static final String unitPro = "g";
     public static final String unitFat = "g";
     public static final String unitCarb = "g";
+    public static final String abs = "abs";
+    public static final String back = "back";
+    public static final String biceps = "biceps";
+    public static final String triceps = "triceps";
+    public static final String chest = "chest";
+    public static final String shoulders = "shoulders";
+    public static final String legs = "legs";
 
 
 }

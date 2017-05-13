@@ -42,6 +42,7 @@ public class ListExerciseFragment extends Fragment {
     ListView lv_exercise;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private String type;
 
 
     public static ListExerciseFragment newInstance() {
@@ -59,7 +60,9 @@ public class ListExerciseFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        init();lv_exercise = (ListView) getView().findViewById(R.id.lv_list_exercise);
+        init();
+        type = savedInstanceState.getString(type);
+        lv_exercise = (ListView) getView().findViewById(R.id.lv_list_exercise);
         adapter = new ListExerciseAdapter(getActivity(), listExercises);
         lv_exercise.setAdapter(adapter);
 
@@ -71,7 +74,9 @@ public class ListExerciseFragment extends Fragment {
                 ArrayList<Exercise> listData = new ArrayList<>();
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     Exercise ex = i.getValue(Exercise.class);
-                    listData.add(ex);
+                    if (ex.getType().equals(type)){
+                        listData.add(ex);
+                    }
                 }
                 listExercises.addAll(listData);
                 adapter.notifyDataSetChanged();
@@ -88,7 +93,7 @@ public class ListExerciseFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Exercise exercise = listExercises.get(position);
                 tv_exercise_title.setText(exercise.getName());
-                StorageReference mref = sref.child("exercise/" + listExercises.get(position).getImageUrl());
+                StorageReference mref = sref.child("exercise/" + listExercises.get(position).getImageUrl().get(1));
                 Glide.with(getActivity())
                         .using(new FirebaseImageLoader())
                         .load(mref)
@@ -117,7 +122,6 @@ public class ListExerciseFragment extends Fragment {
         listExercises = new ArrayList<>();
         iv_exercise_image = (ImageView) getView().findViewById(R.id.iv_exercise_image);
         tv_exercise_title = (TextView) getView().findViewById(R.id.tv_exercise_title);
-
     }
 
 
