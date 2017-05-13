@@ -87,17 +87,24 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(fragment);
 
 
-        ArrayList<Exercise> listExercise = new ArrayList<>();
-        ArrayList<String> imageUrl = new ArrayList<>();
-        imageUrl.add("crunch1.jpg");
-        imageUrl.add("crunch2.jpg");
-        Exercise exercise = new Exercise("crunch", imageUrl, "crunch.mp4", "content", 30, "abs" );
-        listExercise.add(exercise);
-        listExercise.add(exercise);
-        listExercise.add(exercise);
-        listExercise.add(exercise);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Exercise").setValue(listExercise);
+//        ArrayList<Exercise> listExercise = new ArrayList<>();
+//        ArrayList<String> imageUrl = new ArrayList<>();
+//        imageUrl.add("crunch1.jpg");
+//        imageUrl.add("crunch2.jpg");
+//        Exercise exercise = new Exercise("title", imageUrl, "crunch.mp4", "content", 30);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        ref.child("Exercise").child("abs").setValue(listExercise);
+//        ref.child("Exercise").child("back").setValue(listExercise);
+//        ref.child("Exercise").child("biceps").setValue(listExercise);
+//        ref.child("Exercise").child("triceps").setValue(listExercise);
+//        ref.child("Exercise").child("chest").setValue(listExercise);
+//        ref.child("Exercise").child("shoulders").setValue(listExercise);
+//        ref.child("Exercise").child("legs").setValue(listExercise);
 
 
     }

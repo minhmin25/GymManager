@@ -109,7 +109,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_Chest"
+                android:id="@+id/layout_chest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp">
