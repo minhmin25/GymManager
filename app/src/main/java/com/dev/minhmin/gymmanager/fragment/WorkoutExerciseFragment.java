@@ -26,7 +26,7 @@ import java.util.HashMap;
  * Created by Minh min on 5/10/2017.
  */
 
-public class WorkoutExerciseFragment extends Fragment implements ExpandableListworkoutAdapter.onCheckedChangeListener {
+public class WorkoutExerciseFragment extends Fragment {
 
     private ArrayList<WorkoutExercise> listWorkoutExercises = new ArrayList<>();
     private String key = "0";
@@ -82,7 +82,7 @@ public class WorkoutExerciseFragment extends Fragment implements ExpandableListw
         });
 //        adapter = new ListExerciseWorkoutAdapter(getActivity(), listWorkoutExercises);
 //        lvWorkout.setAdapter(adapter);
-        adapter = new ExpandableListworkoutAdapter(getActivity(), listHeader, listdata, this);
+        adapter = new ExpandableListworkoutAdapter(getActivity(), listHeader, listdata);
         exListview.setAdapter(adapter);
     }
 
@@ -96,15 +96,4 @@ public class WorkoutExerciseFragment extends Fragment implements ExpandableListw
 
     }
 
-    @Override
-    public void onIncrease(float kalo) {
-        totalKalo += kalo;
-        tvKalo.setText("Total kalo: " + totalKalo);
-    }
-
-    @Override
-    public void onDecrease(float kalo) {
-        totalKalo -= kalo;
-        tvKalo.setText("Total kalo: " + totalKalo);
-    }
 }
