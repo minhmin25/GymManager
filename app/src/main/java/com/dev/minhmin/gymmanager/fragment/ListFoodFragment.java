@@ -1,14 +1,12 @@
 package com.dev.minhmin.gymmanager.fragment;
 
-import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
-import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
-import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
@@ -50,12 +46,12 @@ import java.util.ArrayList;
  */
 
 public class ListFoodFragment extends Fragment {
+    ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
+    String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private DataCenter dataCenter;
     private Food food = new Food();
     private TextView tv_title;
     private Meal meal = new Meal();
-    ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
-    String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private RelativeLayout layout_add;
     private ImageView iv_add_food;
     private String typeMeal = ConstantUtils.Breakfast;
@@ -70,6 +66,7 @@ public class ListFoodFragment extends Fragment {
     private ListFoodAdapter adapter;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private onAddNewFoodListener mCallback;
 
     public static ListFoodFragment newInstance() {
         ListFoodFragment fragment = new ListFoodFragment();
@@ -80,6 +77,7 @@ public class ListFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_listfood, container, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_ListFood, true, true, true);
         return viewGroup;
     }
 
@@ -87,10 +85,6 @@ public class ListFoodFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-        tv_title.setText(ConstantUtils.TITLE_ListFood);
-
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -193,14 +187,31 @@ public class ListFoodFragment extends Fragment {
             }
         });
 
+    }
 
+    public void transToAddFoodFragment() {
+        Bundle bundle = new Bundle();
+        bundle.putString("typeMeal", typeMeal);
+        bundle.putString("date", date);
+        AddFoodFragment fragment = new AddFoodFragment();
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
+    }
+
+    public void setChange(Food f) {
+        listFoods.add(f);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        //   ActionBar actionBar =((MainActivity)context).getSupportActionBar();
-
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (ListFoodFragment.onAddNewFoodListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnHeadlineSelectedListener");
+        }
     }
 
     @Override
@@ -212,9 +223,12 @@ public class ListFoodFragment extends Fragment {
         if (typeMeal.equals("")) {
             typeMeal = ConstantUtils.Breakfast;
         }
+        if (date.equals("")) {
+            MethodUtils methodUtils = new MethodUtils();
+            date = methodUtils.getTimeNow();
+        }
 //        adapter.setDate(date);
 
-        Toast.makeText(getActivity(), "ListFood", Toast.LENGTH_LONG).show();
 
     }
 
@@ -233,11 +247,7 @@ public class ListFoodFragment extends Fragment {
         tv_detail_don_vi_food = (TextView) getView().findViewById(R.id.tv_detail_don_vi_food);
         btcan = (Button) getView().findViewById(R.id.bt_cancel);
         btadd = (Button) getView().findViewById(R.id.bt_add);
-
-
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
-
-
         spinner = (Spinner) getView().findViewById(R.id.spin_meal);
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -253,5 +263,8 @@ public class ListFoodFragment extends Fragment {
         ft.commit();
     }
 
+    public interface onAddNewFoodListener {
+        boolean addNewFood();
+    }
 
 }

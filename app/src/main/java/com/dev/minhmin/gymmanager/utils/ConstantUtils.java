@@ -31,6 +31,10 @@ public class ConstantUtils {
     public static final String chest = "chest";
     public static final String shoulders = "shoulders";
     public static final String legs = "legs";
+    public static final int EXERCISE_BACK = 2;
+
+    public static final String FRAGMENT_TAG_MEAL_DETAIL = "MEAL_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_FOOD = "LIST_FOOD_FRAGMENT";
 
 
 }

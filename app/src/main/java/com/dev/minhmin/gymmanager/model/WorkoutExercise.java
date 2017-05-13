@@ -10,6 +10,7 @@ import java.util.Map;
 public class WorkoutExercise {
     private String id;
     private String name;
+    private float kalo;
     private int set;
     private String unit;
     private int quantity;
@@ -18,13 +19,22 @@ public class WorkoutExercise {
     public WorkoutExercise() {
     }
 
-    public WorkoutExercise(String id, String name, int set, String unit, int quantity, String content) {
+    public WorkoutExercise(String id, String name, float kalo, int set, String unit, int quantity, String content) {
         this.id = id;
         this.name = name;
+        this.kalo = kalo;
         this.set = set;
         this.unit = unit;
         this.quantity = quantity;
         this.content = content;
+    }
+
+    public float getKalo() {
+        return kalo;
+    }
+
+    public void setKalo(float kalo) {
+        this.kalo = kalo;
     }
 
     public String getContent() {
@@ -79,6 +89,7 @@ public class WorkoutExercise {
         Map<String, Object> value = new HashMap<>();
         value.put("id", id);
         value.put("name", name);
+        value.put("kalo", kalo);
         value.put("set", set);
         value.put("quantity", quantity);
         value.put("unit", unit);

@@ -47,13 +47,15 @@
                 android:layout_height="32dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/plu" />
+                android:src="@drawable/plu"
+                android:visibility="gone" />
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
                 android:visibility="gone">
 
             </android.support.v7.widget.SearchView>

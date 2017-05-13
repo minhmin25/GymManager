@@ -51,8 +51,6 @@ public class MethodUtils {
         Date date1 = stringTodate(date);
         Date date2 = stringTodate(getTimeNow());
 
-
-        String relation;
         if (date1.equals(date2))
             return 0;//Hai ngày trùng nhau
         else if (date1.before(date2)) // Hoặc  else if (date1.after(date2)== false)
@@ -61,5 +59,35 @@ public class MethodUtils {
             return 2;//Sau
 
     }
+
+    public boolean readString(String s) {
+        try {
+            s.charAt(0);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean readInt(String s) {
+        try {
+            s.charAt(0);
+            Integer.parseInt(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean readFloat(String s) {
+        try {
+            s.charAt(0);
+            Float.parseFloat(s);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 
 }

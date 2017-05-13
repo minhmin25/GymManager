@@ -38,11 +38,13 @@ public class ListExerciseFragment extends Fragment {
     private ImageView iv_exercise_image;
     private TextView tv_exercise_title;
     private ArrayList<Exercise> listExercises = new ArrayList<>();
-    ListExerciseAdapter adapter;
-    ListView lv_exercise;
+    private ListExerciseAdapter adapter;
+    private ListView lv_exercise;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private String type;
+    private int exercise = 0;
+    private String key = "";
 
 
     public static ListExerciseFragment newInstance() {
@@ -53,30 +55,20 @@ public class ListExerciseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
-        return viewGroup;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
-        type = savedInstanceState.getString(type);
-        lv_exercise = (ListView) getView().findViewById(R.id.lv_list_exercise);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, false, false, false);
+        ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_list, container, false);
+        lv_exercise = (ListView) viewGroup.findViewById(R.id.lv_list_exercise);
         adapter = new ListExerciseAdapter(getActivity(), listExercises);
         lv_exercise.setAdapter(adapter);
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Exercise").addValueEventListener(new ValueEventListener() {
+        ref.child("Exercise").child(key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listExercises.clear();
                 ArrayList<Exercise> listData = new ArrayList<>();
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     Exercise ex = i.getValue(Exercise.class);
-                    if (ex.getType().equals(type)){
-                        listData.add(ex);
-                    }
+                    listData.add(ex);
                 }
                 listExercises.addAll(listData);
                 adapter.notifyDataSetChanged();
@@ -88,6 +80,26 @@ public class ListExerciseFragment extends Fragment {
             }
         });
 
+        return viewGroup;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle b = getArguments();
+        if (b != null) {
+            exercise = b.getInt("exercise");
+            switch (exercise) {
+                case ConstantUtils.EXERCISE_BACK: {
+                    key = "Back";
+                    break;
+                }
         lv_exercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,7 +120,7 @@ public class ListExerciseFragment extends Fragment {
                     }
                 });
             }
-        });
+        }
     }
 
     private void replaceFragment(Fragment fragment) {

@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +21,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
@@ -36,8 +32,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 5/6/2017.
@@ -72,8 +66,8 @@ public class FoodDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-        tv_title.setText(ConstantUtils.TITLE_FoodDeail);
+//        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
+//        tv_title.setText(ConstantUtils.TITLE_FoodDeail);
 
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +110,6 @@ public class FoodDetailFragment extends Fragment {
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .into(iv_food);
-
 
 
                 iv_plus.setOnClickListener(new View.OnClickListener() {

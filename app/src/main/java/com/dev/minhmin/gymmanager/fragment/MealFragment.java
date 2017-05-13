@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
@@ -25,24 +25,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Date;
-
 /**
  * Created by Minh min on 4/19/2017.
  */
 
 public class MealFragment extends Fragment {
     private static String time = "";
+    final MethodUtils methodUtils = new MethodUtils();
     private Meal mealBreakfast = new Meal();
     private Meal mealLunch = new Meal();
     private Meal mealDin = new Meal();
     private Meal mealSnack = new Meal();
-
     private ImageView iv_breakfast, iv_lun, iv_din, iv_snack, iv_listfood, iv_back_left, iv_back_right;
     private TextView tv_break, tv_lun, tv_din, tv_snack, tv_listfood, tv_calo, tv_pro, tv_carb, tv_fat, tv_total_break, tv_total_lun, tv_total_din, tv_total_snack, tv_date;
     private String date = "";
     private LinearLayout layout_break, layout_lunch, layout_din, layout_snack, layout_listfood;
-    final MethodUtils methodUtils = new MethodUtils();
 
     public static MealFragment newInstance() {
         MealFragment fragment = new MealFragment();
@@ -53,6 +50,7 @@ public class MealFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal, container, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_MEAL, false, false, false);
         return viewGroup;
     }
 
@@ -65,8 +63,6 @@ public class MealFragment extends Fragment {
         if (date.equals("")) {
             tv_date.setText("Today");
             time = methodUtils.getTimeNow();
-
-
         } else {
             tv_date.setText(date);
             time = date;
@@ -207,7 +203,7 @@ public class MealFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Breakfast);
                 bundle.putString("date", time);
-                MealDetailFragment fragment = new MealDetailFragment();
+                MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
 
@@ -220,7 +216,7 @@ public class MealFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Dinner);
                 bundle.putString("date", time);
-                MealDetailFragment fragment = new MealDetailFragment();
+                MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
 
@@ -231,7 +227,7 @@ public class MealFragment extends Fragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("date", time);
-                ListFoodFragment fragment = new ListFoodFragment();
+                ListFoodFragment fragment = new ListFoodFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
 
@@ -243,7 +239,7 @@ public class MealFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Lunch);
                 bundle.putString("date", time);
-                MealDetailFragment fragment = new MealDetailFragment();
+                MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
 
@@ -255,7 +251,7 @@ public class MealFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("typeMeal", ConstantUtils.Snack);
                 bundle.putString("date", time);
-                MealDetailFragment fragment = new MealDetailFragment();
+                MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
             }
@@ -582,10 +578,7 @@ public class MealFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-
     }
 
     private void updateUI(Meal mealBreak, Meal mealLunch, Meal mealDin, Meal mealSnack) {
@@ -637,7 +630,8 @@ public class MealFragment extends Fragment {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
         ft.commit();
     }
 

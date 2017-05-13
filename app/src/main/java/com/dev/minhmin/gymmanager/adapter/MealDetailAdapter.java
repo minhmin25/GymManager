@@ -223,15 +223,15 @@ public class MealDetailAdapter extends BaseAdapter {
         return view;
     }
 
-    private class Viewholder {
-        TextView tvName, tvNumber;
-        ImageView iv_edit, iv_delete, iv_food;
-    }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    private class Viewholder {
+        TextView tvName, tvNumber;
+        ImageView iv_edit, iv_delete, iv_food;
     }
 }

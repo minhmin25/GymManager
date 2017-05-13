@@ -38,12 +38,11 @@ import java.util.List;
 
 public class ExerciseDetailAdapter extends BaseAdapter {
 
-    private Exercise exercise;
     Activity activity;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference sref = storage.getReference();
     List<String> listWorkout = new ArrayList<String>();
-
+    private Exercise exercise;
 
     @Override
     public int getCount() {
@@ -80,7 +79,7 @@ public class ExerciseDetailAdapter extends BaseAdapter {
         viewholder.tvTitle.setText(exercise.getName());
         viewholder.tvCalo.setText(exercise.getCalo());
         viewholder.tvInstruction.setText(exercise.getContent());
-        StorageReference mref = sref.child("text/"+exercise.getImageUrl());
+        StorageReference mref = sref.child("text/" + exercise.getImageUrl());
         Glide.with(activity)
                 .using(new FirebaseImageLoader())
                 .load(mref)
@@ -97,7 +96,7 @@ public class ExerciseDetailAdapter extends BaseAdapter {
                 ref.child("workout").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot i : dataSnapshot.getChildren()){
+                        for (DataSnapshot i : dataSnapshot.getChildren()) {
                             Workout w = i.getValue(Workout.class);
                             listWorkout.add(w.getTitle());
                         }
@@ -105,7 +104,7 @@ public class ExerciseDetailAdapter extends BaseAdapter {
                         View view = activity.getLayoutInflater().inflate(R.layout.fragment_exercise_detail, null);
                         builder.setView(view);
                         RadioGroup rg = (RadioGroup) view.findViewById(R.id.rg_workout_list);
-                        for (String j: listWorkout){
+                        for (String j : listWorkout) {
                             RadioButton button = new RadioButton(activity);
                             button.setText(j);
                             rg.addView(button);
@@ -133,18 +132,10 @@ public class ExerciseDetailAdapter extends BaseAdapter {
                 });
 
 
-
             }
         });
 
         return convertView;
-    }
-
-    private class Viewholder {
-        TextView tvTitle, tvCalo, tvInstruction;
-        ImageView ivExercise;
-        Button btAdd;
-
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -152,5 +143,12 @@ public class ExerciseDetailAdapter extends BaseAdapter {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    private class Viewholder {
+        TextView tvTitle, tvCalo, tvInstruction;
+        ImageView ivExercise;
+        Button btAdd;
+
     }
 }

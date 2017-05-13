@@ -120,17 +120,16 @@ public class ListFoodAdapter extends BaseAdapter {
         return view;
     }
 
-
-    private class Viewholder {
-        TextView tvName, tvNumber;
-        ImageView ivfood, ivdetails;
-    }
-
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    private class Viewholder {
+        TextView tvName, tvNumber;
+        ImageView ivfood, ivdetails;
     }
 
 }
