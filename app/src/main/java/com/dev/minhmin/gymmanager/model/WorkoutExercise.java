@@ -113,6 +113,7 @@ public class WorkoutExercise {
         value.put("set", set);
         value.put("quantity", quantity);
         value.put("unit", unit);
+        value.put("ref", ref);
         return value;
     }
 

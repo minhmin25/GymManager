@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.adapter.ExpandableListworkoutAdapter;
@@ -36,9 +35,7 @@ public class WorkoutExerciseFragment extends Fragment {
     private ExpandableListworkoutAdapter adapter;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private ArrayList<String> listHeader = new ArrayList<>();
-    private TextView tvKalo;
     private HashMap<String, ArrayList<WorkoutExercise>> listdata = new HashMap<>();
-    private float totalKalo = 0;
 
     public static WorkoutExerciseFragment newInstance() {
         WorkoutExerciseFragment fragment = new WorkoutExerciseFragment();
@@ -49,8 +46,6 @@ public class WorkoutExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_workout_exercise, container, false);
-        tvKalo = (TextView) viewGroup.findViewById(R.id.tv_workout_exercise_kalo);
-        tvKalo.setText("Total: " + totalKalo);
         return viewGroup;
     }
 
