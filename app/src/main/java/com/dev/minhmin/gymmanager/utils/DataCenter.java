@@ -56,8 +56,6 @@ public class DataCenter {
         }
         updateMeal.put("items", listMap);
         mRef.updateChildren(updateMeal);
-
-
     }
 
     public ArrayList<Food> getListFood() {
@@ -146,7 +144,7 @@ public class DataCenter {
 //            public void onDataChange(DataSnapshot dataSnapshot) {
 //                for (DataSnapshot i : dataSnapshot.getChildren()) {
 //                    if (i.getKey().equals(idFood)) {
-//                        i.getRef().removeValue();
+//                        i.getExerciseRef().removeValue();
 //                        break;
 //                    }
 //                }

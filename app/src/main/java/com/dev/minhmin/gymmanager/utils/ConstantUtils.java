@@ -15,6 +15,7 @@ public class ConstantUtils {
     public static final String TITLE_MealSnack = "Snack";
     public static final String TITLE_FoodDeail = "Food Details";
     public static final String TITLE_EXERCISE = "Exercise";
+    public static final String TITLE_EXERCISE_DETAIL = "Exercise detail";
     public static final String TITLE_PROFILE = "Profile";
     public static final String Breakfast = "Breakfast";
     public static final String Lunch = "Lunch";
@@ -34,6 +35,7 @@ public class ConstantUtils {
 
     public static final String FRAGMENT_TAG_MEAL_DETAIL = "MEAL_DETAIL_FRAGMENT";
     public static final String FRAGMENT_TAG_LIST_FOOD = "LIST_FOOD_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_EXERCISE = "LIST_EXERCISE_FRAGMENT";
 
     public static final int FRAGMENT_LIST_BLOG = 1;
     public static final int FRAGMENT_BLOG_DETAIL = 2;

@@ -1,6 +1,10 @@
 package com.dev.minhmin.gymmanager.adapter;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.database.DatabaseReference;
@@ -18,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Minh min on 5/12/2017.
@@ -70,7 +76,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+    public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
         GroupHolder holder;
         if (view == null) {
             view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_header, null);
@@ -82,10 +88,18 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupHolder) view.getTag();
         }
+        if (listData.get(listHeader.get(i)).get(0).isChecked()) {
+            holder.cbComplete.setChecked(true);
+        } else holder.cbComplete.setChecked(false);
         holder.tvTitle.setText(listHeader.get(i));
         holder.ivDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("exerciseRef", listData.get(listHeader.get(i)).get(0).getExerciseRef());
+                Fragment fragment = new ExerciseDetailFragment().newInstance();
+                fragment.setArguments(bundle);
+                replaceFragment(fragment);
                 Toast.makeText(activity, "clicked", Toast.LENGTH_SHORT).show();
             }
         });
@@ -96,6 +110,8 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
                 String time = methodUtils.getTimeNow();
                 if (b) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time);
+                    Map<String, Object> value = new HashMap<>();
+//                    value.put()
 //                    ref.
                 } else {
                 }
@@ -128,6 +144,14 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
     }
 
     private class ChildHolder {
