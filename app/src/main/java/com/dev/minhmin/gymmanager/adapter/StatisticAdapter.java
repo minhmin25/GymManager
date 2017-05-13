@@ -1,34 +1,18 @@
 package com.dev.minhmin.gymmanager.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.model.Food;
-import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.model.Practice;
-import com.dev.minhmin.gymmanager.model.Statistic;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.dev.minhmin.gymmanager.utils.MethodUtils;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -38,29 +22,32 @@ import java.util.ArrayList;
 
 public class StatisticAdapter extends BaseAdapter {
     private Activity activity;
-    private ArrayList<Practice> listitem;
+    private ArrayList<Practice> listPractices = new ArrayList<>();
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private String date = "";
+    private onCheckedChangeListener mCallback;
 
-    public StatisticAdapter(Activity activity, ArrayList<Practice> listitem) {
+    public StatisticAdapter(Activity activity, ArrayList<Practice> listPractices, onCheckedChangeListener callback) {
         this.activity = activity;
-        this.listitem = listitem;
+        this.listPractices = listPractices;
+        this.mCallback = callback;
     }
 
-    public StatisticAdapter(Activity activity, ArrayList<Practice> listitem, String date) {
+    public StatisticAdapter(Activity activity, ArrayList<Practice> listPractices, String date, onCheckedChangeListener callback) {
         this.activity = activity;
-        this.listitem = listitem;
+        this.listPractices = listPractices;
         this.date = date;
+        this.mCallback = callback;
     }
 
     @Override
     public int getCount() {
-        return listitem.size();
+        return listPractices.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listitem.get(position);
+        return listPractices.get(position);
     }
 
     @Override
@@ -81,25 +68,30 @@ public class StatisticAdapter extends BaseAdapter {
         } else {
             viewholder = (Viewholder) view.getTag();
         }
-        viewholder.tvName.setText(listitem.get(i).getWorkoutExercise().getName());
-        viewholder.tvNumber.setText(listitem.get(i).getWorkoutExercise().getKalo() + " " + ConstantUtils.unitCalo);
-        viewholder.checkBox.setChecked(listitem.get(i).isChecked());
+        viewholder.tvName.setText(listPractices.get(i).getWorkoutExercise().getName());
+        viewholder.tvNumber.setText(listPractices.get(i).getWorkoutExercise().getKalo() + " " + ConstantUtils.unitCalo);
+        viewholder.checkBox.setChecked(listPractices.get(i).isChecked());
         viewholder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ref.child("Statistic").child(date).child(listPractices.get(i).getWorkoutExercise().getName()).child("checked");
                 if (isChecked) {
-                    ///datacenterr
-                    listitem.get(i).setChecked(true);
-
+                    listPractices.get(i).setChecked(true);
+                    ref.setValue(true);
+                    mCallback.calculate(i, true);
                 } else {
-                    listitem.get(i).setChecked(true);
+                    ref.setValue(false);
+                    listPractices.get(i).setChecked(false);
+                    mCallback.calculate(i, false);
                 }
-                ///giaotiepcsdl
-                notifyDataSetChanged();
             }
         });
 
         return view;
+    }
+
+    public interface onCheckedChangeListener {
+        void calculate(int i, boolean value);
     }
 
     private class Viewholder {

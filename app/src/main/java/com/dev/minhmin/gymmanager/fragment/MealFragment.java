@@ -229,8 +229,11 @@ public class MealFragment extends Fragment {
                 bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment().newInstance();
                 fragment.setArguments(bundle);
-//                replaceFragment(fragment);
-                ((MainActivity) getActivity()).replaceFragment(fragment);
+                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.addToBackStack(fragment.getClass().getName());
+                ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+                ft.commit();
             }
         });
         layout_lunch.setOnClickListener(new View.OnClickListener() {

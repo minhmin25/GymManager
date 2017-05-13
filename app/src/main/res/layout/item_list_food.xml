@@ -27,7 +27,7 @@
                 android:id="@+id/tv_name_food_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="14sp" />
 
             <TextView

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,11 +29,12 @@ import java.util.ArrayList;
  * Created by Administrator on 5/6/2017.
  */
 
-public class ListFoodAdapter extends BaseAdapter {
+public class ListFoodAdapter extends BaseAdapter implements Filterable {
     private Activity activity;
     private String date = "";
 
     private ArrayList<Food> listfood = new ArrayList<>();
+    private ArrayList<Food> template;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private MethodUtils methodUtils = new MethodUtils();
@@ -82,10 +85,6 @@ public class ListFoodAdapter extends BaseAdapter {
             viewholder.tvNumber = (TextView) view.findViewById(R.id.tv_number_food_list);
             viewholder.ivfood = (ImageView) view.findViewById(R.id.iv_food_list);
             viewholder.ivdetails = (ImageView) view.findViewById(R.id.iv_detail_food);
-            //CAI NAY K THUOC ITEM VIEW
-            //OK
-            //TICH DAU DO
-            //RỒI CHẠY DEBUG
             view.setTag(viewholder);
         } else {
             viewholder = (Viewholder) view.getTag();
@@ -100,7 +99,6 @@ public class ListFoodAdapter extends BaseAdapter {
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(viewholder.ivfood);
-        // viewholder.ivfood.setImageResource(listfood.get(i).getImageUrl());
         final Food f = listfood.get(i);
 
         viewholder.ivdetails.setOnClickListener(new View.OnClickListener() {
@@ -127,9 +125,41 @@ public class ListFoodAdapter extends BaseAdapter {
         ft.commit();
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                final FilterResults result = new FilterResults();
+                final ArrayList<Food> listResult = new ArrayList<>();
+                if (template == null) {
+                    template = listfood;
+                }
+                if (charSequence != null) {
+                    if (template != null && template.size() > 0) {
+                        for (final Food f : template) {
+                            if (f.getName().toLowerCase().contains(charSequence.toString())) {
+                                listResult.add(f);
+                            }
+                        }
+                    }
+                    result.values = listResult;
+                }
+                return result;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listfood = (ArrayList<Food>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
     private class Viewholder {
         TextView tvName, tvNumber;
         ImageView ivfood, ivdetails;
     }
+
 
 }

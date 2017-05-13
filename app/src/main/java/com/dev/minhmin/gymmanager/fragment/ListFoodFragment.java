@@ -6,7 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,15 +46,13 @@ import java.util.ArrayList;
  * Created by Administrator on 5/6/2017.
  */
 
-public class ListFoodFragment extends Fragment {
-    ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
-    String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
+public class ListFoodFragment extends Fragment implements SearchView.OnQueryTextListener {
+    private ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
+    private String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private DataCenter dataCenter;
     private Food food = new Food();
-    private TextView tv_title;
     private Meal meal = new Meal();
     private RelativeLayout layout_add;
-    private ImageView iv_add_food;
     private String typeMeal = ConstantUtils.Breakfast;
     private String date = "";
     private ArrayList<Food> listFoods = new ArrayList<>();
@@ -61,6 +60,7 @@ public class ListFoodFragment extends Fragment {
     private ImageView iv_plus, iv_sub, iv_food;
     private TextView tv_name, tv_number_food, tv_number_calo, tv_don_vi_food, tv_detail_don_vi_food;
     private Spinner spinner;
+    private SearchView searchView;
     private int[] image = new int[]{R.drawable.b1, R.drawable.b2, R.drawable.b3, R.drawable.b4};
     private ListView lvFood;
     private ListFoodAdapter adapter;
@@ -109,7 +109,9 @@ public class ListFoodFragment extends Fragment {
         //  adapter.setDate("11-05-2017");
         adapter.notifyDataSetChanged();
         lvFood.setAdapter(adapter);
-
+        lvFood.setTextFilterEnabled(true);
+        searchView.setOnQueryTextListener(this);
+        searchView.setQueryHint("Search here");
         lvFood.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
@@ -235,7 +237,6 @@ public class ListFoodFragment extends Fragment {
     private void init() {
 
         listFoods = new ArrayList<>();
-        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
         layout_add = (RelativeLayout) getView().findViewById(R.id.relayout_add_food);
         iv_food = (ImageView) getView().findViewById(R.id.iv_food_list_detail);
         iv_plus = (ImageView) getView().findViewById(R.id.iv_plus);
@@ -249,6 +250,7 @@ public class ListFoodFragment extends Fragment {
         btadd = (Button) getView().findViewById(R.id.bt_add);
         lvFood = (ListView) getView().findViewById(R.id.lv_list_food);
         spinner = (Spinner) getView().findViewById(R.id.spin_meal);
+        searchView = (SearchView) getView().findViewById(R.id.search_view);
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapterspin);
@@ -261,6 +263,21 @@ public class ListFoodFragment extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+            lvFood.clearTextFilter();
+        } else {
+            lvFood.setFilterText(newText);
+        }
+        return true;
     }
 
     public interface onAddNewFoodListener {

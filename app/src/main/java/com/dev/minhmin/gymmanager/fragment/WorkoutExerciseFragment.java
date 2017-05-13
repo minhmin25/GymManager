@@ -59,6 +59,8 @@ public class WorkoutExerciseFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("ahihi", dataSnapshot.toString());
                 listWorkoutExercises.clear();
+                listdata.clear();
+                listHeader.clear();
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     WorkoutExercise w = i.getValue(WorkoutExercise.class);
                     listWorkoutExercises.add(w);

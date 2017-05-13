@@ -28,15 +28,9 @@ import com.dev.minhmin.gymmanager.fragment.HomeFragment;
 import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
 import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
-import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
+import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
-import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -86,26 +80,28 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
 
-
-//        ArrayList<Exercise> listExercise = new ArrayList<>();
-//        ArrayList<String> imageUrl = new ArrayList<>();
-//        imageUrl.add("crunch1.jpg");
-//        imageUrl.add("crunch2.jpg");
-//        Exercise exercise = new Exercise("title", imageUrl, "crunch.mp4", "content", 30);
-//        listExercise.add(exercise);
-//        listExercise.add(exercise);
-//        listExercise.add(exercise);
-//        listExercise.add(exercise);
-//        listExercise.add(exercise);
+//        Food food1 = new Food("baker", "baker", "baker.png", "g", 10, 20, 20, 20, 20);
+//        Food food2 = new Food("egg", "egg", "egg.png", "g", 10, 20, 20, 20, 20);
+//        Food food3 = new Food("shrimp", "shrimp", "shrimp.png", "g", 10, 20, 20, 20, 20);
+//        Food food4 = new Food("broccoli", "broccoli", "broccoli.png", "g", 10, 20, 20, 20, 20);
+//        Food food5 = new Food("baker", "baker", "baker.png", "g", 10, 20, 20, 20, 20);
+//        Food food6 = new Food("baker", "baker", "baker.png", "g", 10, 20, 20, 20, 20);
 //        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref.child("Exercise").child("abs").setValue(listExercise);
-//        ref.child("Exercise").child("back").setValue(listExercise);
-//        ref.child("Exercise").child("biceps").setValue(listExercise);
-//        ref.child("Exercise").child("triceps").setValue(listExercise);
-//        ref.child("Exercise").child("chest").setValue(listExercise);
-//        ref.child("Exercise").child("shoulders").setValue(listExercise);
-//        ref.child("Exercise").child("legs").setValue(listExercise);
-
+//        DataCenter dataCenter = new DataCenter();
+//        dataCenter.addFood(food1);
+//        dataCenter.addFood(food2);
+//        dataCenter.addFood(food3);
+//        dataCenter.addFood(food4);
+//        dataCenter.addFood(food5);
+//        dataCenter.addFood(food6);
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child("13-05-2017").child("listPractice");
+//        ArrayList<Practice> list = new ArrayList<>();
+//        WorkoutExercise w = new WorkoutExercise("1", "Gap bung", 20, 3, "reps", 20, "Gap bung", true, "exercise ref");
+//        Practice p = new Practice(w, true, "workout exercise reference");
+//        list.add(p);
+//        Map<String, Object> value = new HashMap<>();
+//        value.put("listPractice", list);
+//        ref.setValue(list);
 
     }
 
@@ -218,7 +214,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.rb_profile: {
                 if (page == 5) break;
                 page = 5;
-                Fragment fragment = new ProfileFragment().newInstance();
+                Fragment fragment = new StatisticFragment().newInstance();
                 replaceFragment(fragment);
                 break;
             }

@@ -1,35 +1,21 @@
 package com.dev.minhmin.gymmanager.fragment;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
-import com.dev.minhmin.gymmanager.model.Workout;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by Butalo on 12/05/2017.
@@ -133,12 +119,13 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     }
 
     private void replaceFragment(Fragment fragment) {
-
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getClass().getName());
         ft.replace(R.id.layout_main, fragment);
         ft.commit();
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

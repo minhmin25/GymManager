@@ -52,9 +52,19 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("height", height);
                     value.put("weight", weight);
                     value.put("age", age);
+                    float gold, w, h, a;
+                    w = Float.parseFloat(weight);
+                    h = Float.parseFloat(height);
+                    a = Float.parseFloat(age);
                     if (rbFemale.isChecked()) {
                         value.put("gender", rbFemale.getText().toString());
-                    } else value.put("gender", rbMale.getText().toString());
+                        gold = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
+                        value.put("gold", gold);
+                    } else {
+                        value.put("gender", rbMale.getText().toString());
+                        gold = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
+                        value.put("gold", gold);
+                    }
                     ref.setValue(value);
                     startActivity(new Intent(InformationActivity.this, MainActivity.class));
                 }

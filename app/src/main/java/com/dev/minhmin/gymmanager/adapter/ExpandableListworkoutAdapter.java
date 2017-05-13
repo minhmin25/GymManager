@@ -1,6 +1,10 @@
 package com.dev.minhmin.gymmanager.adapter;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -11,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
+import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.database.DatabaseReference;
@@ -70,8 +76,10 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
+    public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
         GroupHolder holder;
+        MethodUtils methodUtils = new MethodUtils();
+        final String time = methodUtils.getTimeNow();
         if (view == null) {
             view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_header, null);
             holder = new GroupHolder();
@@ -82,22 +90,36 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupHolder) view.getTag();
         }
+        if (listData.get(listHeader.get(i)).get(0).isChecked()) {
+            holder.cbComplete.setChecked(true);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+            Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
+            ref.setValue(listData.get(listHeader.get(i)).get(0));
+        } else holder.cbComplete.setChecked(false);
         holder.tvTitle.setText(listHeader.get(i));
         holder.ivDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("exerciseRef", listData.get(listHeader.get(i)).get(0).getExerciseRef());
+                Fragment fragment = new ExerciseDetailFragment().newInstance();
+                fragment.setArguments(bundle);
+                replaceFragment(fragment);
                 Toast.makeText(activity, "clicked", Toast.LENGTH_SHORT).show();
             }
         });
         holder.cbComplete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MethodUtils methodUtils = new MethodUtils();
-                String time = methodUtils.getTimeNow();
                 if (b) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time);
-//                    ref.
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    listData.get(listHeader.get(i)).get(0).setChecked(true);
+                    Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
+                    ref.setValue(p);
                 } else {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    listData.get(listHeader.get(i)).get(0).setChecked(false);
+                    ref.setValue(null);
                 }
             }
         });
@@ -128,6 +150,14 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = activity.getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
     }
 
     private class ChildHolder {
