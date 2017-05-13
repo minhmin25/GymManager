@@ -39,6 +39,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:paddingTop="5dp"
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"

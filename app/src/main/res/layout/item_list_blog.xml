@@ -4,34 +4,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_blog_title"
+    <LinearLayout
+        android:background="@color/colorGray"
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="blog 1"
-        android:textColor="@color/colorPrimary"
-        android:textSize="30sp" />
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@drawable/blog_32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:background="@color/colorGray"
+            android:paddingLeft="10dp"
+            android:id="@+id/tv_blog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="blog 1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <ImageView
+        android:background="@color/colorGray"
         android:id="@+id/iv_blog_image"
         android:layout_width="match_parent"
         android:layout_height="144dp"
         android:layout_marginTop="10dp" />
 
     <TextView
+        android:background="@color/colorGray"
+        android:gravity="center_vertical"
+        android:drawableLeft="@drawable/idea"
         android:id="@+id/tv_blog_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textColor="@color/textDark"
-        android:textSize="18sp" />
+        android:text="annkdiomkmkg"
+        android:textColor="@color/colorOre"
+        android:textSize="19sp" />
 
     <TextView
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/et_layou"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:id="@+id/tv_read_blog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Continue Reading >>"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:text="Reading "
+        android:drawableRight="@drawable/next_2"
+
         android:textSize="20sp" />
 
 </LinearLayout>
