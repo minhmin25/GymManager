@@ -15,11 +15,13 @@ public class WorkoutExercise {
     private String unit;
     private int quantity;
     private String content;
+    private boolean checked;
+    private String ref;
 
     public WorkoutExercise() {
     }
 
-    public WorkoutExercise(String id, String name, float kalo, int set, String unit, int quantity, String content) {
+    public WorkoutExercise(String id, String name, float kalo, int set, String unit, int quantity, String content, boolean checked, String ref) {
         this.id = id;
         this.name = name;
         this.kalo = kalo;
@@ -27,6 +29,16 @@ public class WorkoutExercise {
         this.unit = unit;
         this.quantity = quantity;
         this.content = content;
+        this.checked = checked;
+        this.ref = ref;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public float getKalo() {
@@ -85,6 +97,14 @@ public class WorkoutExercise {
         this.quantity = quantity;
     }
 
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
+
     public Map<String, Object> toMap() {
         Map<String, Object> value = new HashMap<>();
         value.put("id", id);
@@ -93,6 +113,7 @@ public class WorkoutExercise {
         value.put("set", set);
         value.put("quantity", quantity);
         value.put("unit", unit);
+        value.put("ref", ref);
         return value;
     }
 
