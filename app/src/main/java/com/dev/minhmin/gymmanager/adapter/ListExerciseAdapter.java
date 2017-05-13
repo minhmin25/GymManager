@@ -31,13 +31,15 @@ public class ListExerciseAdapter extends BaseAdapter {
     private ArrayList<Exercise> listExercise = new ArrayList<>();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private String part;
 
     public ListExerciseAdapter() {
     }
 
-    public ListExerciseAdapter(Activity activity, ArrayList<Exercise> listExercise) {
+    public ListExerciseAdapter(Activity activity, ArrayList<Exercise> listExercise, String part) {
         this.activity = activity;
         this.listExercise = listExercise;
+        this.part = part;
     }
 
     @Override
@@ -56,7 +58,7 @@ public class ListExerciseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         Viewholder viewholder;
         if (view == null) {
             view = activity.getLayoutInflater().inflate(R.layout.item_list_exercise, parent, false);
@@ -69,7 +71,7 @@ public class ListExerciseAdapter extends BaseAdapter {
         }
 
         viewholder.tv_exercise_title.setText(listExercise.get(position).getName());
-        StorageReference mref = sref.child("exercise/" + listExercise.get(position).getImageUrl());
+        StorageReference mref = sref.child("exercise/" + listExercise.get(position).getImageUrl().get(0));
         Glide.with(activity)
                 .using(new FirebaseImageLoader())
                 .load(mref)
@@ -82,7 +84,8 @@ public class ListExerciseAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("nameExercise", ex.getName());
+                bundle.putInt("position", position);
+                bundle.putString("part", part);
                 ExerciseDetailFragment fragment = new ExerciseDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -93,7 +96,8 @@ public class ListExerciseAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("nameExercise", ex.getName());
+                bundle.putInt("position", position);
+                bundle.putString("part", part);
                 ExerciseDetailFragment fragment = new ExerciseDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);

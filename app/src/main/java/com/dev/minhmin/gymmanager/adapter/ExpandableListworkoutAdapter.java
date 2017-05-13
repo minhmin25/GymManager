@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
+import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,17 +25,13 @@ import java.util.HashMap;
 
 public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     private Activity activity;
-    //    private ArrayList<WorkoutExercise> listdata = new ArrayList<>();
     private ArrayList<String> listHeader = new ArrayList<>();
     private HashMap<String, ArrayList<WorkoutExercise>> listData = new HashMap<>();
-    private onCheckedChangeListener mCallback;
-    private int index;
 
-    public ExpandableListworkoutAdapter(Activity activity, ArrayList<String> listHeader, HashMap<String, ArrayList<WorkoutExercise>> listData, onCheckedChangeListener callback) {
+    public ExpandableListworkoutAdapter(Activity activity, ArrayList<String> listHeader, HashMap<String, ArrayList<WorkoutExercise>> listData) {
         this.activity = activity;
         this.listHeader = listHeader;
         this.listData = listData;
-        this.mCallback = callback;
     }
 
     @Override
@@ -90,14 +89,15 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
                 Toast.makeText(activity, "clicked", Toast.LENGTH_SHORT).show();
             }
         });
-        index = i;
         holder.cbComplete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                MethodUtils methodUtils = new MethodUtils();
+                String time = methodUtils.getTimeNow();
                 if (b) {
-                    mCallback.onIncrease(listData.get(listHeader.get(index)).get(0).getKalo());
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time);
+//                    ref.
                 } else {
-                    mCallback.onDecrease(listData.get(listHeader.get(index)).get(0).getKalo());
                 }
             }
         });
@@ -121,19 +121,13 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         holder.tvSet.setText("Set: " + listData.get(listHeader.get(i)).get(i1).getSet());
         holder.tvQuantity.setText(listData.get(listHeader.get(i)).get(i1).getQuantity() + " " + listData.get(listHeader.get(i)).get(i1).getUnit() + " each set");
         holder.tvContent.setText(listData.get(listHeader.get(i)).get(i1).getContent());
-        holder.tvKalo.setText("Total kalo: " + listData.get(listHeader.get(i)).get(i1).getKalo());
+        holder.tvKalo.setText("kalo: " + listData.get(listHeader.get(i)).get(i1).getKalo());
         return view;
     }
 
     @Override
     public boolean isChildSelectable(int i, int i1) {
         return true;
-    }
-
-    public interface onCheckedChangeListener {
-        void onIncrease(float kalo);
-
-        void onDecrease(float kalo);
     }
 
     private class ChildHolder {

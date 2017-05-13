@@ -30,7 +30,13 @@ import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
+import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -79,6 +85,27 @@ public class MainActivity extends AppCompatActivity
         bottomBar.setOnCheckedChangeListener(this);
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
+
+
+//        ArrayList<Exercise> listExercise = new ArrayList<>();
+//        ArrayList<String> imageUrl = new ArrayList<>();
+//        imageUrl.add("crunch1.jpg");
+//        imageUrl.add("crunch2.jpg");
+//        Exercise exercise = new Exercise("title", imageUrl, "crunch.mp4", "content", 30);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        listExercise.add(exercise);
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        ref.child("Exercise").child("abs").setValue(listExercise);
+//        ref.child("Exercise").child("back").setValue(listExercise);
+//        ref.child("Exercise").child("biceps").setValue(listExercise);
+//        ref.child("Exercise").child("triceps").setValue(listExercise);
+//        ref.child("Exercise").child("chest").setValue(listExercise);
+//        ref.child("Exercise").child("shoulders").setValue(listExercise);
+//        ref.child("Exercise").child("legs").setValue(listExercise);
+
 
     }
 

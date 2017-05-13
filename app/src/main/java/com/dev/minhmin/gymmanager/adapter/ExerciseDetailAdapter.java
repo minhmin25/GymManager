@@ -44,6 +44,15 @@ public class ExerciseDetailAdapter extends BaseAdapter {
     List<String> listWorkout = new ArrayList<String>();
     private Exercise exercise;
 
+    public ExerciseDetailAdapter(Activity activity) {
+        this.activity = activity;
+    }
+
+    public ExerciseDetailAdapter(Activity activity, Exercise exercise) {
+        this.activity = activity;
+        this.exercise = exercise;
+    }
+
     @Override
     public int getCount() {
         return 0;
@@ -79,7 +88,7 @@ public class ExerciseDetailAdapter extends BaseAdapter {
         viewholder.tvTitle.setText(exercise.getName());
         viewholder.tvCalo.setText(exercise.getCalo());
         viewholder.tvInstruction.setText(exercise.getContent());
-        StorageReference mref = sref.child("text/" + exercise.getImageUrl());
+        StorageReference mref = sref.child("text/" + exercise.getImageUrl().get(1));
         Glide.with(activity)
                 .using(new FirebaseImageLoader())
                 .load(mref)

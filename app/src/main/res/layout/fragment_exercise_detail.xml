@@ -16,7 +16,7 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/iv_exercise_image"
+        android:id="@+id/iv_exercise_detail_image"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
@@ -31,6 +31,7 @@
             android:layout_weight="1"
             android:gravity="right"
             android:text="Calories burned: "
+            android:textColor="@color/colorBalck"
             android:textSize="15sp" />
 
         <TextView

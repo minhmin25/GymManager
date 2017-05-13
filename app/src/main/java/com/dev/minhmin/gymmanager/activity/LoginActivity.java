@@ -32,6 +32,11 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by Minh min on 5/12/2017.
@@ -58,9 +63,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    Log.e("ahihi", user.getDisplayName() + "/" + user.getEmail() + "/" + user.getPhotoUrl().toString() + "/" + user.getToken(true));
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    final FirebaseUser user = firebaseAuth.getCurrentUser();
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").child(user.getUid());
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.hasChildren()) {
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, InformationActivity.class);
+                                intent.putExtra("id", user.getUid());
+                                startActivity(intent);
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     Toast.makeText(getApplication(), "Login success", Toast.LENGTH_SHORT).show();
                 }
             }

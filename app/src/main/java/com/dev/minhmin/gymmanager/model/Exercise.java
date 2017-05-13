@@ -11,27 +11,27 @@ public class Exercise {
     private ArrayList<String> imageUrl;
     private String videoUrl;
     private String content;
-    private String calo;
-    private String type;
+    private int calo;
+    private String reference;
 
     public Exercise() {
 
     }
 
-    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content, String calo, String type) {
+    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content, int calo, String reference) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.content = content;
         this.calo = calo;
-        this.type = type;
+        this.reference = reference;
     }
 
-    public String getCalo() {
+    public int getCalo() {
         return calo;
     }
 
-    public void setCalo(String calo) {
+    public void setCalo(int calo) {
         this.calo = calo;
     }
 
@@ -67,13 +67,11 @@ public class Exercise {
         this.content = content;
     }
 
-    public String getType() {
-        return type;
+    public String getReference() {
+        return reference;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
-
-
 }
