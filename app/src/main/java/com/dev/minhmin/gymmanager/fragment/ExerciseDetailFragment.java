@@ -47,16 +47,17 @@ public class ExerciseDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_detail, container, false);
+        title = (TextView) viewGroup.findViewById(R.id.tv_exercise_title);
+        calo = (TextView) viewGroup.findViewById(R.id.tv_calo_burn);
+        instruction = (TextView) viewGroup.findViewById(R.id.tv_exercise_instruction);
+        image = (ImageView) viewGroup.findViewById(R.id.iv_exercise_detail_image);
         return viewGroup;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        title = (TextView) getView().findViewById(R.id.tv_exercise_title);
-        calo = (TextView) getView().findViewById(R.id.tv_calo_burn);
-        instruction = (TextView) getView().findViewById(R.id.tv_exercise_instruction);
-        image = (ImageView) getView().findViewById(R.id.iv_exercise_image);
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref.child("Exercise").child(part).child(position + "").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,10 +69,10 @@ public class ExerciseDetailFragment extends Fragment {
 //
 //                }
                 title.setText(exercise.getName());
-                calo.setText(exercise.getCalo());
+                calo.setText(exercise.getCalo() + "");
                 instruction.setText(exercise.getContent());
                 StorageReference mref = sref.child("exercise/" + exercise.getImageUrl().get(1));
-                Glide.with(activity)
+                Glide.with(getActivity())
                         .using(new FirebaseImageLoader())
                         .load(mref)
                         .crossFade()
