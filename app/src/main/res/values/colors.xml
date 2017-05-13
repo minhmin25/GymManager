@@ -13,5 +13,8 @@
     <color name="colorBalck">#000000</color>
     <color name="colorOre">#ff7733</color>
     <color name="textDark">#3b3b3b</color>
+    <color name="pink">#FF3399</color>
+    <color name="yellow">#FFFF00</color>
+
 
 </resources>
