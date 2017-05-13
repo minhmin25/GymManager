@@ -234,8 +234,6 @@ public class MealFragment extends Fragment {
                 ft.addToBackStack(fragment.getClass().getName());
                 ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
                 ft.commit();
-//                replaceFragment(fragment);
-//                ((MainActivity) getActivity()).replaceFragment(fragment);
             }
         });
         layout_lunch.setOnClickListener(new View.OnClickListener() {

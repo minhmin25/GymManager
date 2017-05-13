@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
+import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Minh min on 5/12/2017.
@@ -78,6 +78,8 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
         GroupHolder holder;
+        MethodUtils methodUtils = new MethodUtils();
+        final String time = methodUtils.getTimeNow();
         if (view == null) {
             view = activity.getLayoutInflater().inflate(R.layout.item_expandable_listview_header, null);
             holder = new GroupHolder();
@@ -90,6 +92,9 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         }
         if (listData.get(listHeader.get(i)).get(0).isChecked()) {
             holder.cbComplete.setChecked(true);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+            Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
+            ref.setValue(listData.get(listHeader.get(i)).get(0));
         } else holder.cbComplete.setChecked(false);
         holder.tvTitle.setText(listHeader.get(i));
         holder.ivDetail.setOnClickListener(new View.OnClickListener() {
@@ -106,14 +111,15 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         holder.cbComplete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MethodUtils methodUtils = new MethodUtils();
-                String time = methodUtils.getTimeNow();
                 if (b) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time);
-                    Map<String, Object> value = new HashMap<>();
-//                    value.put()
-//                    ref.
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    listData.get(listHeader.get(i)).get(0).setChecked(true);
+                    Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
+                    ref.setValue(p);
                 } else {
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    listData.get(listHeader.get(i)).get(0).setChecked(false);
+                    ref.setValue(null);
                 }
             }
         });

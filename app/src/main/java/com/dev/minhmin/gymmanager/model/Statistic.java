@@ -9,15 +9,18 @@ import java.util.ArrayList;
 public class Statistic {
     private String date;
     private float totalFood, totalExercise, totalGoal, totalRemain;
-    private ArrayList<Practice> listEx = new ArrayList<>();
+    private ArrayList<Practice> listPractice = new ArrayList<>();
 
-    public Statistic(String date, float totalFood, float totalExercies, float totalGoal, float totalRemain, ArrayList<Practice> listEx) {
+    public Statistic(String date, float totalFood, float totalExercies, float totalGoal, float totalRemain, ArrayList<Practice> listPractice) {
         this.date = date;
         this.totalFood = totalFood;
         this.totalExercise = totalExercies;
         this.totalGoal = totalGoal;
         this.totalRemain = totalRemain;
-        this.listEx = listEx;
+        this.listPractice = listPractice;
+    }
+
+    public Statistic() {
     }
 
     public String getDate() {
@@ -60,14 +63,11 @@ public class Statistic {
         this.totalRemain = totalRemain;
     }
 
-    public ArrayList<Practice> getListEx() {
-        return listEx;
+    public ArrayList<Practice> getListPractice() {
+        return listPractice;
     }
 
-    public void setListEx(ArrayList<Practice> listEx) {
-        this.listEx = listEx;
-    }
-
-    public Statistic() {
+    public void setListPractice(ArrayList<Practice> listPractice) {
+        this.listPractice = listPractice;
     }
 }

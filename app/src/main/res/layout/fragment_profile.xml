@@ -33,20 +33,19 @@
         android:padding="10dp">
 
         <LinearLayout
-            android:background="@color/colorGray"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorGray"
             android:gravity="center_vertical">
 
             <TextView
-
-                android:drawableLeft="@drawable/fristname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=" First Name"
-                android:textColor="@color/colorBalck"
+                android:drawableLeft="@drawable/firstname"
+                android:text=" Name"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -66,12 +65,12 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:drawableLeft="@drawable/moon_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text=" Last Name"
-                android:textColor="@color/colorBalck"
+                android:text=" Age"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -79,16 +78,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="right"
-                android:text="Minh min"
+                android:text="18"
                 android:textColor="@color/textDark"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/colorGray"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorGray"
             android:gravity="center_vertical">
 
             <TextView
@@ -98,7 +97,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/email"
                 android:text=" Email"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -119,13 +118,13 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:drawableLeft="@drawable/sex"
                 android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/sex"
                 android:text=" Gender"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <RadioGroup
@@ -158,20 +157,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/colorGray"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorGray"
             android:gravity="center_vertical">
 
             <TextView
-                android:drawableLeft="@drawable/goal"
                 android:id="@+id/textView5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/goal"
                 android:text=" Goal"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -191,12 +190,12 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:drawableLeft="@drawable/kilo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/kilo"
                 android:text=" Weight"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -210,20 +209,20 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@color/colorGray"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="@color/colorGray"
             android:gravity="center_vertical">
 
             <TextView
-                android:drawableLeft="@drawable/height_1"
                 android:id="@+id/textView6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/height_1"
                 android:text=" Height"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView

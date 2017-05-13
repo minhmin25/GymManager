@@ -7,12 +7,12 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:background="@color/colorWhite"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:weightSum="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,17 +50,17 @@
 
 
         <LinearLayout
-            android:background="@color/colorGray"
-            android:paddingLeft="5dp"
             android:layout_width="match_parent"
             android:layout_height="39dp"
-            android:orientation="horizontal">
+            android:background="@color/colorGray"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp">
 
             <LinearLayout
 
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="39dp"
+                android:layout_weight="1"
                 android:gravity="center_vertical">
 
                 <LinearLayout
@@ -94,9 +94,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <LinearLayout
 
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="1234"
-                    android:textColor="@drawable/back"
+                    android:textColor="#000"
                     android:textSize="18sp" />
 
                 <TextView
@@ -185,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="-"
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="26sp"
                     android:textStyle="bold" />
 
@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+"
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -275,7 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="="
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -312,10 +312,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="5dp"
-
             android:layout_width="match_parent"
+
             android:layout_height="39dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorGreen"
             android:gravity="center_vertical"
             android:paddingTop="10dp">
@@ -345,17 +345,17 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:paddingLeft="5dp">
 
@@ -404,7 +404,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+"
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
 
@@ -456,7 +456,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+"
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -506,7 +506,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="+"
-                    android:textColor="@color/colorBalck"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
 
@@ -566,11 +566,11 @@
                 android:src="@drawable/athlete" />
 
             <TextView
-                android:paddingLeft="4dp"
                 android:id="@+id/textView3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingLeft="4dp"
                 android:text="Exercise"
                 android:textColor="@color/colorWhite"
                 android:textSize="22sp"
@@ -584,7 +584,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -612,9 +612,9 @@
                         android:id="@+id/lv_statistic_list_exercise"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true">
 
                     </ListView>
                 </RelativeLayout>

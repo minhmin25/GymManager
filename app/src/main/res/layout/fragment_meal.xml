@@ -69,7 +69,7 @@
                 android:layout_weight="1"
                 android:text="Breakfast"
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Lunch"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
 
                 android:textSize="20sp" />
 
@@ -120,7 +120,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Dinner"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
 
                 android:textSize="20sp" />
 
@@ -159,7 +159,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -188,7 +188,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Snack"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
 
                 android:textSize="20sp" />
 
@@ -200,7 +200,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Listfood"
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
 
                 android:textSize="20sp" />
 
@@ -239,7 +239,7 @@
                 android:layout_weight="0.5"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp" />
 
 
@@ -278,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories : "
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -288,7 +288,7 @@
                 android:layout_height="wrap_content"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
 
@@ -307,7 +307,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Protein   :  "
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -317,7 +317,7 @@
                 android:layout_height="wrap_content"
 
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
 
@@ -335,7 +335,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carbs     : "
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -343,7 +343,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
 
@@ -362,7 +362,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fat          : "
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
             <TextView
@@ -370,7 +370,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:textColor="@color/colorBalck"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
 

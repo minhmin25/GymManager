@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="right"
+                android:inputType="numberDecimal"
                 android:text="60kg"
                 android:textColor="@color/textDark"
                 android:textSize="16sp" />
@@ -64,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="right"
+                android:inputType="numberDecimal"
                 android:text="60kg"
                 android:textColor="@color/textDark"
                 android:textSize="16sp" />

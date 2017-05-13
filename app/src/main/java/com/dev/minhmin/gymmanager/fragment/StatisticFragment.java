@@ -14,10 +14,7 @@ import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
-import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
-import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.adapter.StatisticAdapter;
-import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.Statistic;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -34,27 +31,29 @@ import java.util.ArrayList;
  * Created by Administrator on 5/13/2017.
  */
 
-public class StatisticFragment extends Fragment {
+public class StatisticFragment extends Fragment implements StatisticAdapter.onCheckedChangeListener {
     private TextView tv_weight, tv_height, tv_goal, tv_food, tv_excer, tv_remain, tv_breakfast, tv_lunch, tv_dinner, tv_snack, tv_excer_2;
     private TextView tv_date, tv_title;
     private ImageView iv_back, iv_next;
     private String date = "";
     private String weight = "", height = "";
-    private ListView lv_excer;
-    private ArrayList<Practice> listitem = new ArrayList<>();
+    private ListView lvPractice;
+    private ArrayList<Practice> listPractices = new ArrayList<>();
     private StatisticAdapter adapter;
     private Statistic statistic = new Statistic();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
     public static StatisticFragment newInstance() {
         StatisticFragment fragment = new StatisticFragment();
         return fragment;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_statistic, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_MEAL, false, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_STATISTIC, false, false, false);
         return viewGroup;
     }
 
@@ -62,11 +61,28 @@ public class StatisticFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
+        lvPractice = (ListView) getView().findViewById(R.id.lv_statistic_list_exercise);
+        MethodUtils methodUtils = new MethodUtils();
+        date = methodUtils.getTimeNow();
         tv_date.setText(date);
-        DatabaseReference ref;
-        ref = FirebaseDatabase.getInstance().getReference();
+        adapter = new StatisticAdapter(getActivity(), listPractices, date, this);
+        lvPractice.setAdapter(adapter);
+        ref.child("Statistic").child(date).child("listPractice").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listPractices.clear();
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    Practice p = i.getValue(Practice.class);
+                    listPractices.add(p);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
     }
 
     private void init() {
@@ -81,22 +97,15 @@ public class StatisticFragment extends Fragment {
         tv_snack = (TextView) getView().findViewById(R.id.tv_plan_snak);
         tv_excer_2 = (TextView) getView().findViewById(R.id.tv_plan_excer_2);
         tv_remain = (TextView) getView().findViewById(R.id.tv_plan_remain);
-        tv_date = (TextView) getView().findViewById(R.id.tv_date);
+        tv_date = (TextView) getView().findViewById(R.id.tv_plan_date);
         iv_back = (ImageView) getView().findViewById(R.id.iv__plan_back_left);
         iv_next = (ImageView) getView().findViewById(R.id.iv_plan_back_right);
-        lv_excer = (ListView) getView().findViewById(R.id.lv_statistic_list_exercise);
-
+        lvPractice = (ListView) getView().findViewById(R.id.lv_statistic_list_exercise);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
-        date = bundle.getString("date", "");
-        if (date.equals("")) {
-            MethodUtils methodUtils = new MethodUtils();
-            date = methodUtils.getTimeNow();
-        }
 
     }
 
@@ -107,5 +116,8 @@ public class StatisticFragment extends Fragment {
         ft.commit();
     }
 
-
+    @Override
+    public void calculate(int i, boolean value) {
+        listPractices.get(i).setChecked(value);
+    }
 }
