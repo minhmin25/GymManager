@@ -229,8 +229,8 @@ public class MealFragment extends Fragment {
                 bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment().newInstance();
                 fragment.setArguments(bundle);
-                replaceFragment(fragment);
-
+//                replaceFragment(fragment);
+                ((MainActivity) getActivity()).replaceFragment(fragment);
             }
         });
         layout_lunch.setOnClickListener(new View.OnClickListener() {

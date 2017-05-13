@@ -27,7 +27,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/back_left"
+                android:src="@drawable/back_1"
                 android:visibility="gone" />
 
             <TextView

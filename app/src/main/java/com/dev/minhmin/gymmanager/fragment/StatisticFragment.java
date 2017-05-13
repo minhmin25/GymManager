@@ -15,11 +15,18 @@ import android.widget.TextView;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
+import com.dev.minhmin.gymmanager.adapter.MealDetailAdapter;
 import com.dev.minhmin.gymmanager.adapter.StatisticAdapter;
+import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.Statistic;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -56,6 +63,8 @@ public class StatisticFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         init();
         tv_date.setText(date);
+        DatabaseReference ref;
+        ref = FirebaseDatabase.getInstance().getReference();
 
 
     }
