@@ -94,7 +94,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
             holder.cbComplete.setChecked(true);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
             Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
-            ref.setValue(listData.get(listHeader.get(i)).get(0));
+            ref.setValue(p);
         } else holder.cbComplete.setChecked(false);
         holder.tvTitle.setText(listHeader.get(i));
         holder.ivDetail.setOnClickListener(new View.OnClickListener() {
