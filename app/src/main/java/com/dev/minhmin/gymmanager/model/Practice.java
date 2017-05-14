@@ -1,5 +1,8 @@
 package com.dev.minhmin.gymmanager.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 5/13/2017.
  */
@@ -35,4 +38,5 @@ public class Practice {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
+
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class ExerciseDetailFragment extends Fragment {
 
+    Button btAdd;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private Exercise exercise = new Exercise();
@@ -52,6 +54,7 @@ public class ExerciseDetailFragment extends Fragment {
         calo = (TextView) viewGroup.findViewById(R.id.tv_calo_burn);
         instruction = (TextView) viewGroup.findViewById(R.id.tv_exercise_instruction);
         image = (ImageView) viewGroup.findViewById(R.id.iv_exercise_detail_image);
+        btAdd = (Button) viewGroup.findViewById(R.id.bt_add_exercise);
         return viewGroup;
     }
 
