@@ -12,6 +12,7 @@ import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListExerciseAdapter;
 import com.dev.minhmin.gymmanager.model.Exercise;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,7 @@ public class ListExerciseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_list, container, false);
-        ((MainActivity) getActivity()).updateActionbar("List Exercise", true, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, true, false);
         return viewGroup;
     }
 

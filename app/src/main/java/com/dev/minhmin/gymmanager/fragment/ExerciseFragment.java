@@ -35,7 +35,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, false, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, false, false);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
         layoutAbs = (LinearLayout) view.findViewById(R.id.layout_abdominals);
         layoutAbs.setOnClickListener(this);

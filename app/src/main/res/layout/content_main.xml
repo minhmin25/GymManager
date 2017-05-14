@@ -74,14 +74,14 @@
 
 
         <RadioButton
-            android:id="@+id/rb_profile"
+            android:id="@+id/rb_statistic"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/menu_statistic"
             android:gravity="center"
-            android:text="Profile"
+            android:text="Statistic"
             android:textColor="#ffffff"
             android:textSize="12sp" />
 

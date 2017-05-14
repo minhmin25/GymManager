@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,7 +29,12 @@ import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
+import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -39,9 +43,10 @@ public class MainActivity extends AppCompatActivity
     private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbProfile;
     private TextView tvTitleActionbar;
     private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
     private ImageView ivBack, ivAdd;
-    private SearchView searchView;
     private int page = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +59,8 @@ public class MainActivity extends AppCompatActivity
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-//        toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
@@ -79,11 +83,30 @@ public class MainActivity extends AppCompatActivity
         bottomBar.setOnCheckedChangeListener(this);
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
+        navigationView.setCheckedItem(R.id.nav_home);
+        ArrayList<Exercise> list = new ArrayList<>();
+        ArrayList<String> imageUrl = new ArrayList<>();
+        imageUrl.add("crunch_ava.jpg");
+        imageUrl.add("crunch.jpg");
+
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("Exercise").child("abs").setValue(list);
+        ref.child("Exercise").child("back").setValue(list);
+        ref.child("Exercise").child("biceps").setValue(list);
+        ref.child("Exercise").child("triceps").setValue(list);
+        ref.child("Exercise").child("chest").setValue(list);
+        ref.child("Exercise").child("shoulders").setValue(list);
+        ref.child("Exercise").child("legs").setValue(list);
     }
 
     private void findViewByID() {
         tvTitleActionbar = (TextView) findViewById(R.id.tv_title_actionbar);
-        searchView = (SearchView) findViewById(R.id.search_view);
         ivAdd = (ImageView) findViewById(R.id.iv_add);
         ivBack = (ImageView) findViewById(R.id.iv_actionbar_back);
         bottomBar = (RadioGroup) findViewById(R.id.bottom_bar);
@@ -91,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         rbWorkout = (RadioButton) findViewById(R.id.rb_workout);
         rbMeal = (RadioButton) findViewById(R.id.rb_meal);
         rbExercise = (RadioButton) findViewById(R.id.rb_exercise);
-        rbProfile = (RadioButton) findViewById(R.id.rb_profile);
+        rbProfile = (RadioButton) findViewById(R.id.rb_statistic);
     }
 
     @Override
@@ -132,17 +155,17 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_profile) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_workout) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_meal) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_exercise) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_statistic) {
+
+        } else if (id == R.id.nav_group) {
 
         }
 
@@ -164,6 +187,7 @@ public class MainActivity extends AppCompatActivity
                 page = 1;
                 Fragment fragment = new HomeFragment().newInstance();
                 replaceFragment(fragment);
+                navigationView.setCheckedItem(R.id.nav_home);
                 break;
             }
             case R.id.rb_workout: {
@@ -171,6 +195,7 @@ public class MainActivity extends AppCompatActivity
                 page = 2;
                 Fragment fragment = new WorkoutFragment().newInstance();
                 replaceFragment(fragment);
+                navigationView.setCheckedItem(R.id.nav_workout);
                 break;
             }
             case R.id.rb_meal: {
@@ -178,6 +203,7 @@ public class MainActivity extends AppCompatActivity
                 page = 3;
                 Fragment fragment = new MealFragment().newInstance();
                 replaceFragment(fragment);
+                navigationView.setCheckedItem(R.id.nav_meal);
                 break;
             }
             case R.id.rb_exercise: {
@@ -185,13 +211,15 @@ public class MainActivity extends AppCompatActivity
                 page = 4;
                 Fragment fragment = new ExerciseFragment().newInstance();
                 replaceFragment(fragment);
+                navigationView.setCheckedItem(R.id.nav_exercise);
                 break;
             }
-            case R.id.rb_profile: {
+            case R.id.rb_statistic: {
                 if (page == 5) break;
                 page = 5;
                 Fragment fragment = new StatisticFragment().newInstance();
                 replaceFragment(fragment);
+                navigationView.setCheckedItem(R.id.nav_statistic);
                 break;
             }
         }
@@ -204,7 +232,7 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    public void updateActionbar(String title, boolean isShowBack, boolean isShowAdd, boolean isShowSearchview) {
+    public void updateActionbar(String title, boolean isShowBack, boolean isShowAdd) {
         tvTitleActionbar.setText(title);
         if (isShowBack) {
             toggle.setDrawerIndicatorEnabled(false);
@@ -217,13 +245,6 @@ public class MainActivity extends AppCompatActivity
             ivAdd.setVisibility(View.VISIBLE);
         } else {
             ivAdd.setVisibility(View.INVISIBLE);
-        }
-        if (isShowSearchview) {
-            tvTitleActionbar.setVisibility(View.GONE);
-            searchView.setVisibility(View.VISIBLE);
-        } else {
-            searchView.setVisibility(View.GONE);
-            tvTitleActionbar.setVisibility(View.VISIBLE);
         }
 
     }

@@ -9,7 +9,7 @@ public class ConstantUtils {
     public static final String TITLE_WORKOUT = "Workout";
     public static final String TITLE_MEAL = "Meal";
     public static final String TITLE_STATISTIC = "Statistic";
-    public static final String TITLE_ListFood = "ListFood";
+    public static final String TITLE_FOOD = "Food";
     public static final String TITLE_MealBreakFast = "Breakfast";
     public static final String TITLE_MealDinner = "Dinner";
     public static final String TITLE_MealLunch = "Lunch";
@@ -62,6 +62,13 @@ public class ConstantUtils {
     public static final int FRAGMENT_EXERCISE_DETAIL = 11;
     public static final int FRAGMENT_PROFILE = 12;
     public static final int FRAGMENT_STATISTIC = 13;
+
+    public static final int MENU_PROFILE = 0;
+    public static final int MENU_WORKOUT = 1;
+    public static final int MENU_MEAL = 2;
+    public static final int MENU_EXERCISE = 3;
+    public static final int MENU_STATISTIC = 4;
+    public static final int MENU_GROUP = 5;
 
 
 }

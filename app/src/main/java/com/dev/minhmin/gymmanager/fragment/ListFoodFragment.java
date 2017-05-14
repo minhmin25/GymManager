@@ -77,7 +77,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_listfood, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_ListFood, true, true, true);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_FOOD, true, true);
         return viewGroup;
     }
 

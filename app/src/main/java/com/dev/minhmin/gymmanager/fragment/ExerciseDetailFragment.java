@@ -46,7 +46,7 @@ public class ExerciseDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE_DETAIL, true, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE_DETAIL, true, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_detail, container, false);
         title = (TextView) viewGroup.findViewById(R.id.tv_exercise_title);
         calo = (TextView) viewGroup.findViewById(R.id.tv_calo_burn);

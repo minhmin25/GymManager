@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_HOME, false, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_HOME, false, false);
         View viewGroup = inflater.inflate(R.layout.fragment_home, container, false);
         lvBlog = (ListView) viewGroup.findViewById(R.id.lv_blog);
         adapter = new ListBlogAdapter(getActivity(), listBlogs);
