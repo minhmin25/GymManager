@@ -50,7 +50,7 @@ public class MealFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_MEAL, false, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_MEAL, false, false);
         return viewGroup;
     }
 

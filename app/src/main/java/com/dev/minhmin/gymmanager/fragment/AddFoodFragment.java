@@ -66,7 +66,7 @@ public class AddFoodFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.dialog_add_food, container, false);
-        ((MainActivity) getActivity()).updateActionbar("New Food", true, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_FOOD, true, false);
         return viewGroup;
     }
 

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,13 +31,14 @@ import com.google.firebase.storage.StorageReference;
 
 public class ExerciseDetailFragment extends Fragment {
 
+    Button btAdd;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private Exercise exercise = new Exercise();
     private TextView title, instruction, calo;
     private ImageView image;
     private int position;
-    private String part, ref;
+    private String part = "", reference = "";
 
     public static ExerciseDetailFragment newInstance() {
         ExerciseDetailFragment fragment = new ExerciseDetailFragment();
@@ -46,12 +48,13 @@ public class ExerciseDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE_DETAIL, true, false, false);
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE_DETAIL, true, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_detail, container, false);
         title = (TextView) viewGroup.findViewById(R.id.tv_exercise_title);
         calo = (TextView) viewGroup.findViewById(R.id.tv_calo_burn);
         instruction = (TextView) viewGroup.findViewById(R.id.tv_exercise_instruction);
         image = (ImageView) viewGroup.findViewById(R.id.iv_exercise_detail_image);
+        btAdd = (Button) viewGroup.findViewById(R.id.bt_add_exercise);
         return viewGroup;
     }
 
@@ -59,8 +62,8 @@ public class ExerciseDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (!ref.equals("")) {
-            DatabaseReference mRef = FirebaseDatabase.getInstance().getReferenceFromUrl(ref);
+        if (reference != null) {
+            DatabaseReference mRef = FirebaseDatabase.getInstance().getReferenceFromUrl(reference);
             mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,10 +117,11 @@ public class ExerciseDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            ref = bundle.getString("exerciseRef");
-            if (!ref.equals("")) return;
-            position = bundle.getInt("position");
-            part = bundle.getString("part");
+            reference = bundle.getString("exerciseRef");
+            if (reference == null) {
+                part = bundle.getString("part");
+                position = bundle.getInt("position");
+            }
 
         }
     }

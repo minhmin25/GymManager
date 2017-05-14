@@ -54,7 +54,7 @@ public class MealDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(typeMeal, true, true, false);
+        ((MainActivity) getActivity()).updateActionbar(typeMeal, true, true);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
         return viewGroup;
     }
