@@ -103,6 +103,8 @@ public class MealDetailFragment extends Fragment {
         });
         adapter = new MealDetailAdapter(getActivity(), meal);
         tv_total.setText(" " + meal.getTotalCalo() + " ");
+
+
         listview.setAdapter(adapter);
         String timeNow = methodUtils.getTimeNow();
         if (timeNow.equals(date)) {
@@ -238,6 +240,7 @@ public class MealDetailFragment extends Fragment {
                 meal.setDate(date);
                 meal.setId(date);
                 meal.setType(typeMeal);
+
                 ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -246,8 +249,20 @@ public class MealDetailFragment extends Fragment {
                                 Food f = i.getValue(Food.class);
                                 LineItem l = new LineItem(f, Integer.parseInt(number));
                                 meal.addLineitem(l);
-//                            l.setId(ref.child(typeMeal).child(date).child("items").push().getKey());
                                 ref.child(typeMeal).child(date).updateChildren(meal.toMap());
+                                ref.child("Statistic").child(date).child("totalFood").setValue(meal.getTotalCalo());
+                                if (typeMeal.equals(ConstantUtils.Breakfast)) {
+                                    ref.child(("Statistic")).child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                                }
+                                if (typeMeal.equals(ConstantUtils.Lunch)) {
+                                    ref.child(("Statistic")).child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                                }
+                                if (typeMeal.equals(ConstantUtils.Dinner)) {
+                                    ref.child(("Statistic")).child(date).child("totalDinner").setValue(meal.getTotalCalo());
+                                }
+                                if (typeMeal.equals(ConstantUtils.Snack)) {
+                                    ref.child(("Statistic")).child(date).child("totalSnack").setValue(meal.getTotalCalo());
+                                }
                                 break;
                             }
                         }
@@ -258,6 +273,8 @@ public class MealDetailFragment extends Fragment {
 
                     }
                 });
+
+
             }
 
 

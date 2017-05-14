@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.Meal;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DatabaseReference;
@@ -180,6 +181,18 @@ public class MealDetailAdapter extends BaseAdapter {
                         } else {
                             meal.getItems().get(i).setNumber(Integer.parseInt(tv_number_food.getText().toString()));
                             ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
+                            if (meal.getType().equals(ConstantUtils.Breakfast)) {
+                                ref.child("Statistic").child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                            }
+                            if (meal.getType().equals(ConstantUtils.Lunch)) {
+                                ref.child("Statistic").child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                            }
+                            if (meal.getType().equals(ConstantUtils.Dinner)) {
+                                ref.child("Statistic").child(date).child("totalDinner").setValue(meal.getTotalCalo());
+                            }
+                            if (meal.getType().equals(ConstantUtils.Snack)) {
+                                ref.child("Statistic").child(date).child("totalSnack").setValue(meal.getTotalCalo());
+                            }
                             notifyDataSetChanged();
                             Toast.makeText(activity, "Edit successfully", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
@@ -207,6 +220,18 @@ public class MealDetailAdapter extends BaseAdapter {
                                 meal.getItems().remove(i);
                                 ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
                                 notifyDataSetChanged();
+                                if (meal.getType().equals(ConstantUtils.Breakfast)) {
+                                    ref.child("Statistic").child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                                }
+                                if (meal.getType().equals(ConstantUtils.Lunch)) {
+                                    ref.child("Statistic").child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                                }
+                                if (meal.getType().equals(ConstantUtils.Dinner)) {
+                                    ref.child("Statistic").child(date).child("totalDinner").setValue(meal.getTotalCalo());
+                                }
+                                if (meal.getType().equals(ConstantUtils.Snack)) {
+                                    ref.child("Statistic").child(date).child("totalSnack").setValue(meal.getTotalCalo());
+                                }
                                 Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();
                             }
                         })
