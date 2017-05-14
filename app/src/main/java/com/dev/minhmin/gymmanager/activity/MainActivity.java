@@ -29,7 +29,13 @@ import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
+import com.dev.minhmin.gymmanager.model.Workout;
+import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -98,6 +104,22 @@ public class MainActivity extends AppCompatActivity
 //        ref.child("Exercise").child("chest").setValue(list);
 //        ref.child("Exercise").child("shoulders").setValue(list);
 //        ref.child("Exercise").child("legs").setValue(list);
+
+//        WorkoutExercise we = new WorkoutExercise("we1", "crunch", 30, 3, "rep", 12, "content", true, "ref");
+//        ArrayList<WorkoutExercise> list = new ArrayList<>();
+//        list.add(we);
+//        list.add(we);
+//        list.add(we);
+//        list.add(we);
+//        Workout workout = new Workout("workout1", "Fat burn", 30, "workout1.jpg", list);
+//        ArrayList<Workout> listwo = new ArrayList<>();
+//        listwo.add(workout);
+//        listwo.add(workout);
+//        listwo.add(workout);
+//        listwo.add(workout);
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        ref.child("Workout").setValue(listwo);
+
     }
 
     private void findViewByID() {
