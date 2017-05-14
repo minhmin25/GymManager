@@ -1,6 +1,8 @@
 package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -87,7 +89,24 @@ public class ListExerciseFragment extends Fragment {
             }
         });
 
+//        lv_exercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("position", i);
+//                bundle.putString("path", type);
+//                Fragment fragment = new ExerciseDetailFragment().newInstance();
+//                fragment.setArguments(bundle);
+//                replaceFragment(fragment);
+//            }
+//        });
     }
 
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_main, fragment);
+        ft.commit();
+    }
 
 }

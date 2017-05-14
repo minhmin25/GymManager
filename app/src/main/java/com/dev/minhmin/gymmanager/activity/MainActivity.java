@@ -29,12 +29,7 @@ import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
-import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -84,25 +79,25 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = new HomeFragment().newInstance();
         replaceFragment(fragment);
         navigationView.setCheckedItem(R.id.nav_home);
-        ArrayList<Exercise> list = new ArrayList<>();
-        ArrayList<String> imageUrl = new ArrayList<>();
-        imageUrl.add("crunch_ava.jpg");
-        imageUrl.add("crunch.jpg");
-
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Exercise").child("abs").setValue(list);
-        ref.child("Exercise").child("back").setValue(list);
-        ref.child("Exercise").child("biceps").setValue(list);
-        ref.child("Exercise").child("triceps").setValue(list);
-        ref.child("Exercise").child("chest").setValue(list);
-        ref.child("Exercise").child("shoulders").setValue(list);
-        ref.child("Exercise").child("legs").setValue(list);
+//        ArrayList<Exercise> list = new ArrayList<>();
+//        ArrayList<String> imageUrl = new ArrayList<>();
+//        imageUrl.add("crunch_ava.jpg");
+//        imageUrl.add("crunch.jpg");
+//
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+//        ref.child("Exercise").child("abs").setValue(list);
+//        ref.child("Exercise").child("back").setValue(list);
+//        ref.child("Exercise").child("biceps").setValue(list);
+//        ref.child("Exercise").child("triceps").setValue(list);
+//        ref.child("Exercise").child("chest").setValue(list);
+//        ref.child("Exercise").child("shoulders").setValue(list);
+//        ref.child("Exercise").child("legs").setValue(list);
     }
 
     private void findViewByID() {

@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.Exercise;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -86,7 +87,7 @@ public class ListExerciseAdapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", position);
                 bundle.putString("part", part);
-                ExerciseDetailFragment fragment = new ExerciseDetailFragment();
+                Fragment fragment = new ExerciseDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
             }
@@ -98,7 +99,7 @@ public class ListExerciseAdapter extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("position", position);
                 bundle.putString("part", part);
-                ExerciseDetailFragment fragment = new ExerciseDetailFragment();
+                Fragment fragment = new ExerciseDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
             }
@@ -109,7 +110,8 @@ public class ListExerciseAdapter extends BaseAdapter {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE_DETAIL);
         ft.commit();
     }
 

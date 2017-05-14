@@ -36,7 +36,7 @@ public class ExerciseDetailFragment extends Fragment {
     private TextView title, instruction, calo;
     private ImageView image;
     private int position;
-    private String part, ref;
+    private String part = "", reference = "";
 
     public static ExerciseDetailFragment newInstance() {
         ExerciseDetailFragment fragment = new ExerciseDetailFragment();
@@ -59,8 +59,8 @@ public class ExerciseDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (!ref.equals("")) {
-            DatabaseReference mRef = FirebaseDatabase.getInstance().getReferenceFromUrl(ref);
+        if (reference != null) {
+            DatabaseReference mRef = FirebaseDatabase.getInstance().getReferenceFromUrl(reference);
             mRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -114,10 +114,11 @@ public class ExerciseDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            ref = bundle.getString("exerciseRef");
-            if (!ref.equals("")) return;
-            position = bundle.getInt("position");
-            part = bundle.getString("part");
+            reference = bundle.getString("exerciseRef");
+            if (reference == null) {
+                part = bundle.getString("part");
+                position = bundle.getInt("position");
+            }
 
         }
     }
