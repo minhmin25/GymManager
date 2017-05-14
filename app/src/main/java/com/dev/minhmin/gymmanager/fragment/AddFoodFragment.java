@@ -50,7 +50,7 @@ public class AddFoodFragment extends Fragment {
     private ImageView iv_food;
     private TextView tv_title;
     private String url = "";
-    private boolean hasImage = false;
+    private int hasImage = 0;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private Bitmap bitmap;
@@ -78,29 +78,16 @@ public class AddFoodFragment extends Fragment {
                 case 1: {
                     if (requestCode == CAMERA_REQUEST) {
                         bitmap = (Bitmap) imageReturnIntent.getExtras().get("data");
-
-//                        File destination = new File(Environment.getExternalStorageDirectory(), System.currentTimeMillis()+".jpg");
-//                        FileOutputStream fo;
-//                        try {
-//                            destination.createNewFile();
-//                            fo = new FileOutputStream(destination);
-//                            fo.write(bytes.toByteArray());
-//                            fo.close();
-//                        }
-//                        catch(Exception e) {
-//                            e.printStackTrace();
-//                        }
                         iv_food.setImageBitmap(bitmap);
-                        hasImage = true;
+                        hasImage = 1;
                         break;
                     }
                 }
                 case 0: {
                     if (requestCode == GALLERY_REQUEST) {
                         uri = imageReturnIntent.getData();
-                        hasImage = true;
+                        hasImage = 2;
                         iv_food.setImageURI(uri);
-//                        url = selectedImage.toString();
                     }
                     break;
                 }
@@ -135,25 +122,25 @@ public class AddFoodFragment extends Fragment {
                 seclectedImage();
             }
         });
-//        et_name.setText("a");
-//        et_unit.setText("g");
-//        et_count.setText("1");
-//        et_calo.setText("1");
-//        et_pro.setText("1");
-//        et_fat.setText("1");
-//        et_carb.setText("1");
-//        final String name = et_name.getText().toString();
-//        final String unit = et_unit.getText().toString();
-//        final String count = et_count.getText().toString();
-//        final String calo = et_calo.getText().toString();
-//        final String pro = et_pro.getText().toString();
-//        final String fat = et_fat.getText().toString();
-//        final String carb = et_carb.getText().toString();
+        et_name.setText("a");
+        et_unit.setText("g");
+        et_count.setText("1");
+        et_calo.setText("1");
+        et_pro.setText("1");
+        et_fat.setText("1");
+        et_carb.setText("1");
+        final String name = et_name.getText().toString();
+        final String unit = et_unit.getText().toString();
+        final String count = et_count.getText().toString();
+        final String calo = et_calo.getText().toString();
+        final String pro = et_pro.getText().toString();
+        final String fat = et_fat.getText().toString();
+        final String carb = et_carb.getText().toString();
 
         bt_addd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!hasImage) {
+                if (hasImage == 0) {
                     Toast.makeText(getActivity(), "Bạn chưa chọn ảnh", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -168,7 +155,7 @@ public class AddFoodFragment extends Fragment {
                 if (methodUtils.readString(name) && methodUtils.readString(unit) && methodUtils.readInt(count) && methodUtils.readFloat(calo)
                         && methodUtils.readFloat(pro) && methodUtils.readFloat(carb) && methodUtils.readFloat(fat)) {
                     Food f = new Food();
-                    Bundle bundle = new Bundle();
+                    final Bundle bundle = new Bundle();
                     bundle.putString("typeMeal", typeMeal);
                     bundle.putString("date", date);
 
@@ -179,13 +166,13 @@ public class AddFoodFragment extends Fragment {
                     f.setProtein(Float.parseFloat(pro));
                     f.setFat(Float.parseFloat(fat));
                     f.setCarb(Float.parseFloat(carb));
-                    f.setImageUrl(name + ".jpg");
+                    f.setImageUrl(name + ".jpeg");
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                     DatabaseReference mRef = ref.child("Food").push();
                     f.setId(mRef.getKey());
                     mRef.setValue(f.toMap());
-                    StorageReference mref = sref.child("Food").child(name + ".jpg");
-                    if (uri != null) {
+                    StorageReference mref = sref.child("food").child(f.getImageUrl());
+                    if (hasImage == 1) {
                         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
                         byte[] data = bytes.toByteArray();
@@ -199,10 +186,14 @@ public class AddFoodFragment extends Fragment {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Fragment fragment = new ListFoodFragment().newInstance();
+                                fragment.setArguments(bundle);
+                                replaceFragment(fragment);
                                 Toast.makeText(getActivity(), "Upload Success", Toast.LENGTH_SHORT);
                             }
                         });
-                    } else {
+
+                    } else if (hasImage == 2) {
                         UploadTask uploadTask = mref.putFile(uri);
                         uploadTask.addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -212,15 +203,17 @@ public class AddFoodFragment extends Fragment {
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Fragment fragment = new ListFoodFragment().newInstance();
+                                fragment.setArguments(bundle);
+                                replaceFragment(fragment);
+                                Toast.makeText(getActivity(), "Upload Success", Toast.LENGTH_SHORT);
                                 Toast.makeText(getActivity(), "Upload Success", Toast.LENGTH_SHORT);
                             }
                         });
                     }
 
                     Toast.makeText(getActivity(), "Add Success", Toast.LENGTH_LONG).show();
-                    ListFoodFragment fragment = new ListFoodFragment();
-                    fragment.setArguments(bundle);
-                    replaceFragment(fragment);
+
                 } else {
                     String s = "";
                     if (!methodUtils.readString(name)) {
@@ -282,7 +275,9 @@ public class AddFoodFragment extends Fragment {
 
             }
         });
-        bt_can.setOnClickListener(new View.OnClickListener() {
+        bt_can.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();

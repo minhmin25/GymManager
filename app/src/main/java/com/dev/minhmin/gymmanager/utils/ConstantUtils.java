@@ -34,9 +34,20 @@ public class ConstantUtils {
     public static final String EXERCISE_SHOULDERS = "shoulders";
     public static final String EXERCISE_LEGS = "legs";
 
-    public static final String FRAGMENT_TAG_MEAL_DETAIL = "MEAL_DETAIL_FRAGMENT";
-    public static final String FRAGMENT_TAG_LIST_FOOD = "LIST_FOOD_FRAGMENT";
+    public static final String FRAGMENT_TAG_ADD_FOOD = "ADD_FOOD_FRAGMENT";
+    public static final String FRAGMENT_TAG_BLOG_DTAIL = "BLOG_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_EXERCISE_DETAIL = "EXERCISE_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_EXERCISE = "EXERCISE_FRAGMENT";
+    public static final String FRAGMENT_TAG_FOOD_DETAIL = "FOOD_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_BLOG = "LIST_BLOG_FRAGMENT";
     public static final String FRAGMENT_TAG_LIST_EXERCISE = "LIST_EXERCISE_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_FOOD = "LIST_FOOD_FRAGMENT";
+    public static final String FRAGMENT_TAG_MEAL_DETAIL = "MEAL_DETAIL_FRAGMENT";
+    public static final String FRAGMENT_TAG_MEAL = "MEAL_FRAGMENT";
+    public static final String FRAGMENT_TAG_STATISTIC = "STATISTIC_FRAGMENT";
+    public static final String FRAGMENT_TAG_LIST_WORKOUT = "LIST_WORKTOUT_FRAGMENT";
+    public static final String FRAGMENT_TAG_WORKOUT = "WORKOUT_FRAGMENT";
+    public static final String FRAGMENT_TAG_PROFILE = "PROFILE_FRAGMENT";
 
     public static final int FRAGMENT_LIST_BLOG = 1;
     public static final int FRAGMENT_BLOG_DETAIL = 2;
