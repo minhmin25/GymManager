@@ -27,6 +27,7 @@ import com.dev.minhmin.gymmanager.fragment.HomeFragment;
 import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
 import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
+import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
 
     private RadioGroup bottomBar;
-    private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbProfile;
+    private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbStatistic;
     private TextView tvTitleActionbar;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         });
         bottomBar.setOnCheckedChangeListener(this);
         Fragment fragment = new HomeFragment().newInstance();
-        replaceFragment(fragment);
+        replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
         navigationView.setCheckedItem(R.id.nav_home);
 //        ArrayList<Exercise> list = new ArrayList<>();
 //        ArrayList<String> imageUrl = new ArrayList<>();
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity
         rbWorkout = (RadioButton) findViewById(R.id.rb_workout);
         rbMeal = (RadioButton) findViewById(R.id.rb_meal);
         rbExercise = (RadioButton) findViewById(R.id.rb_exercise);
-        rbProfile = (RadioButton) findViewById(R.id.rb_statistic);
+        rbStatistic = (RadioButton) findViewById(R.id.rb_statistic);
     }
 
     @Override
@@ -151,15 +152,39 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-
+            rbHome.setChecked(false);
+            rbWorkout.setChecked(false);
+            rbMeal.setChecked(false);
+            rbExercise.setChecked(false);
+            rbStatistic.setChecked(false);
+            page = 0;
+            Fragment fragment = new ProfileFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_PROFILE);
+        } else if (id == R.id.nav_home) {
+            page = 1;
+            rbHome.setChecked(true);
+            Fragment fragment = new HomeFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
         } else if (id == R.id.nav_workout) {
-
+            page = 2;
+            rbWorkout.setChecked(true);
+            Fragment fragment = new WorkoutFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_WORKOUT);
         } else if (id == R.id.nav_meal) {
-
+            page = 3;
+            rbMeal.setChecked(true);
+            Fragment fragment = new MealFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
         } else if (id == R.id.nav_exercise) {
-
+            page = 4;
+            rbExercise.setChecked(true);
+            Fragment fragment = new ExerciseFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
         } else if (id == R.id.nav_statistic) {
-
+            page = 5;
+            rbStatistic.setChecked(true);
+            Fragment fragment = new StatisticFragment().newInstance();
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_STATISTIC);
         } else if (id == R.id.nav_group) {
 
         }
@@ -181,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                 if (page == 1) break;
                 page = 1;
                 Fragment fragment = new HomeFragment().newInstance();
-                replaceFragment(fragment);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
                 navigationView.setCheckedItem(R.id.nav_home);
                 break;
             }
@@ -189,7 +214,7 @@ public class MainActivity extends AppCompatActivity
                 if (page == 2) break;
                 page = 2;
                 Fragment fragment = new WorkoutFragment().newInstance();
-                replaceFragment(fragment);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_WORKOUT);
                 navigationView.setCheckedItem(R.id.nav_workout);
                 break;
             }
@@ -197,7 +222,7 @@ public class MainActivity extends AppCompatActivity
                 if (page == 3) break;
                 page = 3;
                 Fragment fragment = new MealFragment().newInstance();
-                replaceFragment(fragment);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
                 navigationView.setCheckedItem(R.id.nav_meal);
                 break;
             }
@@ -205,7 +230,7 @@ public class MainActivity extends AppCompatActivity
                 if (page == 4) break;
                 page = 4;
                 Fragment fragment = new ExerciseFragment().newInstance();
-                replaceFragment(fragment);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
                 navigationView.setCheckedItem(R.id.nav_exercise);
                 break;
             }
@@ -213,17 +238,18 @@ public class MainActivity extends AppCompatActivity
                 if (page == 5) break;
                 page = 5;
                 Fragment fragment = new StatisticFragment().newInstance();
-                replaceFragment(fragment);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_STATISTIC);
                 navigationView.setCheckedItem(R.id.nav_statistic);
                 break;
             }
         }
     }
 
-    public void replaceFragment(Fragment fragment) {
+    public void replaceFragment(Fragment fragment, String TAG) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment, TAG);
         ft.commit();
     }
 

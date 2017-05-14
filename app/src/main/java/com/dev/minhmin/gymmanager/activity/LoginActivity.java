@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                                 Intent intent = new Intent(LoginActivity.this, InformationActivity.class);
                                 intent.putExtra("id", user.getUid());
                                 startActivity(intent);
-
                             }
                         }
 

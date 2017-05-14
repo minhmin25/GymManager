@@ -6,6 +6,7 @@ package com.dev.minhmin.gymmanager.utils;
 
 public class ConstantUtils {
     public static final String TITLE_HOME = "Home";
+    public static final String TITLE_BLOG = "Blog";
     public static final String TITLE_WORKOUT = "Workout";
     public static final String TITLE_MEAL = "Meal";
     public static final String TITLE_STATISTIC = "Statistic";

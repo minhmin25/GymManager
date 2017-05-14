@@ -122,13 +122,13 @@ public class AddFoodFragment extends Fragment {
                 seclectedImage();
             }
         });
-        et_name.setText("a");
-        et_unit.setText("g");
-        et_count.setText("1");
-        et_calo.setText("1");
-        et_pro.setText("1");
-        et_fat.setText("1");
-        et_carb.setText("1");
+//        et_name.setText("a");
+//        et_unit.setText("g");
+//        et_count.setText("1");
+//        et_calo.setText("1");
+//        et_pro.setText("1");
+//        et_fat.setText("1");
+//        et_carb.setText("1");
         final String name = et_name.getText().toString();
         final String unit = et_unit.getText().toString();
         final String count = et_count.getText().toString();
