@@ -1,18 +1,20 @@
 package com.dev.minhmin.gymmanager.fragment;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.adapter.ListBlogAdapter;
-import com.dev.minhmin.gymmanager.model.Blog;
-
-import java.util.ArrayList;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 
 /**
  * Created by Minh min on 5/11/2017.
@@ -21,9 +23,7 @@ import java.util.ArrayList;
 public class BlogDetailFragment extends Fragment {
 
     private String key;
-    private ArrayList<Blog> listBlogs = new ArrayList<>();
-    private ListBlogAdapter adapter;
-    private ListView lvBlogs;
+    private WebView webView;
 
     public static BlogDetailFragment newInstance() {
         BlogDetailFragment fragment = new BlogDetailFragment();
@@ -33,7 +33,36 @@ public class BlogDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_BLOG, true, false);
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_blog_detail, container, false);
+        webView = (WebView) v.findViewById(R.id.wv_blog);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+
+
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            public void onPageFinished(WebView view, String url) {
+            }
+
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage(description);
+                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                alertDialog.show();
+            }
+        });
+        webView.loadUrl(key);
         return v;
     }
 
@@ -49,7 +78,7 @@ public class BlogDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle b = this.getArguments();
         if (b != null) {
-            key = b.getString("key");
+            key = b.getString("url");
         }
     }
 }

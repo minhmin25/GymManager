@@ -66,10 +66,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
-                bundle.putString("key", listBlogs.get(i).getId());
+                bundle.putString("url", listBlogs.get(i).getContent());
                 BlogDetailFragment fragment = new BlogDetailFragment().newInstance();
                 fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).replaceFragment(fragment);
+                ((MainActivity) getActivity()).replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_BLOG_DTAIL);
             }
         });
         return viewGroup;
