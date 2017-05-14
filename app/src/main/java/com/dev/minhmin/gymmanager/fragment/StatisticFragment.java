@@ -136,29 +136,29 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 //
 //            }
 //        });
-//        ref.child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                listPractices.clear();
-//                for (DataSnapshot i : dataSnapshot.getChildren()) {
-//                    Practice p = i.getValue(Practice.class);
-//                    listPractices.add(p);
-//
-//            }
-//                adapter.notifyDataSetChanged();
-////                tv_excer.setText(totalExcer + "");
-////                tv_excer_2.setText(totalExcer + " Calories");
-////                totalRemain = goal - totalFood + totalExcer;
-////                tv_remain.setText(totalRemain + "");
-////                ref.child(("Statistic")).child(date).child("totalRemain").setValue(totalRemain);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        ref.child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listPractices.clear();
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    Practice p = i.getValue(Practice.class);
+                    listPractices.add(p);
+
+                }
+                adapter.notifyDataSetChanged();
+//                tv_excer.setText(totalExcer + "");
+//                tv_excer_2.setText(totalExcer + " Calories");
+//                totalRemain = goal - totalFood + totalExcer;
+//                tv_remain.setText(totalRemain + "");
+//                ref.child(("Statistic")).child(date).child("totalRemain").setValue(totalRemain);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //
 //        totalRemain = goal - totalFood + totalExcer;
