@@ -21,6 +21,7 @@ import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -68,11 +69,11 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        Practice pr = new Practice();
-        WorkoutExercise workoutExercise = new WorkoutExercise("1", "cu", 1, 1, "ref", 1, "a", false, "ref");
-        pr.setChecked(false);
-        pr.setWorkoutExercise(workoutExercise);
-        ref.child("Statistic").child(("listPractice")).child("14-05-2017").child(workoutExercise.getName()).setValue(pr);
+//        Practice pr = new Practice();
+//        WorkoutExercise workoutExercise = new WorkoutExercise("1", "cu", 1, 1, "ref", 1, "a", false, "ref");
+//        pr.setChecked(false);
+//        pr.setWorkoutExercise(workoutExercise);
+//        ref.child("Statistic").child(("listPractice")).child("14-05-2017").child(workoutExercise.getName()).setValue(pr);
         final MethodUtils methodUtils = new MethodUtils();
         date = methodUtils.getTimeNow();
 //
@@ -85,52 +86,53 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
         lvPractice = (ListView) getView().findViewById(R.id.lv_statistic_list_exercise);
         adapter = new StatisticAdapter(getActivity(), listPractices, date, this);
         lvPractice.setAdapter(adapter);
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-////        ref.child("User").child(user.getUid()).child("goal").addListenerForSingleValueEvent(new ValueEventListener() {
-////            @Override
-////            public void onDataChange(DataSnapshot dataSnapshot) {
-////                goal = dataSnapshot.getValue(Float.class);
-////                tv_goal.setText(goal + "");
-//// ref.child(("Statistic")).child(date).child("totalGoal").setValue(goal);
-////
-////            }
-////
-////            @Override
-////            public void onCancelled(DatabaseError databaseError) {
-////
-////            }
-////        });
-        goal = 1000;
-        ref.child(("Statistic")).child(date).child("totalGoal").setValue(goal);
-        tv_goal.setText(goal + "");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference re = ref.child("User").child(user.getUid()).child("goal");
+        re.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                goal = dataSnapshot.getValue(Float.class);
+                tv_goal.setText(goal + "");
+                DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalGoal");
+                mref.setValue(goal);
+                //     ref.child(("Statistic")).child(date).child("totalGoal").setValue(goal);
 
-//        ref.child("Statistic").child("14-05-2017").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Log.e("ahihi",dataSnapshot.toString());
-//                Toast.makeText(getActivity(),dataSnapshot.toString(),Toast.LENGTH_LONG).show();
-//                statistic = dataSnapshot.getValue(Statistic.class);
-//                totalBreak = statistic.getTotalBreakfast();
-//                totalDinner = statistic.getTotalDinner();
-//                totalLunch = statistic.getTotalLunch();
-//                totalSnak = statistic.getTotalSnack();
-//                totalFood = totalBreak + totalDinner + totalLunch + totalSnak;
-//                tv_breakfast.setText(totalBreak + "");
-//                tv_lunch.setText(totalLunch + "");
-//                tv_snack.setText(totalSnak + "");
-//                tv_dinner.setText(totalDinner + "");
-//                tv_food.setText(totalFood + "");
-//           //     tv_food_2.setText(totalFood + " Calories");
-//                totalRemain = goal - totalFood + totalExcer;
-//                tv_remain.setText(totalRemain + "");
-//                ref.child(("Statistic")).child(date).child("totalRemain").setValue(totalRemain);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        ref.child("Statistic").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                statistic = dataSnapshot.getValue(Statistic.class);
+                totalBreak = statistic.getTotalBreakfast();
+                totalDinner = statistic.getTotalDinner();
+                totalLunch = statistic.getTotalLunch();
+                totalSnak = statistic.getTotalSnack();
+                totalFood = totalBreak + totalDinner + totalLunch + totalSnak;
+                tv_breakfast.setText(totalBreak + "");
+                tv_lunch.setText(totalLunch + "");
+                tv_snack.setText(totalSnak + "");
+                tv_dinner.setText(totalDinner + "");
+                tv_food.setText(totalFood + "");
+                //     tv_food_2.setText(totalFood + " Calories");
+                totalRemain = goal - totalFood + totalExcer;
+                tv_remain.setText(totalRemain + "");
+                DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalRemain");
+                mref.setValue(totalRemain);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         ref.child("Statistic").child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -141,11 +143,12 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 
                 }
                 adapter.notifyDataSetChanged();
-//                tv_excer.setText(totalExcer + "");
-//                tv_excer_2.setText(totalExcer + " Calories");
-//                totalRemain = goal - totalFood + totalExcer;
-//                tv_remain.setText(totalRemain + "");
-//                ref.child(("Statistic")).child(date).child("totalRemain").setValue(totalRemain);
+                tv_excer.setText(totalExcer + "");
+                tv_excer_2.setText(totalExcer + " Calories");
+                totalRemain = goal - totalFood + totalExcer;
+                tv_remain.setText(totalRemain + "");
+                DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalRemain");
+                mref.setValue(totalRemain);
 
             }
 
