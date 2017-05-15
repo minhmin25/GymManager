@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class StatisticAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<Practice> listPractices = new ArrayList<>();
-    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private String date = "";
     private onCheckedChangeListener mCallback;
 

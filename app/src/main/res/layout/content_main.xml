@@ -97,7 +97,53 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp">
 
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_workout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:visibility="invisible">
 
     </FrameLayout>
 
+    <FrameLayout
+        android:id="@+id/layout_meal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:visibility="invisible">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:visibility="invisible">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_statistic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_bar"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:visibility="invisible">
+
+    </FrameLayout>
 </RelativeLayout>

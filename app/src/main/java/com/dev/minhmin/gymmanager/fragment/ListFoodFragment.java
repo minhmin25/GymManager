@@ -172,7 +172,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
                             bundle.putString("date", date);
                             bundle.putString("idFood", listFoods.get(position).getId());
                             bundle.putString("number", tv_number_food.getText().toString());
-                            MealDetailFragment fragment = new MealDetailFragment();
+                            Fragment fragment = new MealDetailFragment().newInstance();
                             fragment.setArguments(bundle);
                             replaceFragment(fragment);
                         }
@@ -195,9 +195,9 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         Bundle bundle = new Bundle();
         bundle.putString("typeMeal", typeMeal);
         bundle.putString("date", date);
-        AddFoodFragment fragment = new AddFoodFragment();
+        Fragment fragment = new AddFoodFragment().newInstance();
         fragment.setArguments(bundle);
-        replaceFragment(fragment);
+        nextFragment(fragment);
     }
 
     public void setChange(Food f) {
@@ -262,6 +262,14 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.layout_main, fragment);
+        ft.commit();
+    }
+
+    private void nextFragment(Fragment fragment) {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+//        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
     }
 

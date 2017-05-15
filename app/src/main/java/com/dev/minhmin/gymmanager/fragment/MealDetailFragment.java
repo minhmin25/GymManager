@@ -22,6 +22,7 @@ import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +44,8 @@ public class MealDetailFragment extends Fragment {
     private String typeMeal = "";
     private String idFood = "";
     private String number = "";
-    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference fref = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     private OnAddFoodListener mCallback;
 
     public static MealDetailFragment newInstance() {
@@ -74,11 +76,7 @@ public class MealDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
-//        iv_add_food = (ImageView) getActivity().findViewById(R.id.iv_add);
         final MethodUtils methodUtils = new MethodUtils();
-
-        DatabaseReference ref;
-        ref = FirebaseDatabase.getInstance().getReference();
         ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -128,8 +126,6 @@ public class MealDetailFragment extends Fragment {
 
                 }
                 date = time;
-                DatabaseReference ref;
-                ref = FirebaseDatabase.getInstance().getReference();
                 ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -177,8 +173,6 @@ public class MealDetailFragment extends Fragment {
 
                 }
                 date = time;
-                DatabaseReference ref;
-                ref = FirebaseDatabase.getInstance().getReference();
                 ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -241,7 +235,7 @@ public class MealDetailFragment extends Fragment {
                 meal.setId(date);
                 meal.setType(typeMeal);
 
-                ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+                fref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot i : dataSnapshot.getChildren()) {

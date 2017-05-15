@@ -1,122 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@drawable/back_infomation"
     android:layout_height="match_parent"
+    android:background="@drawable/back_infomation"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
 
-            android:drawableLeft="@drawable/athlete"
-            android:background="@drawable/rounded_layout"
-            android:textStyle="bold"
-            android:textColor="@color/colorGreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_layout"
+            android:drawableLeft="@drawable/athlete"
             android:gravity="center_horizontal"
             android:text="Comfirm your information"
+            android:textColor="@color/colorGreen"
             android:textSize="25sp"
+            android:textStyle="bold"
 
             />
 
         <LinearLayout
 
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp">
 
             <TextView
 
-                android:background="@drawable/rounded_layout"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
                 android:text="   Weight :"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
 
             <EditText
-                android:background="@drawable/rounded_layout"
                 android:id="@+id/edt_init_weight"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
                 android:gravity="center"
-                android:text="60kg"
+                android:text="60"
                 android:textColor="@color/colorOre"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:paddingBottom="25dp"
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingBottom="25dp"
+            android:paddingLeft="15dp">
 
             <TextView
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/rounded_layout"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
                 android:text="   Height :"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
 
             <EditText
 
-                android:background="@drawable/rounded_layout"
                 android:id="@+id/edt_init_height"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
                 android:gravity="center"
-                android:text="153cm"
+                android:text="165"
                 android:textColor="@color/colorOre"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
 
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:paddingBottom="26dp"
-            android:gravity="center_vertical">
+            android:paddingLeft="15dp">
 
 
             <TextView
-                android:gravity="center_vertical"
-                android:background="@drawable/rounded_layout"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
+                android:gravity="center_vertical"
                 android:text="   Age :"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
 
 
             <EditText
-                android:gravity="center"
-                android:background="@drawable/rounded_layout"
                 android:id="@+id/edt_init_age"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1"
+                android:background="@drawable/rounded_layout"
+                android:gravity="center"
 
                 android:inputType="number"
                 android:text="20"
@@ -125,19 +125,19 @@
         </LinearLayout>
 
         <LinearLayout
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="center_vertical"
             android:paddingBottom="50dp"
-            android:gravity="center_vertical">
+            android:paddingLeft="15dp">
 
             <TextView
 
-                android:background="@drawable/rounded_layout"
                 android:layout_width="0dp"
                 android:layout_height="32dp"
                 android:layout_weight="1.45"
+                android:background="@drawable/rounded_layout"
                 android:text="   Gender :"
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp" />
@@ -152,21 +152,21 @@
                 android:textSize="16sp">
 
                 <RadioButton
-                    android:background="@drawable/rounded_layout"
                     android:id="@+id/rb_init_male"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_layout"
                     android:checked="true"
                     android:text="Male  "
                     android:textColor="@color/colorOre"
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:background="@drawable/rounded_layout"
                     android:id="@+id/rb_init_female"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:background="@drawable/rounded_layout"
                     android:text="Female "
                     android:textColor="@color/colorOre"
                     android:textSize="16sp" />
@@ -181,12 +181,12 @@
             android:orientation="horizontal">
 
             <Button
-                android:background="@drawable/rounded_layout"
                 android:id="@+id/btn_init_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGreen"
-                android:text="Save" />
+                android:background="@drawable/rounded_layout"
+                android:text="Save"
+                android:textColor="@color/colorGreen" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

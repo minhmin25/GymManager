@@ -12,6 +12,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,26 +31,24 @@ public class InformationActivity extends AppCompatActivity {
     private RadioGroup rgGender;
     private RadioButton rbMale, rbFemale;
     private Button btnSave;
-    private String key;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
         findViewById();
-        Intent intent = getIntent();
-        key = intent.getStringExtra("id");
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String weight, height, age;
+                String weight, height, age, gender;
                 weight = edtWeight.getText().toString();
                 height = edtHeight.getText().toString();
                 age = edtAge.getText().toString();
                 if (weight.equals("") || height.equals("") || age.equals("")) {
                     Toast.makeText(getApplicationContext(), "Hay dien day du thong tin", Toast.LENGTH_SHORT).show();
                 } else {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").child(key);
                     Map<String, Object> value = new HashMap<>();
                     value.put("height", height);
                     value.put("weight", weight);
@@ -57,15 +58,21 @@ public class InformationActivity extends AppCompatActivity {
                     h = Float.parseFloat(height);
                     a = Float.parseFloat(age);
                     if (rbFemale.isChecked()) {
-                        value.put("gender", rbFemale.getText().toString());
+                        gender = rbFemale.getText().toString();
+                        value.put("gender", gender);
                         gold = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
                         value.put("gold", gold);
                     } else {
-                        value.put("gender", rbMale.getText().toString());
+                        gender = rbMale.getText().toString();
+                        value.put("gender", gender);
                         gold = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
                         value.put("gold", gold);
                     }
-                    ref.setValue(value);
+                    value.put("name", user.getDisplayName());
+                    value.put("email", user.getEmail());
+                    value.put("imageUrl", user.getPhotoUrl());
+                    User u = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), gold);
+                    ref.child(user.getUid()).setValue(u);
                     startActivity(new Intent(InformationActivity.this, MainActivity.class));
                 }
 

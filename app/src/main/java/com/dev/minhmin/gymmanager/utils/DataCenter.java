@@ -3,6 +3,7 @@ package com.dev.minhmin.gymmanager.utils;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
+import com.dev.minhmin.gymmanager.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,15 +19,25 @@ import java.util.Map;
  */
 
 public class DataCenter {
+    public static DataCenter data;
     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     private Meal meal = new Meal();
-    private Food f;
+    private Food f = new Food();
+    private User user = new User();
     private ArrayList<Food> foods = new ArrayList<>();
 
 //    public Meal getMeal(String date, String loai) {
 //        Meal meal = new Meal();
 //        return meal;
 //    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User u) {
+        this.user = u;
+    }
 
     public void addFood(Food food) {
         DatabaseReference mRef = ref.child("Food").push();

@@ -19,6 +19,7 @@ import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +41,7 @@ public class MealFragment extends Fragment {
     private TextView tv_break, tv_lun, tv_din, tv_snack, tv_listfood, tv_calo, tv_pro, tv_carb, tv_fat, tv_total_break, tv_total_lun, tv_total_din, tv_total_snack, tv_date;
     private String date = "";
     private LinearLayout layout_break, layout_lunch, layout_din, layout_snack, layout_listfood;
-
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
     public static MealFragment newInstance() {
         MealFragment fragment = new MealFragment();
         return fragment;
@@ -72,8 +73,7 @@ public class MealFragment extends Fragment {
 //        final Meal[] mealLunch = new Meal[1];
 //        final MeMealal[] mealDin = new Meal[1];
 //        final [] mealSnack = new Meal[1];
-        DatabaseReference ref;
-        ref = FirebaseDatabase.getInstance().getReference();
+//        Log.e("ahihi", DataCenter.data.getUser().getId());
         ref.child("Breakfast").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,7 +105,6 @@ public class MealFragment extends Fragment {
             }
         });
 
-        ref = FirebaseDatabase.getInstance().getReference();
         ref.child(ConstantUtils.Lunch).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,7 +134,6 @@ public class MealFragment extends Fragment {
 
             }
         });
-        ref = FirebaseDatabase.getInstance().getReference();
         ref.child(ConstantUtils.Dinner).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -165,7 +163,6 @@ public class MealFragment extends Fragment {
 
             }
         });
-        ref = FirebaseDatabase.getInstance().getReference();
         ref.child(ConstantUtils.Snack).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -274,8 +271,6 @@ public class MealFragment extends Fragment {
                 } else {
                     tv_date.setText(time);
                 }
-                DatabaseReference ref;
-                ref = FirebaseDatabase.getInstance().getReference();
                 ref.child(ConstantUtils.Breakfast).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -305,8 +300,6 @@ public class MealFragment extends Fragment {
 
                     }
                 });
-
-
                 ref.child(ConstantUtils.Lunch).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -426,9 +419,6 @@ public class MealFragment extends Fragment {
                     tv_date.setText(time);
                 }
 
-
-                DatabaseReference ref;
-                ref = FirebaseDatabase.getInstance().getReference();
                 ref.child(ConstantUtils.Breakfast).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -458,7 +448,6 @@ public class MealFragment extends Fragment {
 
                     }
                 });
-
 
                 ref.child(ConstantUtils.Lunch).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override

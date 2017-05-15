@@ -30,13 +30,7 @@ import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
-import com.dev.minhmin.gymmanager.model.Workout;
-import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
@@ -118,9 +112,18 @@ public class MainActivity extends AppCompatActivity
 //        listwo.add(workout);
 //        listwo.add(workout);
 //        listwo.add(workout);
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref.child("Workout").setValue(listwo);
 
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+////        ref.child("Workout").setValue(listwo);
+//
+//        Food f1 = new Food("baker", "baker", "baker.png", "g", 10, 1, 1, 1, 1);
+//        Food f2 = new Food("egg", "egg", "egg.png", "g", 10, 1, 1, 1, 1);
+//        Food f3 = new Food("broccoli", "broccoli", "broccoli.png", "g", 10, 1, 1, 1, 1);
+//        Food f4 = new Food("shrimp", "shrimp", "shrimp.png", "g", 10, 1, 1, 1, 1);
+//        ref.child("Food").child(f1.getId()).setValue(f1);
+//        ref.child("Food").child(f2.getId()).setValue(f2);
+//        ref.child("Food").child(f3.getId()).setValue(f3);
+//        ref.child("Food").child(f4.getId()).setValue(f4);
     }
 
     private void findViewByID() {

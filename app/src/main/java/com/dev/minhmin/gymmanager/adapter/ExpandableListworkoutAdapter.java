@@ -19,6 +19,7 @@ import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +34,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     private Activity activity;
     private ArrayList<String> listHeader = new ArrayList<>();
     private HashMap<String, ArrayList<WorkoutExercise>> listData = new HashMap<>();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     public ExpandableListworkoutAdapter(Activity activity, ArrayList<String> listHeader, HashMap<String, ArrayList<WorkoutExercise>> listData) {
         this.activity = activity;
@@ -92,9 +94,9 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         }
         if (listData.get(listHeader.get(i)).get(0).isChecked()) {
             holder.cbComplete.setChecked(true);
-            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+            DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
             Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
-            ref.setValue(p);
+            mref.setValue(p);
         } else holder.cbComplete.setChecked(false);
         holder.tvTitle.setText(listHeader.get(i));
         holder.ivDetail.setOnClickListener(new View.OnClickListener() {
@@ -112,14 +114,14 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
                     listData.get(listHeader.get(i)).get(0).setChecked(true);
                     Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
-                    ref.setValue(p);
+                    mref.setValue(p);
                 } else {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
                     listData.get(listHeader.get(i)).get(0).setChecked(false);
-                    ref.setValue(null);
+                    mref.setValue(null);
                 }
             }
         });

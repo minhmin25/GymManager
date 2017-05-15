@@ -3,29 +3,24 @@ package com.dev.minhmin.gymmanager.fragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.StatisticAdapter;
-import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.Statistic;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,7 +48,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
     private float totalFood = 0;
     private float totalRemain = 0;
     private float totalBreak = 0, totalLunch = 0, totalDinner = 0, totalSnak = 0;
-    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     public static StatisticFragment newInstance() {
         StatisticFragment fragment = new StatisticFragment();
@@ -77,7 +72,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
         WorkoutExercise workoutExercise = new WorkoutExercise("1", "cu", 1, 1, "ref", 1, "a", false, "ref");
         pr.setChecked(false);
         pr.setWorkoutExercise(workoutExercise);
-        ref.child(("listPractice")).child("14-05-2017").child(workoutExercise.getName()).setValue(pr);
+        ref.child("Statistic").child(("listPractice")).child("14-05-2017").child(workoutExercise.getName()).setValue(pr);
         final MethodUtils methodUtils = new MethodUtils();
         date = methodUtils.getTimeNow();
 //
@@ -136,7 +131,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 //
 //            }
 //        });
-        ref.child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("Statistic").child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listPractices.clear();
