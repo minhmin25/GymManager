@@ -53,25 +53,25 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("height", height);
                     value.put("weight", weight);
                     value.put("age", age);
-                    float gold, w, h, a;
+                    float goal, w, h, a;
                     w = Float.parseFloat(weight);
                     h = Float.parseFloat(height);
                     a = Float.parseFloat(age);
                     if (rbFemale.isChecked()) {
                         gender = rbFemale.getText().toString();
                         value.put("gender", gender);
-                        gold = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
-                        value.put("gold", gold);
+                        goal = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
+                        value.put("goal", goal);
                     } else {
                         gender = rbMale.getText().toString();
                         value.put("gender", gender);
-                        gold = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
-                        value.put("gold", gold);
+                        goal = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
+                        value.put("goal", goal);
                     }
                     value.put("name", user.getDisplayName());
                     value.put("email", user.getEmail());
                     value.put("imageUrl", user.getPhotoUrl());
-                    User u = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), gold);
+                    User u = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), goal);
                     ref.child(user.getUid()).setValue(u);
                     startActivity(new Intent(InformationActivity.this, MainActivity.class));
                 }
