@@ -87,15 +87,15 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
         adapter = new StatisticAdapter(getActivity(), listPractices, date, this);
         lvPractice.setAdapter(adapter);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference re = ref.child("User").child(user.getUid()).child("goal");
-        re.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference re = FirebaseDatabase.getInstance().getReference();
+
+        re.child("User").child(user.getUid()).child("goal").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 goal = dataSnapshot.getValue(Float.class);
                 tv_goal.setText(goal + "");
                 DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalGoal");
                 mref.setValue(goal);
-                //     ref.child(("Statistic")).child(date).child("totalGoal").setValue(goal);
 
             }
 
@@ -126,6 +126,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
                 tv_remain.setText(totalRemain + "");
                 DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalRemain");
                 mref.setValue(totalRemain);
+
             }
 
             @Override
@@ -133,28 +134,108 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 
             }
         });
-        ref.child("Statistic").child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listPractices.clear();
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     Practice p = i.getValue(Practice.class);
                     listPractices.add(p);
+                    totalExcer = p.getWorkoutExercise().getKalo();
 
                 }
                 adapter.notifyDataSetChanged();
-                tv_excer.setText(totalExcer + "");
+                tv_excer.setText(totalExcer + "Calories");
                 tv_excer_2.setText(totalExcer + " Calories");
                 totalRemain = goal - totalFood + totalExcer;
                 tv_remain.setText(totalRemain + "");
                 DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalRemain");
                 mref.setValue(totalRemain);
+                DatabaseReference mre = ref.child(("Statistic")).child(date).child("totalExercise");
+                mref.setValue(totalExcer);
+
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                totalBreak = 0;
+                totalExcer = 0;
+                totalFood = 0;
+                totalRemain = 0;
+                goal = 0;
+                totalLunch = 0;
+                totalRemain = 0;
+
+                date = methodUtils.UpDownDay(date, -1);
+//
+                if (date.equals(methodUtils.getTimeNow())) {
+                    tv_date.setText("Today");
+                } else {
+                    tv_date.setText(date);
+                }
+
+////
+                ref.child("Statistic").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        statistic = dataSnapshot.getValue(Statistic.class);
+                        goal = statistic.getTotalGoal();
+                        //   totalBreak = statistic.getTotalBreakfast();
+//                        totalDinner = statistic.getTotalDinner();
+//                        totalLunch = statistic.getTotalLunch();
+//                        totalSnak = statistic.getTotalSnack();
+////                        totalFood = totalBreak + totalDinner + totalLunch + totalSnak;
+//                        tv_breakfast.setText(totalBreak + "");
+//                        tv_lunch.setText(totalLunch + "");
+//                        tv_snack.setText(totalSnak + "");
+//                        tv_dinner.setText(totalDinner + "");
+//                        tv_food.setText(totalFood + "");
+//                        tv_food_2.setText(totalFood + "");
+//                        totalRemain = goal - totalFood + totalExcer;
+//                        tv_remain.setText(totalRemain + "");
+//                        tv_goal.setText(goal + "");
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                ref.child("listPractice").child(date).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        listPractices.clear();
+                        for (DataSnapshot i : dataSnapshot.getChildren()) {
+                            Practice p = i.getValue(Practice.class);
+                            listPractices.add(p);
+                            if (p.isChecked()) {
+                                totalExcer = p.getWorkoutExercise().getKalo();
+                            }
+
+                        }
+                        adapter.notifyDataSetChanged();
+                        tv_excer.setText(totalExcer + "Calories");
+                        tv_excer_2.setText(totalExcer + " Calories");
+//                        totalRemain = goal - totalFood + totalExcer;
+//                        tv_remain.setText(totalRemain + "");
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -165,6 +246,8 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
     }
 
     private void updateUI() {
+        tv_goal.setText(goal + "");
+        tv_food.setText(totalFood + "");
         tv_breakfast.setText(totalBreak + "");
         tv_dinner.setText(totalDinner + "");
         tv_lunch.setText(totalLunch + "");
@@ -215,6 +298,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 
     @Override
     public void calculate(int i, boolean value) {
+
         listPractices.get(i).setChecked(value);
         if (value == true) {
             totalExcer = totalExcer + (float) listPractices.get(i).getWorkoutExercise().getKalo();

@@ -75,7 +75,7 @@ public class StatisticAdapter extends BaseAdapter {
         viewholder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                DatabaseReference mref = ref.child("Statistic").child(date).child(listPractices.get(i).getWorkoutExercise().getName()).child("checked");
+                DatabaseReference mref = ref.child("listPractice").child(date).child(listPractices.get(i).getWorkoutExercise().getName()).child("checked");
                 if (isChecked) {
                     listPractices.get(i).setChecked(true);
                     mref.setValue(true);
