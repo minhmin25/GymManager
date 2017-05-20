@@ -274,10 +274,11 @@
                 android:src="@drawable/stand" />
 
             <TextView
+                android:paddingLeft="4dp"
                 android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:text="Meals"
                 android:textColor="@color/colorWhite"
                 android:textSize="22sp"
@@ -285,13 +286,11 @@
 
             <TextView
 
-
+                android:id="@+id/tv_food_2_statistic"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-
-
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorWhite"
                 android:textSize="20sp" />
 
 
@@ -528,7 +527,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="@color/colorBlack"
+                android:textColor="@color/colorWhite"
                 android:textSize="20sp" />
 
 

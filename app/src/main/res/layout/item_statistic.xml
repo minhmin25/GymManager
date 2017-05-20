@@ -49,6 +49,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <ImageView
+            android:src="@drawable/delete_bin"
+            android:id="@+id/iv_delete_statistic"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
 
     </LinearLayout>
 
