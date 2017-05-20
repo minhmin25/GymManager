@@ -24,7 +24,9 @@ public class ProfileFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_PROFILE, false, false);
+        MainActivity.stateStatistic = ConstantUtils.FRAGMENT_PROFILE;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateStatistic);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         return viewGroup;
     }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.dev.minhmin.gymmanager.R;
@@ -15,6 +16,7 @@ import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListExerciseAdapter;
 import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,10 +31,10 @@ import java.util.ArrayList;
  * Created by Minh min on 4/19/2017.
  */
 
-public class ListExerciseFragment extends Fragment {
+public class ListExerciseFragment extends Fragment implements OnBackPressedListener {
 
-    ListExerciseAdapter adapter;
-    ListView lv_exercise;
+    private ListExerciseAdapter adapter;
+    private ListView lv_exercise;
     private ArrayList<Exercise> listExercises = new ArrayList<>();
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
@@ -47,8 +49,11 @@ public class ListExerciseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.stateExercise = ConstantUtils.FRAGMENT_LIST_EXERCISE;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_list, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, true, false);
+        ((MainActivity) getActivity()).updateActionbar(true, false);
         return viewGroup;
     }
 
@@ -89,24 +94,35 @@ public class ListExerciseFragment extends Fragment {
             }
         });
 
-//        lv_exercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("position", i);
-//                bundle.putString("path", type);
-//                Fragment fragment = new ExerciseDetailFragment().newInstance();
-//                fragment.setArguments(bundle);
-//                replaceFragment(fragment);
-//            }
-//        });
+        lv_exercise.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", i);
+                bundle.putString("part", type);
+                Fragment fragment = new ExerciseDetailFragment().newInstance();
+                fragment.setArguments(bundle);
+                replaceFragment(fragment);
+            }
+        });
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(null);
+        ft.hide(this);
+        ft.add(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
         ft.commit();
     }
 
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 4) {
+            MainActivity.stateExercise = ConstantUtils.FRAGMENT_EXERCISE;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
+//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+            getActivity().getFragmentManager().popBackStack();
+        }
+    }
 }

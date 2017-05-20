@@ -35,7 +35,7 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_EXERCISE, false, false);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
         layoutAbs = (LinearLayout) view.findViewById(R.id.layout_abdominals);
         layoutAbs.setOnClickListener(this);
@@ -122,7 +122,8 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment);
+        ft.hide(this);
+        ft.add(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
         ft.commit();
     }
 

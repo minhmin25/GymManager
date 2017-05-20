@@ -1,6 +1,5 @@
 package com.dev.minhmin.gymmanager.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -31,6 +30,8 @@ import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,7 +47,7 @@ import java.util.ArrayList;
  * Created by Administrator on 5/6/2017.
  */
 
-public class ListFoodFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ListFoodFragment extends Fragment implements SearchView.OnQueryTextListener, OnBackPressedListener, OnAddPressedListener {
     private ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
     private String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
     private DataCenter dataCenter;
@@ -66,7 +67,6 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     private ListFoodAdapter adapter;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
-    private onAddNewFoodListener mCallback;
 
     public static ListFoodFragment newInstance() {
         ListFoodFragment fragment = new ListFoodFragment();
@@ -77,7 +77,11 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_listfood, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_FOOD, true, true);
+        ((MainActivity) getActivity()).updateActionbar(true, true);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
+        ((MainActivity) getActivity()).setOnAddPressedListener(this);
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         return viewGroup;
     }
 
@@ -86,7 +90,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         super.onActivityCreated(savedInstanceState);
         init();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.child("Food").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listFoods.clear();
@@ -206,17 +210,6 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mCallback = (ListFoodFragment.onAddNewFoodListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
@@ -261,15 +254,16 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.replace(R.id.layout_meal, fragment);
         ft.commit();
     }
 
     private void nextFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-//        ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.hide(this);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
     }
 
@@ -288,8 +282,21 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         return true;
     }
 
-    public interface onAddNewFoodListener {
-        boolean addNewFood();
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 3) {
+            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+            getActivity().getFragmentManager().popBackStack();
+            MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+        }
+    }
+
+    @Override
+    public void doAdd() {
+        if (MainActivity.stateMeal == ConstantUtils.FRAGMENT_LIST_FOOD) {
+            transToAddFoodFragment();
+        }
     }
 
 }

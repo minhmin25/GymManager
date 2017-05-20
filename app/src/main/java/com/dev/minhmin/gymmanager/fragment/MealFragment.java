@@ -42,6 +42,7 @@ public class MealFragment extends Fragment {
     private String date = "";
     private LinearLayout layout_break, layout_lunch, layout_din, layout_snack, layout_listfood;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
     public static MealFragment newInstance() {
         MealFragment fragment = new MealFragment();
         return fragment;
@@ -51,7 +52,7 @@ public class MealFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_MEAL, false, false);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         return viewGroup;
     }
 
@@ -226,11 +227,13 @@ public class MealFragment extends Fragment {
                 bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment().newInstance();
                 fragment.setArguments(bundle);
-                FragmentManager fm = getActivity().getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.addToBackStack(fragment.getClass().getName());
-                ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
-                ft.commit();
+                replaceFragment(fragment);
+//                FragmentManager fm = getActivity().getFragmentManager();
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.addToBackStack(fragment.getClass().getName());
+////                ft.hide(this);
+//                ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+//                ft.commit();
             }
         });
         layout_lunch.setOnClickListener(new View.OnClickListener() {
@@ -623,7 +626,8 @@ public class MealFragment extends Fragment {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+        ft.hide(this);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
         ft.commit();
     }
 

@@ -15,12 +15,13 @@ import android.webkit.WebViewClient;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 
 /**
  * Created by Minh min on 5/11/2017.
  */
 
-public class BlogDetailFragment extends Fragment {
+public class BlogDetailFragment extends Fragment implements OnBackPressedListener {
 
     private String key;
     private WebView webView;
@@ -33,7 +34,10 @@ public class BlogDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_BLOG, true, false);
+        MainActivity.stateMain = ConstantUtils.FRAGMENT_BLOG;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
+        ((MainActivity) getActivity()).updateActionbar(true, false);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_blog_detail, container, false);
         webView = (WebView) v.findViewById(R.id.wv_blog);
         WebSettings settings = webView.getSettings();
@@ -79,6 +83,16 @@ public class BlogDetailFragment extends Fragment {
         Bundle b = this.getArguments();
         if (b != null) {
             key = b.getString("url");
+        }
+    }
+
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 1) {
+            MainActivity.stateMain = ConstantUtils.FRAGMENT_HOME;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
+//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+            getActivity().getFragmentManager().popBackStack();
         }
     }
 }

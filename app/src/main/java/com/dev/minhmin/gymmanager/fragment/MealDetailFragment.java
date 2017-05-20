@@ -1,6 +1,5 @@
 package com.dev.minhmin.gymmanager.fragment;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -22,6 +21,8 @@ import com.dev.minhmin.gymmanager.model.LineItem;
 import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Administrator on 5/6/2017.
  */
 
-public class MealDetailFragment extends Fragment {
+public class MealDetailFragment extends Fragment implements OnBackPressedListener, OnAddPressedListener {
     private Meal meal = new Meal();
     private MealDetailAdapter adapter;
     private ListView listview;
@@ -44,9 +45,7 @@ public class MealDetailFragment extends Fragment {
     private String typeMeal = "";
     private String idFood = "";
     private String number = "";
-    private DatabaseReference fref = FirebaseDatabase.getInstance().getReference();
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-    private OnAddFoodListener mCallback;
 
     public static MealDetailFragment newInstance() {
         MealDetailFragment fragment = new MealDetailFragment();
@@ -56,20 +55,13 @@ public class MealDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(typeMeal, true, true);
+        ((MainActivity) getActivity()).updateActionbar(true, true);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
+        ((MainActivity) getActivity()).setOnAddPressedListener(this);
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_DETAIL;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
         return viewGroup;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mCallback = (OnAddFoodListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
     }
 
     @Override
@@ -77,6 +69,7 @@ public class MealDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         innit();
         final MethodUtils methodUtils = new MethodUtils();
+
         ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -234,8 +227,8 @@ public class MealDetailFragment extends Fragment {
                 meal.setDate(date);
                 meal.setId(date);
                 meal.setType(typeMeal);
-
-                fref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+                DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                mref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot i : dataSnapshot.getChildren()) {
@@ -267,13 +260,8 @@ public class MealDetailFragment extends Fragment {
 
                     }
                 });
-
-
             }
-
-
         }
-
     }
 
     private void innit() {
@@ -288,12 +276,29 @@ public class MealDetailFragment extends Fragment {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
         ft.commit();
     }
 
-    public interface OnAddFoodListener {
-        void addFood();
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 3) {
+            MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+//            getActivity().getFragmentManager().popBackStack();
+            Fragment fragment = MealFragment.newInstance();
+            FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+            ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+            ft.commit();
+        }
+    }
+
+    @Override
+    public void doAdd() {
+        if (MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_DETAIL) {
+            transToListFoodFragment();
+        }
     }
 
 

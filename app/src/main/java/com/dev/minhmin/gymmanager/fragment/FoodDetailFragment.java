@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +20,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,7 +38,7 @@ import com.google.firebase.storage.StorageReference;
  * Created by Administrator on 5/6/2017.
  */
 
-public class FoodDetailFragment extends Fragment {
+public class FoodDetailFragment extends Fragment implements OnBackPressedListener {
     private Food f = new Food();
     private TextView tv_number_food_dialog;
     private ImageView iv_food, iv_back_left;
@@ -58,6 +59,8 @@ public class FoodDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_FOOD_DETAIL;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_food_detail, container, false);
         return viewGroup;
     }
@@ -67,7 +70,7 @@ public class FoodDetailFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         innit();
 //        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-//        tv_title.setText(ConstantUtils.TITLE_FoodDeail);
+//        tv_title.setText(ConstantUtils.TITLE_FOOD_DETAIL);
 
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +82,6 @@ public class FoodDetailFragment extends Fragment {
                 Spinner spinner;
                 Button bt_add, bt_cancel;
                 TextView tv_name, tv_number_calo, tv_don_vi_food;
-
 
                 spinner = (Spinner) view_dialog.findViewById(R.id.spin_dialog_meal);
                 ArrayAdapter<String> adapterspin;
@@ -190,7 +192,7 @@ public class FoodDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // tv_title.setText(ConstantUtils.TITLE_FoodDeail);
+        // tv_title.setText(ConstantUtils.TITLE_FOOD_DETAIL);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             final String idFood = bundle.getString("idFood", "");
@@ -252,7 +254,16 @@ public class FoodDetailFragment extends Fragment {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_FOOD_DETAIL);
         ft.commit();
+    }
+
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 3) {
+            MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+            getActivity().getFragmentManager().popBackStack();
+        }
     }
 }

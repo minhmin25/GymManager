@@ -18,7 +18,6 @@ import com.dev.minhmin.gymmanager.adapter.StatisticAdapter;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.Statistic;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
-import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -59,8 +58,10 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+//        MainActivity.state = ConstantUtils.FRAGMENT_STATISTIC;
+//        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.state);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_statistic, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_STATISTIC, false, false);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         return viewGroup;
     }
 

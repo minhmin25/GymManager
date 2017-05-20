@@ -18,6 +18,7 @@ import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -158,7 +159,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment);
+        ft.replace(R.id.layout_workout, fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
         ft.commit();
     }
 

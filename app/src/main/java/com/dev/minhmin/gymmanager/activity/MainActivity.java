@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,25 +25,40 @@ import android.widget.TextView;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseFragment;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
-import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
-import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener, MealDetailFragment.OnAddFoodListener, ListFoodFragment.onAddNewFoodListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener {
 
+    public static int page = 1;
+    public static int stateMain = 0;
+    public static int stateWorkout = 0;
+    public static int stateMeal = 0;
+    public static int stateExercise = 0;
+    public static int stateStatistic = 0;
+    protected OnBackPressedListener onBackPressedListener;
+    protected OnAddPressedListener onAddPressedListener;
     private RadioGroup bottomBar;
     private RadioButton rbHome, rbWorkout, rbMeal, rbExercise, rbStatistic;
     private TextView tvTitleActionbar;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private ImageView ivBack, ivAdd;
-    private int page = 1;
+    private FrameLayout layoutMain, layoutWorkout, layoutMeal, layoutExercise, layoutStatistic;
 
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
+
+    public void setOnAddPressedListener(OnAddPressedListener onAddPressedListener) {
+        this.onAddPressedListener = onAddPressedListener;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +87,22 @@ public class MainActivity extends AppCompatActivity
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!addNewFood()) {
-                    addFood();
+                if (onAddPressedListener != null) {
+                    onAddPressedListener.doAdd();
                 }
             }
         });
         bottomBar.setOnCheckedChangeListener(this);
-        Fragment fragment = new HomeFragment().newInstance();
-        replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
+        Fragment fragment1 = new HomeFragment().newInstance();
+        Fragment fragment2 = new WorkoutFragment().newInstance();
+        Fragment fragment3 = new MealFragment().newInstance();
+        Fragment fragment4 = new ExerciseFragment().newInstance();
+        Fragment fragment5 = new StatisticFragment().newInstance();
+        replaceFragment(fragment1, ConstantUtils.FRAGMENT_TAG_HOME, R.id.layout_main);
+        replaceFragment(fragment2, ConstantUtils.FRAGMENT_TAG_WORKOUT, R.id.layout_workout);
+        replaceFragment(fragment3, ConstantUtils.FRAGMENT_TAG_MEAL, R.id.layout_meal);
+        replaceFragment(fragment4, ConstantUtils.FRAGMENT_TAG_EXERCISE, R.id.layout_exercise);
+        replaceFragment(fragment5, ConstantUtils.FRAGMENT_TAG_STATISTIC, R.id.layout_statistic);
         navigationView.setCheckedItem(R.id.nav_home);
 //        ArrayList<Exercise> list = new ArrayList<>();
 //        ArrayList<String> imageUrl = new ArrayList<>();
@@ -136,6 +160,11 @@ public class MainActivity extends AppCompatActivity
         rbMeal = (RadioButton) findViewById(R.id.rb_meal);
         rbExercise = (RadioButton) findViewById(R.id.rb_exercise);
         rbStatistic = (RadioButton) findViewById(R.id.rb_statistic);
+        layoutMain = (FrameLayout) findViewById(R.id.layout_main);
+        layoutWorkout = (FrameLayout) findViewById(R.id.layout_workout);
+        layoutMeal = (FrameLayout) findViewById(R.id.layout_meal);
+        layoutExercise = (FrameLayout) findViewById(R.id.layout_exercise);
+        layoutStatistic = (FrameLayout) findViewById(R.id.layout_statistic);
     }
 
     @Override
@@ -143,17 +172,18 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+        if (onBackPressedListener != null)
+            onBackPressedListener.doBack();
+        else
+            super.onBackPressed();
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
+    @Override
+    protected void onDestroy() {
+        onBackPressedListener = null;
+        super.onDestroy();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,38 +212,32 @@ public class MainActivity extends AppCompatActivity
             rbMeal.setChecked(false);
             rbExercise.setChecked(false);
             rbStatistic.setChecked(false);
-            page = 0;
+            page = 5;
             Fragment fragment = new ProfileFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_PROFILE);
+            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_PROFILE, R.id.layout_statistic);
         } else if (id == R.id.nav_home) {
             page = 1;
             rbHome.setChecked(true);
-            Fragment fragment = new HomeFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
+            updateTitle(page, stateMain);
         } else if (id == R.id.nav_workout) {
             page = 2;
             rbWorkout.setChecked(true);
-            Fragment fragment = new WorkoutFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_WORKOUT);
+            updateTitle(page, stateWorkout);
         } else if (id == R.id.nav_meal) {
             page = 3;
             rbMeal.setChecked(true);
-            Fragment fragment = new MealFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
+            updateTitle(page, stateMeal);
         } else if (id == R.id.nav_exercise) {
             page = 4;
             rbExercise.setChecked(true);
-            Fragment fragment = new ExerciseFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
+            updateTitle(page, stateExercise);
         } else if (id == R.id.nav_statistic) {
             page = 5;
             rbStatistic.setChecked(true);
-            Fragment fragment = new StatisticFragment().newInstance();
-            replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_STATISTIC);
+            updateTitle(page, stateStatistic);
         } else if (id == R.id.nav_group) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -224,46 +248,103 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void updateFragment(int page) {
+        switch (page) {
+            case 1: {
+                layoutMain.setVisibility(View.VISIBLE);
+                layoutWorkout.setVisibility(View.INVISIBLE);
+                layoutMeal.setVisibility(View.INVISIBLE);
+                layoutExercise.setVisibility(View.INVISIBLE);
+                layoutStatistic.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case 2: {
+                layoutMain.setVisibility(View.INVISIBLE);
+                layoutWorkout.setVisibility(View.VISIBLE);
+                layoutMeal.setVisibility(View.INVISIBLE);
+                layoutExercise.setVisibility(View.INVISIBLE);
+                layoutStatistic.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case 3: {
+                layoutMain.setVisibility(View.INVISIBLE);
+                layoutWorkout.setVisibility(View.INVISIBLE);
+                layoutMeal.setVisibility(View.VISIBLE);
+                layoutExercise.setVisibility(View.INVISIBLE);
+                layoutStatistic.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case 4: {
+                layoutMain.setVisibility(View.INVISIBLE);
+                layoutWorkout.setVisibility(View.INVISIBLE);
+                layoutMeal.setVisibility(View.INVISIBLE);
+                layoutExercise.setVisibility(View.VISIBLE);
+                layoutStatistic.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case 5: {
+                layoutMain.setVisibility(View.INVISIBLE);
+                layoutWorkout.setVisibility(View.INVISIBLE);
+                layoutMeal.setVisibility(View.INVISIBLE);
+                layoutExercise.setVisibility(View.INVISIBLE);
+                layoutStatistic.setVisibility(View.VISIBLE);
+                break;
+            }
+        }
+    }
+
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
         switch (i) {
             case R.id.rb_home: {
                 if (page == 1) break;
                 page = 1;
-                Fragment fragment = new HomeFragment().newInstance();
-                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_BLOG);
+                updateFragment(page);
+                updateTitle(page, stateMain);
+//                tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
+//                Fragment fragment = new HomeFragment().newInstance();
+//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_HOME);
                 navigationView.setCheckedItem(R.id.nav_home);
                 break;
             }
             case R.id.rb_workout: {
                 if (page == 2) break;
                 page = 2;
-                Fragment fragment = new WorkoutFragment().newInstance();
-                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_LIST_WORKOUT);
+                updateFragment(page);
+                updateTitle(page, stateWorkout);
+//                Fragment fragment = new WorkoutFragment().newInstance();
+//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
                 navigationView.setCheckedItem(R.id.nav_workout);
                 break;
             }
             case R.id.rb_meal: {
                 if (page == 3) break;
                 page = 3;
-                Fragment fragment = new MealFragment().newInstance();
-                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
+                updateFragment(page);
+                updateTitle(page, stateMeal);
+//                Fragment fragment = new MealFragment().newInstance();
+//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
                 navigationView.setCheckedItem(R.id.nav_meal);
                 break;
             }
             case R.id.rb_exercise: {
                 if (page == 4) break;
                 page = 4;
-                Fragment fragment = new ExerciseFragment().newInstance();
-                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
+                updateFragment(page);
+                updateTitle(page, stateExercise);
+//                Fragment fragment = new ExerciseFragment().newInstance();
+//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
                 navigationView.setCheckedItem(R.id.nav_exercise);
                 break;
             }
             case R.id.rb_statistic: {
                 if (page == 5) break;
                 page = 5;
+                stateStatistic = ConstantUtils.FRAGMENT_STATISTIC;
+                updateFragment(page);
+                updateTitle(page, stateStatistic);
                 Fragment fragment = new StatisticFragment().newInstance();
-                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_STATISTIC);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_STATISTIC, R.id.layout_statistic);
                 navigationView.setCheckedItem(R.id.nav_statistic);
                 break;
             }
@@ -278,8 +359,15 @@ public class MainActivity extends AppCompatActivity
         ft.commit();
     }
 
-    public void updateActionbar(String title, boolean isShowBack, boolean isShowAdd) {
-        tvTitleActionbar.setText(title);
+    public void replaceFragment(Fragment fragment, String TAG, int id) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(id, fragment, TAG);
+        ft.commit();
+    }
+
+    public void updateActionbar(boolean isShowBack, boolean isShowAdd) {
         if (isShowBack) {
             toggle.setDrawerIndicatorEnabled(false);
             ivBack.setVisibility(View.VISIBLE);
@@ -295,21 +383,107 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void addFood() {
-        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
-        if (fragment != null) {
-            fragment.transToListFoodFragment();
+    public void updateTitle(int page, int state) {
+        switch (page) {
+            case 1: {
+                switch (state) {
+                    case ConstantUtils.FRAGMENT_HOME: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_BLOG: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_BLOG);
+                        break;
+                    }
+                    case 0: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 2: {
+                switch (state) {
+                    case ConstantUtils.FRAGMENT_WORKOUT: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_WORKOUT_EXERCISE: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        break;
+                    }
+                    case 0: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 3: {
+                switch (state) {
+                    case ConstantUtils.FRAGMENT_MEAL: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_DETAIL: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_LIST_FOOD: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_FOOD_DETAIL: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD_DETAIL);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_ADD_FOOD: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD);
+                        break;
+                    }
+                    case 0: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 4: {
+                switch (state) {
+                    case ConstantUtils.FRAGMENT_EXERCISE: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_LIST_EXERCISE: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        break;
+                    }
+                    case 0: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        break;
+                    }
+                }
+                break;
+            }
+            case 5: {
+                switch (state) {
+                    case ConstantUtils.FRAGMENT_PROFILE: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_PROFILE);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_STATISTIC: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_STATISTIC);
+                        break;
+                    }
+//                    case 0: {
+//                        tvTitleActionbar.setText(ConstantUtils.TITLE_STATISTIC);
+//                        break;
+//                    }
+                }
+                break;
+            }
+
         }
     }
 
-    @Override
-    public boolean addNewFood() {
-        ListFoodFragment fragment = (ListFoodFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
-        if (fragment != null) {
-            fragment.transToAddFoodFragment();
-            return true;
-        }
-        return false;
-    }
 }

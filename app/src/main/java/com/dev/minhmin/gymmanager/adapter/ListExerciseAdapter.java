@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.model.Exercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -81,29 +79,29 @@ public class ListExerciseAdapter extends BaseAdapter {
                 .into(viewholder.iv_exercise);
 
         final Exercise ex = listExercise.get(position);
-        viewholder.iv_exercise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-                bundle.putString("part", part);
-                Fragment fragment = new ExerciseDetailFragment().newInstance();
-                fragment.setArguments(bundle);
-                replaceFragment(fragment);
-            }
-        });
-
-        viewholder.tv_exercise_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putInt("position", position);
-                bundle.putString("part", part);
-                Fragment fragment = new ExerciseDetailFragment().newInstance();
-                fragment.setArguments(bundle);
-                replaceFragment(fragment);
-            }
-        });
+//        viewholder.iv_exercise.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("position", position);
+//                bundle.putString("part", part);
+//                Fragment fragment = new ExerciseDetailFragment().newInstance();
+//                fragment.setArguments(bundle);
+//                replaceFragment(fragment);
+//            }
+//        });
+//
+//        viewholder.tv_exercise_title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("position", position);
+//                bundle.putString("part", part);
+//                Fragment fragment = new ExerciseDetailFragment().newInstance();
+//                fragment.setArguments(bundle);
+//                replaceFragment(fragment);
+//            }
+//        });
         return view;
     }
 
@@ -111,7 +109,7 @@ public class ListExerciseAdapter extends BaseAdapter {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_main, fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE_DETAIL);
+        ft.add(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
         ft.commit();
     }
 

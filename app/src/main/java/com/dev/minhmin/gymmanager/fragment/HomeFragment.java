@@ -1,6 +1,8 @@
 package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,7 +42,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_HOME, false, false);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         View viewGroup = inflater.inflate(R.layout.fragment_home, container, false);
         lvBlog = (ListView) viewGroup.findViewById(R.id.lv_blog);
         adapter = new ListBlogAdapter(getActivity(), listBlogs);
@@ -69,7 +71,7 @@ public class HomeFragment extends Fragment {
                 bundle.putString("url", listBlogs.get(i).getContent());
                 BlogDetailFragment fragment = new BlogDetailFragment().newInstance();
                 fragment.setArguments(bundle);
-                ((MainActivity) getActivity()).replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_BLOG_DTAIL);
+                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_BLOG_DETAIL);
             }
         });
         return viewGroup;
@@ -83,7 +85,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
 
+    public void replaceFragment(Fragment fragment, String TAG) {
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.add(R.id.layout_main, fragment, TAG);
+        ft.commit();
     }
 
 }

@@ -43,7 +43,7 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_WORKOUT, false, false);
+        ((MainActivity) getActivity()).updateActionbar(false, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_workout, container, false);
         return viewGroup;
     }
@@ -91,7 +91,9 @@ public class WorkoutFragment extends Fragment implements AdapterView.OnItemClick
 
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.hide(this);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_workout, fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT);
         ft.commit();
     }
 

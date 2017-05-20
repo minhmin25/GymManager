@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ExpandableListworkoutAdapter;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +28,7 @@ import java.util.HashMap;
  * Created by Minh min on 5/10/2017.
  */
 
-public class WorkoutExerciseFragment extends Fragment {
+public class WorkoutExerciseFragment extends Fragment implements OnBackPressedListener {
 
     private ArrayList<WorkoutExercise> listWorkoutExercises = new ArrayList<>();
     private String key = "0";
@@ -45,7 +48,11 @@ public class WorkoutExerciseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.stateWorkout = ConstantUtils.FRAGMENT_WORKOUT_EXERCISE;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateWorkout);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_workout_exercise, container, false);
+        ((MainActivity) getActivity()).updateActionbar(true, false);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
         return viewGroup;
     }
 
@@ -93,4 +100,13 @@ public class WorkoutExerciseFragment extends Fragment {
 
     }
 
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 2) {
+            MainActivity.stateWorkout = ConstantUtils.FRAGMENT_WORKOUT;
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateWorkout);
+//            getActivity().getFragmentManager().beginTransaction().remove(this);
+            getActivity().getFragmentManager().popBackStack();
+        }
+    }
 }

@@ -95,7 +95,8 @@
         android:layout_above="@id/bottom_bar"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="10dp">
+        android:paddingTop="10dp"
+        android:visibility="visible">
 
     </FrameLayout>
 

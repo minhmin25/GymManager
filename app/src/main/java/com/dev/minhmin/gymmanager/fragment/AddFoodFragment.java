@@ -2,8 +2,6 @@ package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +25,7 @@ import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.model.Food;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
+import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -41,7 +40,7 @@ import java.io.ByteArrayOutputStream;
  * Created by Administrator on 5/12/2017.
  */
 
-public class AddFoodFragment extends Fragment {
+public class AddFoodFragment extends Fragment implements OnBackPressedListener {
     private final static int CAMERA_REQUEST = 1;
     private final static int GALLERY_REQUEST = 0;
     private EditText et_name, et_unit, et_count, et_calo, et_pro, et_fat, et_carb;
@@ -65,8 +64,11 @@ public class AddFoodFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_ADD_FOOD;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.dialog_add_food, container, false);
-        ((MainActivity) getActivity()).updateActionbar(ConstantUtils.TITLE_FOOD, true, false);
+        ((MainActivity) getActivity()).updateActionbar(true, false);
+        ((MainActivity) getActivity()).setOnBackPressedListener(this);
         return viewGroup;
     }
 
@@ -345,10 +347,21 @@ public class AddFoodFragment extends Fragment {
     }
 
     private void replaceFragment(Fragment fragment) {
-        FragmentManager fm = getActivity().getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
-        ft.commit();
+        doBack();
+//        FragmentManager fm = getActivity().getFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.layout_meal, fragment);
+//        ft.commit();
     }
 
+    @Override
+    public void doBack() {
+        if (MainActivity.page == 3) {
+            MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
+//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+            getActivity().getFragmentManager().popBackStack();
+            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+        }
+//        getActivity().getFragmentManager().popBackStack();
+    }
 }

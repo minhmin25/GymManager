@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.FoodDetailFragment;
 import com.dev.minhmin.gymmanager.model.Food;
+import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.FirebaseStorage;
@@ -121,7 +122,8 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_main, fragment);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
     }
 
