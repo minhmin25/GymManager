@@ -1,19 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
+    android:background="@color/colorWhite"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
 
+        android:orientation="vertical"
+        android:paddingTop="46dp"
         android:layout_width="match_parent"
         android:layout_height="250dp">
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/background_login_2" />
+
+        <TextView
+
+            android:drawableRight="@drawable/icon_login"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Healthy Lifestyle"
+            android:textSize="35sp" />
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:background="@drawable/edittext_line"
+            android:layout_width="300dp"
+            android:layout_height="15dp"></LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:layout_marginLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+
+                android:src="@drawable/login_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:paddingLeft="15dp"
+                android:src="@drawable/login_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:paddingLeft="15dp"
+                android:src="@drawable/login_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:paddingLeft="15dp"
+                android:src="@drawable/login_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:paddingLeft="15dp"
+                android:src="@drawable/login_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:paddingLeft="15dp"
+
+                android:src="@drawable/diet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-
+        android:paddingTop="20dp"
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,12 +94,14 @@
         android:orientation="vertical">
 
         <com.google.android.gms.common.SignInButton
+            android:paddingRight="25dp"
             android:id="@+id/btn_login_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"></com.google.android.gms.common.SignInButton>
 
         <com.facebook.login.widget.LoginButton
+            android:paddingRight="25dp"
             android:id="@+id/btn_login_facebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -95,7 +95,8 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         }
         if (listData.get(listHeader.get(i)).get(0).isChecked()) {
             holder.cbComplete.setChecked(true);
-            DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+            // DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+            DatabaseReference mref = ref.child("listPractice").child(time).child(listData.get(listHeader.get(i)).get(0).getName());
             Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
             mref.setValue(p);
         } else holder.cbComplete.setChecked(false);
@@ -115,12 +116,13 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    DatabaseReference mref = ref.child("listPractice").child(time).child(listData.get(listHeader.get(i)).get(0).getName());
                     listData.get(listHeader.get(i)).get(0).setChecked(true);
                     Practice p = new Practice(listData.get(listHeader.get(i)).get(0), false, "");
                     mref.setValue(p);
                 } else {
-                    DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
+                    DatabaseReference mref = ref.child("listPractice").child(time).child(listData.get(listHeader.get(i)).get(0).getName());
+                    //DatabaseReference mref = ref.child("Statistic").child(time).child("listPractice").child(listData.get(listHeader.get(i)).get(0).getName());
                     listData.get(listHeader.get(i)).get(0).setChecked(false);
                     mref.setValue(null);
                 }
