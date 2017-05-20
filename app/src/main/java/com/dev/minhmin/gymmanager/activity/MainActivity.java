@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
         getSupportActionBar().setCustomView(customActionbar);
