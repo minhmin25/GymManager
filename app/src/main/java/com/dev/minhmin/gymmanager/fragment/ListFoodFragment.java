@@ -58,7 +58,6 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     private TextView tv_name, tv_number_food, tv_number_calo, tv_don_vi_food, tv_detail_don_vi_food;
     private Spinner spinner;
     private SearchView searchView;
-    private int[] image = new int[]{R.drawable.b1, R.drawable.b2, R.drawable.b3, R.drawable.b4};
     private ListView lvFood;
     private ListFoodAdapter adapter;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
