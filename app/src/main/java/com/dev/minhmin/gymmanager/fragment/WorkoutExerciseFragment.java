@@ -30,10 +30,8 @@ import java.util.HashMap;
 
 public class WorkoutExerciseFragment extends Fragment implements OnBackPressedListener {
 
+    public static String key = "0";
     private ArrayList<WorkoutExercise> listWorkoutExercises = new ArrayList<>();
-    private String key = "0";
-    //    private ListView lvWorkout;
-//    private ListExerciseWorkoutAdapter adapter;
     private ExpandableListView exListview;
     private ExpandableListworkoutAdapter adapter;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -51,7 +49,6 @@ public class WorkoutExerciseFragment extends Fragment implements OnBackPressedLi
         MainActivity.stateWorkout = ConstantUtils.FRAGMENT_WORKOUT_EXERCISE;
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateWorkout);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_workout_exercise, container, false);
-        ((MainActivity) getActivity()).updateActionbar(true, false);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         return viewGroup;
     }
@@ -60,7 +57,6 @@ public class WorkoutExerciseFragment extends Fragment implements OnBackPressedLi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         exListview = (ExpandableListView) getView().findViewById(R.id.exListview);
-//        lvWorkout = (ListView) getView().findViewById(R.id.lv_workout);
         ref.child("Workout").child(key).child("listWorkoutExercise").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -84,8 +80,6 @@ public class WorkoutExerciseFragment extends Fragment implements OnBackPressedLi
 
             }
         });
-//        adapter = new ListExerciseWorkoutAdapter(getActivity(), listWorkoutExercises);
-//        lvWorkout.setAdapter(adapter);
         adapter = new ExpandableListworkoutAdapter(getActivity(), listHeader, listdata);
         exListview.setAdapter(adapter);
     }
@@ -97,16 +91,10 @@ public class WorkoutExerciseFragment extends Fragment implements OnBackPressedLi
         if (bundle != null) {
             key = bundle.getString("key");
         }
-
     }
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 2) {
-            MainActivity.stateWorkout = ConstantUtils.FRAGMENT_WORKOUT;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateWorkout);
-//            getActivity().getFragmentManager().beginTransaction().remove(this);
-            getActivity().getFragmentManager().popBackStack();
-        }
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_workout, new WorkoutFragment().newInstance()).commit();
     }
 }

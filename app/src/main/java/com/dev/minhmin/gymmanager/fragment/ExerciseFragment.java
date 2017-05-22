@@ -35,7 +35,8 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(false, false);
+        MainActivity.stateExercise = ConstantUtils.FRAGMENT_EXERCISE;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_exercise, container, false);
         layoutAbs = (LinearLayout) view.findViewById(R.id.layout_abdominals);
         layoutAbs.setOnClickListener(this);
@@ -114,22 +115,23 @@ public class ExerciseFragment extends Fragment implements View.OnClickListener {
                 break;
             }
         }
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
         ft.addToBackStack(fragment.getClass().getName());
-        ft.hide(this);
-        ft.add(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
         ft.commit();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 }

@@ -2,6 +2,8 @@ package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -67,7 +69,7 @@ public class AddFoodFragment extends Fragment implements OnBackPressedListener {
         MainActivity.stateMeal = ConstantUtils.FRAGMENT_ADD_FOOD;
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.dialog_add_food, container, false);
-        ((MainActivity) getActivity()).updateActionbar(true, false);
+//        ((MainActivity) getActivity()).updateActionbar(true, false);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         return viewGroup;
     }
@@ -124,13 +126,6 @@ public class AddFoodFragment extends Fragment implements OnBackPressedListener {
                 seclectedImage();
             }
         });
-//        et_name.setText("a");
-//        et_unit.setText("g");
-//        et_count.setText("1");
-//        et_calo.setText("1");
-//        et_pro.setText("1");
-//        et_fat.setText("1");
-//        et_carb.setText("1");
         final String name = et_name.getText().toString();
         final String unit = et_unit.getText().toString();
         final String count = et_count.getText().toString();
@@ -342,26 +337,23 @@ public class AddFoodFragment extends Fragment implements OnBackPressedListener {
         bt_addd = (Button) getView().findViewById(R.id.bt_dialog_add_food_add_food);
         bt_can = (Button) getView().findViewById(R.id.bt_dialog_add_food_cancel_food);
         iv_food = (ImageView) getView().findViewById(R.id.iv_dialog_add);
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
-        doBack();
-//        FragmentManager fm = getActivity().getFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        ft.replace(R.id.layout_meal, fragment);
-//        ft.commit();
+        FragmentManager fm = getActivity().getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.layout_meal, fragment);
+        ft.commit();
     }
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 3) {
-            MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
-//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-            getActivity().getFragmentManager().popBackStack();
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
-        }
-//        getActivity().getFragmentManager().popBackStack();
+        Bundle bundle = new Bundle();
+        bundle.putString("typeMeal", typeMeal);
+        bundle.putString("date", date);
+        ListFoodFragment fragment = new ListFoodFragment();
+        fragment.setArguments(bundle);
+        replaceFragment(fragment);
     }
+
 }

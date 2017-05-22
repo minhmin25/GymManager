@@ -53,10 +53,8 @@ public class ListExerciseFragment extends Fragment implements OnBackPressedListe
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_list, container, false);
-        ((MainActivity) getActivity()).updateActionbar(true, false);
         return viewGroup;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,19 +108,14 @@ public class ListExerciseFragment extends Fragment implements OnBackPressedListe
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack(null);
-        ft.hide(this);
-        ft.add(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
+        ft.addToBackStack(fragment.getClass().getName());
+        ft.replace(R.id.layout_exercise, fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE_DETAIL);
         ft.commit();
     }
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 4) {
-            MainActivity.stateExercise = ConstantUtils.FRAGMENT_EXERCISE;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
-//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-            getActivity().getFragmentManager().popBackStack();
-        }
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_exercise, new ExerciseFragment().newInstance(), ConstantUtils.FRAGMENT_TAG_EXERCISE).commit();
     }
+
 }

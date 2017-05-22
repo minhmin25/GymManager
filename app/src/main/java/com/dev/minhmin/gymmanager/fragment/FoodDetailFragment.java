@@ -49,7 +49,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
     private String typeMeal = ConstantUtils.Breakfast;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
-    private TextView tv_title;
 
     public static FoodDetailFragment newInstance() {
         FoodDetailFragment fragment = new FoodDetailFragment();
@@ -69,24 +68,18 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         innit();
-//        tv_title = (TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
-//        tv_title.setText(ConstantUtils.TITLE_FOOD_DETAIL);
-
         btadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 View view_dialog = getActivity().getLayoutInflater().inflate(R.layout.dialog_edit_food, null);
                 ImageView iv_food, iv_plus, iv_sub;
                 Spinner spinner;
                 Button bt_add, bt_cancel;
                 TextView tv_name, tv_number_calo, tv_don_vi_food;
-
                 spinner = (Spinner) view_dialog.findViewById(R.id.spin_dialog_meal);
                 ArrayAdapter<String> adapterspin;
                 final String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
-//
                 adapterspin = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinmeal);
                 adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 spinner.setAdapter(adapterspin);
@@ -97,11 +90,9 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                 tv_number_calo = (TextView) view_dialog.findViewById(R.id.tv_dialog_number_calo);
                 tv_number_food_dialog = (TextView) view_dialog.findViewById(R.id.tv_dialog_number_food);
                 tv_name.setText(f.getName());
-
                 iv_food = (ImageView) view_dialog.findViewById(R.id.iv_dialog_food);
                 iv_plus = (ImageView) view_dialog.findViewById(R.id.iv_dialog_plus);
                 iv_sub = (ImageView) view_dialog.findViewById(R.id.iv_dialog_sub);
-
                 tv_number_calo.setText(f.getCalo() + " Calo");
                 tv_don_vi_food.setText("  " + "x" + f.getCount() + " " + f.getUnit());
                 tv_number_food_dialog.setText(1 + "");
@@ -112,8 +103,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                         .crossFade()
                         .diskCacheStrategy(DiskCacheStrategy.RESULT)
                         .into(iv_food);
-
-
                 iv_plus.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -135,8 +124,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                             number = 1;
                         }
                         tv_number_food_dialog.setText(number + "");
-
-
                     }
                 });
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -150,9 +137,7 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
 
                     }
                 });
-
                 builder.setView(view_dialog);
-
                 final AlertDialog dialog = builder.create();
                 dialog.show();
                 bt_add.setOnClickListener(new View.OnClickListener() {
@@ -170,11 +155,8 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                             MealDetailFragment fragment = new MealDetailFragment();
                             fragment.setArguments(bundle);
                             replaceFragment(fragment);
-
                         }
                         dialog.cancel();
-
-
                     }
                 });
                 bt_cancel.setOnClickListener(new View.OnClickListener() {
@@ -183,10 +165,8 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                         dialog.cancel();
                     }
                 });
-
             }
         });
-
     }
 
     @Override
@@ -216,7 +196,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                 }
             });
         }
-
     }
 
 
@@ -228,7 +207,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(iv_food);
-        //iv_food.setImageResource(food.getImageUrl());
         tv_name.setText(food.getName());
         tv_calo.setText(food.getCalo() + " " + ConstantUtils.unitCalo);
         tv_pro.setText(food.getProtein() + " " + ConstantUtils.unitPro);
@@ -238,7 +216,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
     }
 
     private void innit() {
-        //  tv_title=(TextView)((AppCompatActivity)getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.tv_title_actionbar);
         iv_food = (ImageView) getView().findViewById(R.id.iv_food_detail);
         tv_name = (TextView) getView().findViewById(R.id.tv_name_food_detail);
         tv_calo = (TextView) getView().findViewById(R.id.tv_calories_food_detail);
@@ -247,8 +224,6 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
         tv_carb = (TextView) getView().findViewById(R.id.tv_carb_food_detail);
         tv_number_unit = (TextView) getView().findViewById(R.id.tv_number_unit);
         btadd = (Button) getView().findViewById(R.id.bt_add_to_diary);
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -260,10 +235,8 @@ public class FoodDetailFragment extends Fragment implements OnBackPressedListene
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 3) {
-            MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
-            getActivity().getFragmentManager().popBackStack();
-        }
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+        getActivity().getFragmentManager().popBackStack();
     }
 }
