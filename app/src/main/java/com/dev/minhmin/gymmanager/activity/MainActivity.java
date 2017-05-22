@@ -22,6 +22,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.AddFoodFragment;
 import com.dev.minhmin.gymmanager.fragment.BlogDetailFragment;
@@ -40,6 +42,10 @@ import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
 import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RadioGroup.OnCheckedChangeListener {
@@ -59,6 +65,8 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private ImageView ivBack, ivAdd;
     private FrameLayout layoutMain, layoutWorkout, layoutMeal, layoutExercise, layoutStatistic;
+    private TextView tvAccName, tvAccEmail;
+    private CircleImageView ivAccImage;
 
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.onBackPressedListener = onBackPressedListener;
@@ -83,6 +91,19 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        View v = navigationView.getHeaderView(0);
+        tvAccName = (TextView) v.findViewById(R.id.tv_nav_profile_name);
+        tvAccEmail = (TextView) v.findViewById(R.id.tv_nav_profile_email);
+        ivAccImage = (CircleImageView) v.findViewById(R.id.iv_nav_profile_image);
+        tvAccName.setText(user.getDisplayName());
+        tvAccEmail.setText(user.getEmail());
+        Glide.with(getApplicationContext()).load(user.getPhotoUrl())
+                .thumbnail(0.5f)
+                .crossFade()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(ivAccImage);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         View customActionbar = LayoutInflater.from(this).inflate(R.layout.action_bar_layout, null);
         getSupportActionBar().setCustomView(customActionbar);

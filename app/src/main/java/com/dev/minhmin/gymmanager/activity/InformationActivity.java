@@ -53,12 +53,13 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("height", height);
                     value.put("weight", weight);
                     value.put("age", age);
-                    float goal, w, h, a;
+                    float goal, w, h;
+                    int a;
                     w = Float.parseFloat(weight);
                     h = Float.parseFloat(height);
-                    a = Float.parseFloat(age);
+                    a = Integer.parseInt(age);
                     if (rbFemale.isChecked()) {
-                        gender = rbFemale.getText().toString();
+                        gender = rbFemale.getText().toString().trim();
                         value.put("gender", gender);
                         goal = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
                         value.put("goal", goal);
@@ -71,7 +72,7 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("name", user.getDisplayName());
                     value.put("email", user.getEmail());
                     value.put("imageUrl", user.getPhotoUrl());
-                    User u = new User(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), goal);
+                    User u = new User(user.getUid(), user.getDisplayName(), a, user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), goal);
                     ref.child(user.getUid()).setValue(u);
                     startActivity(new Intent(InformationActivity.this, MainActivity.class));
                 }
