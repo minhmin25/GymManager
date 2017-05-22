@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxLines="2"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         android:textSize="35sp"
         android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="right"
+            android:gravity="end"
             android:text="Calories burned: "
             android:textColor="@color/colorBlack"
             android:textSize="15sp" />
@@ -39,9 +39,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:paddingLeft="10dp"
-            android:textColor="#FFFF4444"
+            android:textColor="@color/colorRed"
             android:textSize="15sp" />
     </LinearLayout>
 
@@ -50,12 +50,13 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Instruction"
-        android:textColor="#000000"
+        android:textColor="@color/colorBlack"
         android:textSize="20sp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="140dp"
+        android:paddingBottom="5dp">
 
         <TextView
             android:id="@+id/tv_exercise_instruction"
@@ -63,7 +64,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:textColor="#000000" />
+            android:textColor="@color/colorBlack" />
 
     </ScrollView>
 
@@ -71,8 +72,9 @@
         android:id="@+id/bt_add_exercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="center"
         android:background="@drawable/button"
-        android:text="Add" />
+        android:text="Add"
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>
