@@ -210,40 +210,48 @@ public class MealDetailAdapter extends BaseAdapter {
         viewholder.iv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                MethodUtils methodUtils = new MethodUtils();
+                if (methodUtils.compareDate(date) == 1) {
+                    Toast.makeText(activity, "Ngày " + date + " đã qua, Bạn không thể xóa food", Toast.LENGTH_LONG).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-                builder.setMessage("Do you really want to delete?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i1) {
+                    builder.setMessage("Do you really want to delete?")
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i1) {
+
 //                                DataCenter dataCenter = new DataCenter();
 //                                dataCenter.deleteItem(meal.getItems().get(i).getId(), date, type);
-                                meal.getItems().remove(i);
-                                ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
-                                notifyDataSetChanged();
-                                if (meal.getType().equals(ConstantUtils.Breakfast)) {
-                                    ref.child("Statistic").child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                                    meal.getItems().remove(i);
+                                    ref.child(meal.getType()).child(date).updateChildren(meal.toMap());
+                                    notifyDataSetChanged();
+                                    if (meal.getType().equals(ConstantUtils.Breakfast)) {
+                                        ref.child("Statistic").child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                                    }
+                                    if (meal.getType().equals(ConstantUtils.Lunch)) {
+                                        ref.child("Statistic").child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                                    }
+                                    if (meal.getType().equals(ConstantUtils.Dinner)) {
+                                        ref.child("Statistic").child(date).child("totalDinner").setValue(meal.getTotalCalo());
+                                    }
+                                    if (meal.getType().equals(ConstantUtils.Snack)) {
+                                        ref.child("Statistic").child(date).child("totalSnack").setValue(meal.getTotalCalo());
+                                    }
+                                    Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();
                                 }
-                                if (meal.getType().equals(ConstantUtils.Lunch)) {
-                                    ref.child("Statistic").child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
                                 }
-                                if (meal.getType().equals(ConstantUtils.Dinner)) {
-                                    ref.child("Statistic").child(date).child("totalDinner").setValue(meal.getTotalCalo());
-                                }
-                                if (meal.getType().equals(ConstantUtils.Snack)) {
-                                    ref.child("Statistic").child(date).child("totalSnack").setValue(meal.getTotalCalo());
-                                }
-                                Toast.makeText(activity, "Deleted successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                            });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                }
+
             }
         });
         return view;
