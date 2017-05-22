@@ -37,7 +37,7 @@ import com.google.firebase.storage.StorageReference;
 public class MealDetailAdapter extends BaseAdapter {
     private Activity activity;
     private Meal meal;
-    private int number = 0;
+    private int number = 1;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());

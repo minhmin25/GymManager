@@ -116,6 +116,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
                 layout_add.setVisibility(View.VISIBLE);
                 tv_name.setText(listFoods.get(position).getName() + "");
                 tv_number_calo.setText(listFoods.get(position).getCalo() + " " + ConstantUtils.unitCalo);
+
                 tv_number_food.setText("1");
                 tv_don_vi_food.setText(" x" + listFoods.get(position).getCount() + " " + listFoods.get(position).getUnit());
                 StorageReference mref = sref.child("food/" + listFoods.get(position).getImageUrl());
