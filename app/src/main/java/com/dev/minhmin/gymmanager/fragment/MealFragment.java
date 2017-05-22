@@ -51,8 +51,9 @@ public class MealFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal, container, false);
-        ((MainActivity) getActivity()).updateActionbar(false, false);
         return viewGroup;
     }
 
@@ -60,8 +61,6 @@ public class MealFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         init();
-        DataCenter dataCenter = new DataCenter();
-        //em dung k
         if (date.equals("")) {
             tv_date.setText("Today");
             time = methodUtils.getTimeNow();
@@ -69,12 +68,6 @@ public class MealFragment extends Fragment {
             tv_date.setText(date);
             time = date;
         }
-
-//        final Meal[] mealBreakfast = new Meal[1];
-//        final Meal[] mealLunch = new Meal[1];
-//        final MeMealal[] mealDin = new Meal[1];
-//        final [] mealSnack = new Meal[1];
-//        Log.e("ahihi", DataCenter.data.getUser().getId());
         ref.child("Breakfast").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -194,7 +187,6 @@ public class MealFragment extends Fragment {
             }
         });
 
-
         layout_break.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,8 +196,6 @@ public class MealFragment extends Fragment {
                 MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
-
-
             }
         });
         layout_din.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +207,6 @@ public class MealFragment extends Fragment {
                 MealDetailFragment fragment = new MealDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
-
             }
         });
         layout_listfood.setOnClickListener(new View.OnClickListener() {
@@ -227,13 +216,12 @@ public class MealFragment extends Fragment {
                 bundle.putString("date", time);
                 ListFoodFragment fragment = new ListFoodFragment().newInstance();
                 fragment.setArguments(bundle);
-                replaceFragment(fragment);
-//                FragmentManager fm = getActivity().getFragmentManager();
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ft.addToBackStack(fragment.getClass().getName());
-////                ft.hide(this);
-//                ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
-//                ft.commit();
+//                replaceFragment(fragment);
+                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.addToBackStack(fragment.getClass().getName());
+                ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+                ft.commit();
             }
         });
         layout_lunch.setOnClickListener(new View.OnClickListener() {
@@ -567,8 +555,6 @@ public class MealFragment extends Fragment {
         tv_fat.setText(totalFat + " " + ConstantUtils.unitFat);
         tv_pro.setText(totalPro + " " + ConstantUtils.unitPro);
         tv_carb.setText(totalCarb + " " + ConstantUtils.unitCarb);
-
-
     }
 
     @Override
@@ -618,16 +604,13 @@ public class MealFragment extends Fragment {
         layout_din = (LinearLayout) getView().findViewById(R.id.layout_dinner);
         layout_snack = (LinearLayout) getView().findViewById(R.id.layout_snack);
         layout_listfood = (LinearLayout) getView().findViewById(R.id.layout_listfood);
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.hide(this);
-        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
         ft.commit();
     }
 

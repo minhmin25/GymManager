@@ -26,7 +26,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         MainActivity.stateStatistic = ConstantUtils.FRAGMENT_PROFILE;
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateStatistic);
-        ((MainActivity) getActivity()).updateActionbar(false, false);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_profile, container, false);
         return viewGroup;
     }

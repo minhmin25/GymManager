@@ -47,6 +47,7 @@ public class ConstantUtils {
     public static final String FRAGMENT_TAG_MEAL = "MEAL_FRAGMENT";
     public static final String FRAGMENT_TAG_STATISTIC = "STATISTIC_FRAGMENT";
     public static final String FRAGMENT_TAG_WORKOUT_EXERCISE = "WORKTOUT_EXERCISE_FRAGMENT";
+    public static final String FRAGMENT_TAG_WORKOUT_EXERCISE_DETAIL = "WORKTOUT_EXERCISE_FRAGMENT_DETAIL";
     public static final String FRAGMENT_TAG_WORKOUT = "WORKOUT_FRAGMENT";
     public static final String FRAGMENT_TAG_PROFILE = "PROFILE_FRAGMENT";
 
@@ -64,6 +65,10 @@ public class ConstantUtils {
     public static final int FRAGMENT_EXERCISE_DETAIL = 12;
     public static final int FRAGMENT_PROFILE = 14;
     public static final int FRAGMENT_ADD_FOOD = 13;
+    public static final int FRAGMENT_MEAL_BREAKFAST = 15;
+    public static final int FRAGMENT_MEAL_LUNCH = 16;
+    public static final int FRAGMENT_MEAL_DINNER = 17;
+    public static final int FRAGMENT_MEAL_SNACK = 18;
 
     public static final int MENU_PROFILE = 0;
     public static final int MENU_WORKOUT = 1;

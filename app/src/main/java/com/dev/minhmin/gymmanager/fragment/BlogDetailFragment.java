@@ -36,7 +36,6 @@ public class BlogDetailFragment extends Fragment implements OnBackPressedListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         MainActivity.stateMain = ConstantUtils.FRAGMENT_BLOG;
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
-        ((MainActivity) getActivity()).updateActionbar(true, false);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_blog_detail, container, false);
         webView = (WebView) v.findViewById(R.id.wv_blog);
@@ -44,8 +43,6 @@ public class BlogDetailFragment extends Fragment implements OnBackPressedListene
         settings.setJavaScriptEnabled(true);
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-
-
         webView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
@@ -73,8 +70,6 @@ public class BlogDetailFragment extends Fragment implements OnBackPressedListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
 
     @Override
@@ -88,11 +83,10 @@ public class BlogDetailFragment extends Fragment implements OnBackPressedListene
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 1) {
-            MainActivity.stateMain = ConstantUtils.FRAGMENT_HOME;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
-//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-            getActivity().getFragmentManager().popBackStack();
-        }
+        Fragment fragment = new HomeFragment().newInstance();
+        getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_main, fragment).commit();
+//        MainActivity.stateMain = ConstantUtils.FRAGMENT_HOME;
+//        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
     }
+
 }

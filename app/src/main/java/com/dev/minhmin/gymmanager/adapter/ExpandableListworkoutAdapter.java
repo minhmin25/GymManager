@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
+import com.dev.minhmin.gymmanager.fragment.WorkoutExerciseFragment;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.WorkoutExercise;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
@@ -79,7 +80,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(final int i, boolean b, View view, ViewGroup viewGroup) {
+    public View getGroupView(final int i, final boolean b, View view, ViewGroup viewGroup) {
         GroupHolder holder;
         MethodUtils methodUtils = new MethodUtils();
         final String time = methodUtils.getTimeNow();
@@ -106,6 +107,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putString("exerciseRef", listData.get(listHeader.get(i)).get(0).getExerciseRef());
+                bundle.putString("key", WorkoutExerciseFragment.key);
                 Fragment fragment = new ExerciseDetailFragment().newInstance();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
@@ -161,7 +163,7 @@ public class ExpandableListworkoutAdapter extends BaseExpandableListAdapter {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_workout, fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
+        ft.replace(R.id.layout_workout, fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE_DETAIL);
         ft.commit();
     }
 

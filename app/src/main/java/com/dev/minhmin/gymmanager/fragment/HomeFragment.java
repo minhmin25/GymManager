@@ -42,7 +42,8 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(false, false);
+        MainActivity.stateMain = ConstantUtils.FRAGMENT_HOME;
+        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMain);
         View viewGroup = inflater.inflate(R.layout.fragment_home, container, false);
         lvBlog = (ListView) viewGroup.findViewById(R.id.lv_blog);
         adapter = new ListBlogAdapter(getActivity(), listBlogs);
@@ -91,7 +92,7 @@ public class HomeFragment extends Fragment {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.add(R.id.layout_main, fragment, TAG);
+        ft.replace(R.id.layout_main, fragment, TAG);
         ft.commit();
     }
 

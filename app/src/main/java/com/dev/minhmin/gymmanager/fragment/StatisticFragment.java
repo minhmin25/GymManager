@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
-import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.StatisticAdapter;
 import com.dev.minhmin.gymmanager.model.Practice;
 import com.dev.minhmin.gymmanager.model.Statistic;
@@ -64,7 +63,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
 //        MainActivity.state = ConstantUtils.FRAGMENT_STATISTIC;
 //        ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.state);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_statistic, container, false);
-        ((MainActivity) getActivity()).updateActionbar(false, false);
+//        ((MainActivity) getActivity()).updateActionbar(false, false);
         return viewGroup;
     }
 

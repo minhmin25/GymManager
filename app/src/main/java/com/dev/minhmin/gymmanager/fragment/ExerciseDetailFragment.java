@@ -1,7 +1,6 @@
 package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -40,7 +39,7 @@ public class ExerciseDetailFragment extends Fragment implements OnBackPressedLis
     private TextView title, instruction, calo;
     private ImageView image;
     private int position;
-    private String part = "", reference = "";
+    private String part = "", reference = "", key = "";
 
     public static ExerciseDetailFragment newInstance() {
         ExerciseDetailFragment fragment = new ExerciseDetailFragment();
@@ -52,7 +51,7 @@ public class ExerciseDetailFragment extends Fragment implements OnBackPressedLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         MainActivity.stateExercise = ConstantUtils.FRAGMENT_EXERCISE_DETAIL;
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
-        ((MainActivity) getActivity()).updateActionbar(true, false);
+//        ((MainActivity) getActivity()).updateActionbar(true, false);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_exercise_detail, container, false);
         title = (TextView) viewGroup.findViewById(R.id.tv_exercise_title);
@@ -123,28 +122,28 @@ public class ExerciseDetailFragment extends Fragment implements OnBackPressedLis
         Bundle bundle = getArguments();
         if (bundle != null) {
             reference = bundle.getString("exerciseRef");
+            key = bundle.getString("key");
             if (reference == null) {
                 part = bundle.getString("part");
                 position = bundle.getInt("position");
             }
-
         }
     }
 
     @Override
     public void doBack() {
         if (MainActivity.page == 2) {
-            getActivity().getFragmentManager().popBackStack();
-            MainActivity.stateWorkout = ConstantUtils.FRAGMENT_WORKOUT_EXERCISE;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateWorkout);
-//            Fragment fragment = getActivity().getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
-//            getActivity().getFragmentManager().beginTransaction().remove(fragment).commit();
+            Fragment fragment = new WorkoutExerciseFragment().newInstance();
+            Bundle b = new Bundle();
+            b.putString("key", key);
+            fragment.setArguments(b);
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_workout, fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE).commit();
         } else if (MainActivity.page == 4) {
-            MainActivity.stateExercise = ConstantUtils.FRAGMENT_LIST_EXERCISE;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateExercise);
-//            Fragment fragment = getActivity().getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
-//            getActivity().getFragmentManager().beginTransaction().remove(fragment).commit();
-            getActivity().getFragmentManager().popBackStack(ListExerciseFragment.class.getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Fragment fragment = new ListExerciseFragment().newInstance();
+            Bundle b = new Bundle();
+            b.putString("exercise", "abs");
+            fragment.setArguments(b);
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_exercise, fragment).commit();
         }
     }
 
