@@ -111,7 +111,6 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
                 FoodDetailFragment fragment = new FoodDetailFragment();
                 fragment.setArguments(bundle);
                 replaceFragment(fragment);
-
             }
         });
 
@@ -123,7 +122,7 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
         FragmentManager fm = activity.getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_FOOD_DETAIL);
         ft.commit();
     }
 

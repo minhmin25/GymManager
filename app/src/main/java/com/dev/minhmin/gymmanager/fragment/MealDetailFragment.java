@@ -44,6 +44,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
     private String typeMeal = "";
     private String idFood = "";
     private String number = "";
+    private boolean isSuccess = false;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     public static MealDetailFragment newInstance() {
@@ -77,6 +78,14 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         }
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
+
+        tv_name_day = (TextView) viewGroup.findViewById(R.id.tv_name_day);
+        tv_total = (TextView) viewGroup.findViewById(R.id.tv_total_calo);
+        iv_back_left = (ImageView) viewGroup.findViewById(R.id.iv_back_day);
+        iv_back_right = (ImageView) viewGroup.findViewById(R.id.iv_next_day);
+        listview = (ListView) viewGroup.findViewById(R.id.lv_food_meat);
+//        adapter = new MealDetailAdapter(getActivity(), meal);
+//        listview.setAdapter(adapter);
         return viewGroup;
     }
 
@@ -90,16 +99,51 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    Meal m = i.getValue(Meal.class);
-                    if (m.getDate().equals(date)) {
+//                    Meal m = i.getValue(Meal.class);
+//                    if (m.getDate().equals(date)) {
+                    if (i.getKey().equals(date)) {
+                        Meal m = i.getValue(Meal.class);
                         meal = m;
-                        tv_total.setText(" " + meal.getTotalCalo() + " ");
                         adapter = new MealDetailAdapter(getActivity(), meal);
                         tv_total.setText(" " + meal.getTotalCalo() + " ");
                         listview.setAdapter(adapter);
-
                     }
+                }
+                if (!isSuccess && !idFood.equals("")) {
+                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                    mref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot i : dataSnapshot.getChildren()) {
+                                if (i.getKey().equals(idFood)) {
+                                    Food f = i.getValue(Food.class);
+                                    LineItem l = new LineItem(f, Integer.parseInt(number));
+                                    meal.addLineitem(l);
+                                    ref.child(typeMeal).child(date).updateChildren(meal.toMap());
+                                    ref.child("Statistic").child(date).child("totalFood").setValue(meal.getTotalCalo());
+                                    if (typeMeal.equals(ConstantUtils.Breakfast)) {
+                                        ref.child(("Statistic")).child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
+                                    }
+                                    if (typeMeal.equals(ConstantUtils.Lunch)) {
+                                        ref.child(("Statistic")).child(date).child("totalLunch").setValue(meal.getTotalCalo());
+                                    }
+                                    if (typeMeal.equals(ConstantUtils.Dinner)) {
+                                        ref.child(("Statistic")).child(date).child("totalDinner").setValue(meal.getTotalCalo());
+                                    }
+                                    if (typeMeal.equals(ConstantUtils.Snack)) {
+                                        ref.child(("Statistic")).child(date).child("totalSnack").setValue(meal.getTotalCalo());
+                                    }
+                                    isSuccess = true;
+                                    break;
+                                }
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 
@@ -108,18 +152,12 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
             }
         });
-        adapter = new MealDetailAdapter(getActivity(), meal);
-        tv_total.setText(" " + meal.getTotalCalo() + " ");
-
-
-        listview.setAdapter(adapter);
         String timeNow = methodUtils.getTimeNow();
         if (timeNow.equals(date)) {
             tv_name_day.setText("Today");
         } else {
             tv_name_day.setText(date);
         }
-
 
         iv_back_left.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +173,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                 }
                 date = time;
-                ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
+                ref.child(typeMeal).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot i : dataSnapshot.getChildren()) {
@@ -145,10 +183,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
                                 adapter = new MealDetailAdapter(getActivity(), meal);
                                 tv_total.setText(" " + meal.getTotalCalo() + " ");
                                 listview.setAdapter(adapter);
-
-
                             }
-
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -158,14 +193,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                     }
                 });
-
-                adapter = new MealDetailAdapter(getActivity(), meal);
-                tv_total.setText(" " + meal.getTotalCalo() + " ");
-                listview.setAdapter(adapter);
-
-                //lay du lieu
-
-
             }
         });
         iv_back_right.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +209,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                 }
                 date = time;
-                ref.child(typeMeal).addValueEventListener(new ValueEventListener() {
+                ref.child(typeMeal).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot i : dataSnapshot.getChildren()) {
@@ -193,8 +220,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
                                 tv_total.setText(" " + meal.getTotalCalo() + " ");
                                 listview.setAdapter(adapter);
                             }
-
-
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -204,13 +229,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                     }
                 });
-
-                adapter = new MealDetailAdapter(getActivity(), meal);
-                tv_total.setText(" " + meal.getTotalCalo() + " ");
-                listview.setAdapter(adapter);
-
-                //lay du lieu
-
             }
         });
 
@@ -242,39 +260,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
                 meal.setDate(date);
                 meal.setId(date);
                 meal.setType(typeMeal);
-                DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
-                mref.child("Food").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot i : dataSnapshot.getChildren()) {
-                            if (i.getKey().equals(idFood)) {
-                                Food f = i.getValue(Food.class);
-                                LineItem l = new LineItem(f, Integer.parseInt(number));
-                                meal.addLineitem(l);
-                                ref.child(typeMeal).child(date).updateChildren(meal.toMap());
-                                ref.child("Statistic").child(date).child("totalFood").setValue(meal.getTotalCalo());
-                                if (typeMeal.equals(ConstantUtils.Breakfast)) {
-                                    ref.child(("Statistic")).child(date).child("totalBreakfast").setValue(meal.getTotalCalo());
-                                }
-                                if (typeMeal.equals(ConstantUtils.Lunch)) {
-                                    ref.child(("Statistic")).child(date).child("totalLunch").setValue(meal.getTotalCalo());
-                                }
-                                if (typeMeal.equals(ConstantUtils.Dinner)) {
-                                    ref.child(("Statistic")).child(date).child("totalDinner").setValue(meal.getTotalCalo());
-                                }
-                                if (typeMeal.equals(ConstantUtils.Snack)) {
-                                    ref.child(("Statistic")).child(date).child("totalSnack").setValue(meal.getTotalCalo());
-                                }
-                                break;
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         }
     }

@@ -70,13 +70,6 @@ public class ListBlogAdapter extends BaseAdapter {
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(viewholder.ivImage);
-//        viewholder.ivImage.setImageResource(listBlogs.get(i).getThumbUrl());
-        viewholder.tvReadBlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         return view;
     }
 

@@ -275,6 +275,7 @@ public class MainActivity extends AppCompatActivity
             updateTitle(page, stateExercise);
         } else if (id == R.id.nav_statistic) {
             page = 5;
+            updateFragment(page);
             rbStatistic.setChecked(true);
             updateTitle(page, stateStatistic);
         } else if (id == R.id.nav_group) {
