@@ -40,7 +40,8 @@ import java.util.ArrayList;
 public class ListFoodAdapter extends BaseAdapter implements Filterable {
     private Activity activity;
     private String date = "";
-    private int number = 0;
+    private int number = 1;
+    private TextView tv_number_food_dialog;
     private String typeMeal_add = ConstantUtils.Breakfast;
     private ArrayList<Food> listfood = new ArrayList<>();
     private ArrayList<Food> template;
@@ -156,7 +157,7 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
                         Spinner spinner;
 
                         Button bt_add_1, bt_cancel_1;
-                        final TextView tv_name_add, tv_number_calo_add, tv_don_vi_food_add, tv_number_food_dialog;
+                        final TextView tv_name_add, tv_number_calo_add, tv_don_vi_food_add;
                         spinner = (Spinner) view_dialog_add.findViewById(R.id.spin_dialog_meal);
                         ArrayAdapter<String> adapterspin;
                         final String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
@@ -177,7 +178,6 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
                         tv_don_vi_food_add.setText("  " + "x" + f.getCount() + " " + f.getUnit());
                         tv_number_food_dialog.setText(1 + "");
                         StorageReference mref = sref.child("food/" + f.getImageUrl());
-
                         Glide.with(activity)
                                 .using(new FirebaseImageLoader())
                                 .load(mref)
@@ -233,7 +233,7 @@ public class ListFoodAdapter extends BaseAdapter implements Filterable {
                                     bundle.putString("typeMeal", typeMeal_add);
                                     bundle.putString("date", methodUtils.getTimeNow());
                                     bundle.putString("idFood", f.getId());
-                                    bundle.putString("number", number + "");
+                                    bundle.putString("number", tv_number_food_dialog.getText().toString());
                                     MealDetailFragment fragment = new MealDetailFragment();
                                     fragment.setArguments(bundle);
                                     replaceFragment(fragment);
