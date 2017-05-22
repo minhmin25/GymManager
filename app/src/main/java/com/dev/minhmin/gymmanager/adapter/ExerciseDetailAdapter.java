@@ -41,7 +41,7 @@ public class ExerciseDetailAdapter extends BaseAdapter {
     Activity activity;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference sref = storage.getReference();
-    List<String> listWorkout = new ArrayList<String>();
+    List<String> listWorkout = new ArrayList<>();
     private Exercise exercise;
 
     public ExerciseDetailAdapter(Activity activity) {
@@ -110,14 +110,14 @@ public class ExerciseDetailAdapter extends BaseAdapter {
                             listWorkout.add(w.getTitle());
                         }
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                        View view = activity.getLayoutInflater().inflate(R.layout.fragment_exercise_detail, null);
+                        View view = activity.getLayoutInflater().inflate(R.layout.dialog_add_exercise, null);
                         builder.setView(view);
-                        RadioGroup rg = (RadioGroup) view.findViewById(R.id.rg_workout_list);
-                        for (String j : listWorkout) {
-                            RadioButton button = new RadioButton(activity);
-                            button.setText(j);
-                            rg.addView(button);
-                        }
+                        //RadioGroup rg = (RadioGroup) view.findViewById(R.id.rg_workout_list);
+//                        for (String j : listWorkout) {
+//                            RadioButton button = new RadioButton(activity);
+//                            button.setText(j);
+//                            rg.addView(button);
+//                        }
                         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
