@@ -27,17 +27,21 @@
             android:id="@+id/nav_statistic"
             android:icon="@drawable/analytics"
             android:title="Statistic" />
-    </group>
 
+    </group>
+    <item
+        android:id="@+id/nav_map"
+        android:icon="@drawable/analytics"
+        android:title="Gym nearby" />
     <item android:title="Information">
         <menu>
             <item
-                android:icon="@drawable/curriculum"
                 android:id="@+id/nav_class"
+                android:icon="@drawable/curriculum"
                 android:title="Lap trinh huong di dong nhom 4" />
             <item
-                android:icon="@drawable/information"
                 android:id="@+id/nav_group"
+                android:icon="@drawable/information"
                 android:title="Thuc hien: Nhom 5" />
         </menu>
     </item>

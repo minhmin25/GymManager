@@ -23,11 +23,19 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.dev.minhmin.gymmanager.R;
+import com.dev.minhmin.gymmanager.fragment.AddFoodFragment;
+import com.dev.minhmin.gymmanager.fragment.BlogDetailFragment;
+import com.dev.minhmin.gymmanager.fragment.ExerciseDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.ExerciseFragment;
+import com.dev.minhmin.gymmanager.fragment.FoodDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.HomeFragment;
+import com.dev.minhmin.gymmanager.fragment.ListExerciseFragment;
+import com.dev.minhmin.gymmanager.fragment.ListFoodFragment;
+import com.dev.minhmin.gymmanager.fragment.MealDetailFragment;
 import com.dev.minhmin.gymmanager.fragment.MealFragment;
 import com.dev.minhmin.gymmanager.fragment.ProfileFragment;
 import com.dev.minhmin.gymmanager.fragment.StatisticFragment;
+import com.dev.minhmin.gymmanager.fragment.WorkoutExerciseFragment;
 import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
@@ -105,50 +113,6 @@ public class MainActivity extends AppCompatActivity
         replaceFragment(fragment4, ConstantUtils.FRAGMENT_TAG_EXERCISE, R.id.layout_exercise);
         replaceFragment(fragment5, ConstantUtils.FRAGMENT_TAG_STATISTIC, R.id.layout_statistic);
         navigationView.setCheckedItem(R.id.nav_home);
-//        ArrayList<Exercise> list = new ArrayList<>();
-//        ArrayList<String> imageUrl = new ArrayList<>();
-//        imageUrl.add("crunch_ava.jpg");
-//        imageUrl.add("crunch.jpg");
-//
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        list.add(new Exercise("Crunch", imageUrl, "crunch.mp4", "content", 30, ""));
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref.child("Exercise").child("abs").setValue(list);
-//        ref.child("Exercise").child("back").setValue(list);
-//        ref.child("Exercise").child("biceps").setValue(list);
-//        ref.child("Exercise").child("triceps").setValue(list);
-//        ref.child("Exercise").child("chest").setValue(list);
-//        ref.child("Exercise").child("shoulders").setValue(list);
-//        ref.child("Exercise").child("legs").setValue(list);
-
-//        WorkoutExercise we = new WorkoutExercise("we1", "crunch", 30, 3, "rep", 12, "content", true, "ref");
-//        ArrayList<WorkoutExercise> list = new ArrayList<>();
-//        list.add(we);
-//        list.add(we);
-//        list.add(we);
-//        list.add(we);
-//        Workout workout = new Workout("workout1", "Fat burn", 30, "workout1.jpg", list);
-//        ArrayList<Workout> listwo = new ArrayList<>();
-//        listwo.add(workout);
-//        listwo.add(workout);
-//        listwo.add(workout);
-//        listwo.add(workout);
-
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-////        ref.child("Workout").setValue(listwo);
-//
-//        Food f1 = new Food("baker", "baker", "baker.png", "g", 10, 1, 1, 1, 1);
-//        Food f2 = new Food("egg", "egg", "egg.png", "g", 10, 1, 1, 1, 1);
-//        Food f3 = new Food("broccoli", "broccoli", "broccoli.png", "g", 10, 1, 1, 1, 1);
-//        Food f4 = new Food("shrimp", "shrimp", "shrimp.png", "g", 10, 1, 1, 1, 1);
-//        ref.child("Food").child(f1.getId()).setValue(f1);
-//        ref.child("Food").child(f2.getId()).setValue(f2);
-//        ref.child("Food").child(f3.getId()).setValue(f3);
-//        ref.child("Food").child(f4.getId()).setValue(f4);
     }
 
     private void findViewByID() {
@@ -174,10 +138,90 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-        if (onBackPressedListener != null)
-            onBackPressedListener.doBack();
-        else
-            super.onBackPressed();
+        switch (page) {
+            case 1: {
+                switch (stateMain) {
+                    case ConstantUtils.FRAGMENT_BLOG: {
+                        BlogDetailFragment fragment = (BlogDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_BLOG_DETAIL);
+                        fragment.doBack();
+                        break;
+                    }
+                }
+                break;
+            }
+            case 2: {
+                switch (stateWorkout) {
+                    case ConstantUtils.FRAGMENT_WORKOUT_EXERCISE: {
+                        WorkoutExerciseFragment fragment = (WorkoutExerciseFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
+                        fragment.doBack();
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_EXERCISE_DETAIL: {
+                        ExerciseDetailFragment fragment = (ExerciseDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE_DETAIL);
+                        fragment.doBack();
+                        break;
+                    }
+                }
+                break;
+            }
+            case 3: {
+                switch (stateMeal) {
+                    case ConstantUtils.FRAGMENT_MEAL_BREAKFAST: {
+//                        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+//                        fragment.doBack();
+//                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_LUNCH: {
+//                        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+//                        fragment.doBack();
+//                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_DINNER: {
+//                        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+//                        fragment.doBack();
+//                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_SNACK: {
+                        MealDetailFragment fragment = (MealDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+                        fragment.doBack();
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_LIST_FOOD: {
+                        ListFoodFragment fragment = (ListFoodFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+                        fragment.doBack();
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_ADD_FOOD: {
+                        AddFoodFragment fragment = (AddFoodFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_ADD_FOOD);
+                        fragment.doBack();
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_FOOD_DETAIL: {
+                        FoodDetailFragment fragment = (FoodDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_FOOD_DETAIL);
+                        fragment.doBack();
+                        break;
+                    }
+                }
+                break;
+            }
+            case 4: {
+                switch (stateExercise) {
+                    case ConstantUtils.FRAGMENT_LIST_EXERCISE: {
+                        ListExerciseFragment fragment = (ListExerciseFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_LIST_EXERCISE);
+                        fragment.doBack();
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_EXERCISE_DETAIL: {
+                        ExerciseDetailFragment fragment = (ExerciseDetailFragment) getFragmentManager().findFragmentByTag(ConstantUtils.FRAGMENT_TAG_EXERCISE_DETAIL);
+                        fragment.doBack();
+                        break;
+                    }
+                }
+                break;
+            }
+            default:
+                super.onBackPressed();
+        }
     }
 
     @Override
@@ -188,48 +232,45 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            rbHome.setChecked(false);
-            rbWorkout.setChecked(false);
-            rbMeal.setChecked(false);
-            rbExercise.setChecked(false);
-            rbStatistic.setChecked(false);
+            bottomBar.clearCheck();
             page = 5;
+            updateFragment(page);
+            stateStatistic = ConstantUtils.FRAGMENT_PROFILE;
+            updateTitle(page, stateStatistic);
+            updateActionbar(false, false);
             Fragment fragment = new ProfileFragment().newInstance();
             replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_PROFILE, R.id.layout_statistic);
         } else if (id == R.id.nav_home) {
             page = 1;
             rbHome.setChecked(true);
+            updateFragment(page);
             updateTitle(page, stateMain);
         } else if (id == R.id.nav_workout) {
             page = 2;
+            updateFragment(page);
             rbWorkout.setChecked(true);
             updateTitle(page, stateWorkout);
         } else if (id == R.id.nav_meal) {
             page = 3;
+            updateFragment(page);
             rbMeal.setChecked(true);
             updateTitle(page, stateMeal);
         } else if (id == R.id.nav_exercise) {
             page = 4;
+            updateFragment(page);
             rbExercise.setChecked(true);
             updateTitle(page, stateExercise);
         } else if (id == R.id.nav_statistic) {
@@ -238,6 +279,8 @@ public class MainActivity extends AppCompatActivity
             updateTitle(page, stateStatistic);
         } else if (id == R.id.nav_group) {
 
+        } else if (id == R.id.nav_map) {
+            startActivity(new Intent(MainActivity.this, MapsActivity.class));
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -302,9 +345,6 @@ public class MainActivity extends AppCompatActivity
                 page = 1;
                 updateFragment(page);
                 updateTitle(page, stateMain);
-//                tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
-//                Fragment fragment = new HomeFragment().newInstance();
-//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_HOME);
                 navigationView.setCheckedItem(R.id.nav_home);
                 break;
             }
@@ -313,8 +353,6 @@ public class MainActivity extends AppCompatActivity
                 page = 2;
                 updateFragment(page);
                 updateTitle(page, stateWorkout);
-//                Fragment fragment = new WorkoutFragment().newInstance();
-//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_WORKOUT_EXERCISE);
                 navigationView.setCheckedItem(R.id.nav_workout);
                 break;
             }
@@ -323,8 +361,6 @@ public class MainActivity extends AppCompatActivity
                 page = 3;
                 updateFragment(page);
                 updateTitle(page, stateMeal);
-//                Fragment fragment = new MealFragment().newInstance();
-//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
                 navigationView.setCheckedItem(R.id.nav_meal);
                 break;
             }
@@ -333,8 +369,6 @@ public class MainActivity extends AppCompatActivity
                 page = 4;
                 updateFragment(page);
                 updateTitle(page, stateExercise);
-//                Fragment fragment = new ExerciseFragment().newInstance();
-//                replaceFragment(fragment, ConstantUtils.FRAGMENT_TAG_EXERCISE);
                 navigationView.setCheckedItem(R.id.nav_exercise);
                 break;
             }
@@ -387,80 +421,120 @@ public class MainActivity extends AppCompatActivity
     public void updateTitle(int page, int state) {
         switch (page) {
             case 1: {
-                switch (state) {
+                switch (stateMain) {
                     case ConstantUtils.FRAGMENT_HOME: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
+                        updateActionbar(false, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_BLOG: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_BLOG);
+                        updateActionbar(true, false);
                         break;
                     }
                     case 0: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_HOME);
+                        updateActionbar(false, false);
                         break;
                     }
                 }
                 break;
             }
             case 2: {
-                switch (state) {
+                switch (stateWorkout) {
                     case ConstantUtils.FRAGMENT_WORKOUT: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        updateActionbar(false, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_WORKOUT_EXERCISE: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        updateActionbar(true, false);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_EXERCISE_DETAIL: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE_DETAIL);
+                        updateActionbar(true, false);
                         break;
                     }
                     case 0: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_WORKOUT);
+                        updateActionbar(false, false);
                         break;
                     }
                 }
                 break;
             }
             case 3: {
-                switch (state) {
+                switch (stateMeal) {
                     case ConstantUtils.FRAGMENT_MEAL: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
-                        break;
-                    }
-                    case ConstantUtils.FRAGMENT_MEAL_DETAIL: {
-                        tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                        updateActionbar(false, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_LIST_FOOD: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD);
+                        updateActionbar(true, true);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_FOOD_DETAIL: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD_DETAIL);
+                        updateActionbar(true, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_ADD_FOOD: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_FOOD);
+                        updateActionbar(true, true);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_BREAKFAST: {
+                        tvTitleActionbar.setText(ConstantUtils.Breakfast);
+                        updateActionbar(true, true);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_LUNCH: {
+                        tvTitleActionbar.setText(ConstantUtils.Lunch);
+                        updateActionbar(true, true);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_DINNER: {
+                        tvTitleActionbar.setText(ConstantUtils.Dinner);
+                        updateActionbar(true, true);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_MEAL_SNACK: {
+                        tvTitleActionbar.setText(ConstantUtils.Snack);
+                        updateActionbar(true, true);
                         break;
                     }
                     case 0: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_MEAL);
+                        updateActionbar(false, false);
                         break;
                     }
                 }
                 break;
             }
             case 4: {
-                switch (state) {
+                switch (stateExercise) {
                     case ConstantUtils.FRAGMENT_EXERCISE: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        updateActionbar(false, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_LIST_EXERCISE: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        updateActionbar(true, false);
+                        break;
+                    }
+                    case ConstantUtils.FRAGMENT_EXERCISE_DETAIL: {
+                        tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE_DETAIL);
+                        updateActionbar(true, false);
                         break;
                     }
                     case 0: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_EXERCISE);
+                        updateActionbar(false, false);
                         break;
                     }
                 }
@@ -470,20 +544,17 @@ public class MainActivity extends AppCompatActivity
                 switch (state) {
                     case ConstantUtils.FRAGMENT_PROFILE: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_PROFILE);
+                        updateActionbar(false, false);
                         break;
                     }
                     case ConstantUtils.FRAGMENT_STATISTIC: {
                         tvTitleActionbar.setText(ConstantUtils.TITLE_STATISTIC);
+                        updateActionbar(false, false);
                         break;
                     }
-//                    case 0: {
-//                        tvTitleActionbar.setText(ConstantUtils.TITLE_STATISTIC);
-//                        break;
-//                    }
                 }
                 break;
             }
-
         }
     }
 

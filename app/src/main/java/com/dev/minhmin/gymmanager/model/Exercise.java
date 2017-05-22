@@ -13,18 +13,28 @@ public class Exercise {
     private String content;
     private int calo;
     private String reference;
+    private String type;
 
     public Exercise() {
 
     }
 
-    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content, int calo, String reference) {
+    public Exercise(String name, ArrayList<String> imageUrl, String videoUrl, String content, int calo, String reference, String type) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.videoUrl = videoUrl;
         this.content = content;
         this.calo = calo;
         this.reference = reference;
+        this.type = type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getCalo() {

@@ -40,7 +40,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
     private ListView listview;
     private TextView tv_total, tv_name_day;
     private ImageView iv_back_left, iv_back_right;
-    private ImageView iv_add_food;
     private String date = "";
     private String typeMeal = "";
     private String idFood = "";
@@ -55,10 +54,27 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((MainActivity) getActivity()).updateActionbar(true, true);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ((MainActivity) getActivity()).setOnAddPressedListener(this);
-        MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_DETAIL;
+        ((MainActivity) getActivity()).updateActionbar(true, true);
+        switch (typeMeal) {
+            case ConstantUtils.Breakfast: {
+                MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_BREAKFAST;
+                break;
+            }
+            case ConstantUtils.Lunch: {
+                MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_LUNCH;
+                break;
+            }
+            case ConstantUtils.Dinner: {
+                MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_DINNER;
+                break;
+            }
+            case ConstantUtils.Snack: {
+                MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL_SNACK;
+                break;
+            }
+        }
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
         return viewGroup;
@@ -204,7 +220,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         Bundle bundle = new Bundle();
         bundle.putString("typeMeal", typeMeal);
         bundle.putString("date", date);
-        ListFoodFragment fragment = new ListFoodFragment();
+        Fragment fragment = new ListFoodFragment().newInstance();
         fragment.setArguments(bundle);
         replaceFragment(fragment);
     }
@@ -218,7 +234,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
             typeMeal = bundle.getString("typeMeal", "");
             number = bundle.getString("number", "");
             idFood = bundle.getString("idFood", "");
-
             date = bundle.getString("date", "");
             MethodUtils methodUtils = new MethodUtils();
             if (methodUtils.compareDate(date) == 1) {
@@ -276,27 +291,24 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
         ft.commit();
     }
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 3) {
-            MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
-//            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-//            getActivity().getFragmentManager().popBackStack();
-            Fragment fragment = MealFragment.newInstance();
-            FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-            ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
-            ft.commit();
-        }
+        Fragment fragment = new MealFragment().newInstance();
+        FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL);
+        ft.commit();
     }
 
     @Override
     public void doAdd() {
-        if (MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_DETAIL) {
+        if (MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_BREAKFAST
+                || MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_LUNCH
+                || MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_DINNER
+                || MainActivity.stateMeal == ConstantUtils.FRAGMENT_MEAL_SNACK) {
             transToListFoodFragment();
         }
     }

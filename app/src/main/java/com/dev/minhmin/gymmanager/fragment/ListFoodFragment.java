@@ -26,9 +26,7 @@ import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.activity.MainActivity;
 import com.dev.minhmin.gymmanager.adapter.ListFoodAdapter;
 import com.dev.minhmin.gymmanager.model.Food;
-import com.dev.minhmin.gymmanager.model.Meal;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
-import com.dev.minhmin.gymmanager.utils.DataCenter;
 import com.dev.minhmin.gymmanager.utils.MethodUtils;
 import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
 import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
@@ -48,11 +46,9 @@ import java.util.ArrayList;
  */
 
 public class ListFoodFragment extends Fragment implements SearchView.OnQueryTextListener, OnBackPressedListener, OnAddPressedListener {
-    private ArrayAdapter<String> adapterspin; //tạo vector adapter để truyền vào spinner
+    private ArrayAdapter<String> adapterspin;
     private String spinmeal[] = {ConstantUtils.Breakfast, ConstantUtils.Lunch, ConstantUtils.Dinner, ConstantUtils.Snack};
-    private DataCenter dataCenter;
     private Food food = new Food();
-    private Meal meal = new Meal();
     private RelativeLayout layout_add;
     private String typeMeal = ConstantUtils.Breakfast;
     private String date = "";
@@ -67,6 +63,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     private ListFoodAdapter adapter;
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference sref = storage.getReference();
+    private boolean isFromMeal = false;
 
     public static ListFoodFragment newInstance() {
         ListFoodFragment fragment = new ListFoodFragment();
@@ -77,7 +74,6 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_listfood, container, false);
-        ((MainActivity) getActivity()).updateActionbar(true, true);
         ((MainActivity) getActivity()).setOnBackPressedListener(this);
         ((MainActivity) getActivity()).setOnAddPressedListener(this);
         MainActivity.stateMeal = ConstantUtils.FRAGMENT_LIST_FOOD;
@@ -108,9 +104,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
 
             }
         });
-        // adapter = new ListFoodAdapter(getActivity(), listFoods);
         adapter = new ListFoodAdapter(getActivity(), date, listFoods);
-        //  adapter.setDate("11-05-2017");
         adapter.notifyDataSetChanged();
         lvFood.setAdapter(adapter);
         lvFood.setTextFilterEnabled(true);
@@ -180,7 +174,6 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
                             fragment.setArguments(bundle);
                             replaceFragment(fragment);
                         }
-
                     }
                 });
                 btcan.setOnClickListener(new View.OnClickListener() {
@@ -189,10 +182,8 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
                         layout_add.setVisibility(View.INVISIBLE);
                     }
                 });
-
             }
         });
-
     }
 
     public void transToAddFoodFragment() {
@@ -204,31 +195,23 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         nextFragment(fragment);
     }
 
-    public void setChange(Food f) {
-        listFoods.add(f);
-        adapter.notifyDataSetChanged();
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         date = bundle.getString("date", "");
         typeMeal = bundle.getString("typeMeal", "");
-        if (typeMeal.equals("")) {
+        if (typeMeal.equals("") || typeMeal == null) {
             typeMeal = ConstantUtils.Breakfast;
-        }
+            isFromMeal = true;
+        } else isFromMeal = false;
         if (date.equals("")) {
             MethodUtils methodUtils = new MethodUtils();
             date = methodUtils.getTimeNow();
         }
-//        adapter.setDate(date);
-
-
     }
 
     private void init() {
-
         listFoods = new ArrayList<>();
         layout_add = (RelativeLayout) getView().findViewById(R.id.relayout_add_food);
         iv_food = (ImageView) getView().findViewById(R.id.iv_food_list_detail);
@@ -247,14 +230,12 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         adapterspin = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, spinmeal);
         adapterspin.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spinner.setAdapter(adapterspin);
-
-
     }
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.layout_meal, fragment);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_MEAL_DETAIL);
         ft.commit();
     }
 
@@ -262,8 +243,7 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
         FragmentManager fm = getActivity().getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack(fragment.getClass().getName());
-        ft.hide(this);
-        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_LIST_FOOD);
+        ft.replace(R.id.layout_meal, fragment, ConstantUtils.FRAGMENT_TAG_ADD_FOOD);
         ft.commit();
     }
 
@@ -284,11 +264,15 @@ public class ListFoodFragment extends Fragment implements SearchView.OnQueryText
 
     @Override
     public void doBack() {
-        if (MainActivity.page == 3) {
-            getActivity().getFragmentManager().beginTransaction().remove(this).commit();
-            getActivity().getFragmentManager().popBackStack();
-            MainActivity.stateMeal = ConstantUtils.FRAGMENT_MEAL;
-            ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
+        if (isFromMeal) {
+            getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_meal, new MealFragment().newInstance(), ConstantUtils.FRAGMENT_TAG_MEAL).commit();
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("typeMeal", typeMeal);
+            bundle.putString("date", date);
+            Fragment fragment = new MealDetailFragment().newInstance();
+            fragment.setArguments(bundle);
+            replaceFragment(fragment);
         }
     }
 
