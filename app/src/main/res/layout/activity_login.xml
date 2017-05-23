@@ -13,13 +13,11 @@
         android:paddingTop="46dp">
 
         <ImageView
-
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:background="@drawable/background_login_2" />
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -36,14 +34,12 @@
             android:background="@drawable/edittext_line"></LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="25dp"
             android:paddingTop="10dp">
 
             <ImageView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/login_6" />
@@ -74,7 +70,6 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
                 android:src="@drawable/diet" />
@@ -83,7 +78,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,8 +92,9 @@
             android:id="@+id/btn_login_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:paddingRight="25dp"></com.google.android.gms.common.SignInButton>
+            android:layout_centerHorizontal="true">
+
+        </com.google.android.gms.common.SignInButton>
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/btn_login_facebook"
@@ -106,8 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/btn_login_google"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:paddingRight="25dp" />
-    </LinearLayout>
+            android:layout_marginTop="16dp" />
+    </RelativeLayout>
 
 </RelativeLayout>
