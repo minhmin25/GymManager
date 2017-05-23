@@ -236,7 +236,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/goal"
-                    android:text=" Gold"
+                    android:text=" Goal"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp" />
 
