@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center"
-                android:text="60"
+
                 android:textColor="@color/colorOre"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -103,11 +103,11 @@
 
                 android:layout_width="0dp"
                 android:layout_height="32dp"
+                android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/rounded_layout"
                 android:gravity="center"
-                android:text="165"
-                android:layout_marginRight="5dp"
+
                 android:textColor="@color/colorOre"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -142,7 +142,7 @@
                 android:background="@drawable/rounded_layout"
                 android:gravity="center"
                 android:inputType="number"
-                android:text="20"
+
                 android:layout_marginRight="5dp"
                 android:textColor="@color/colorOre"
                 android:textSize="20sp" />
