@@ -7,11 +7,12 @@ import java.util.ArrayList;
  */
 
 public class Statistic {
+    int totalGoal;
     private String date;
-    private float totalFood, totalExercise, totalGoal, totalRemain, totalBreakfast, totalLunch, totalDinner, totalSnack;
+    private float totalFood, totalExercise, totalRemain, totalBreakfast, totalLunch, totalDinner, totalSnack;
     private ArrayList<Practice> listPractice = new ArrayList<>();
 
-    public Statistic(String date, float totalExercise, float totalGoal, float totalRemain, float totalBreakfast, float totalLunch, float totalDinner, float totalSnack, ArrayList<Practice> listPractice) {
+    public Statistic(String date, float totalExercise, int totalGoal, float totalRemain, float totalBreakfast, float totalLunch, float totalDinner, float totalSnack, ArrayList<Practice> listPractice) {
         this.date = date;
         this.totalFood = totalBreakfast + totalDinner + totalLunch + totalSnack;
         this.totalExercise = totalExercise;
@@ -88,11 +89,11 @@ public class Statistic {
         this.totalExercise = totalExc;
     }
 
-    public float getTotalGoal() {
+    public int getTotalGoal() {
         return totalGoal;
     }
 
-    public void setTotalGoal(float totalGoal) {
+    public void setTotalGoal(int totalGoal) {
         this.totalGoal = totalGoal;
     }
 

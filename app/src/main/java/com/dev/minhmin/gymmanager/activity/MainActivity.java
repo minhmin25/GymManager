@@ -1,8 +1,10 @@
 package com.dev.minhmin.gymmanager.activity;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -299,7 +301,18 @@ public class MainActivity extends AppCompatActivity
             updateFragment(page);
             rbStatistic.setChecked(true);
             updateTitle(page, stateStatistic);
-        } else if (id == R.id.nav_group) {
+        } else if (id == R.id.nav_group || id == R.id.nav_class) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Nhóm 14");
+            builder.setMessage("Trần Anh Minh\nBùi Thị Thùy Dương\nBùi Thành Lộc");
+            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
         } else if (id == R.id.nav_map) {
             startActivity(new Intent(MainActivity.this, MapsActivity.class));

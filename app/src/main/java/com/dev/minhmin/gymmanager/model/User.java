@@ -7,12 +7,12 @@ package com.dev.minhmin.gymmanager.model;
 public class User {
     private String id, name, email, imageUrl, gender;
     private int age;
-    private float weight, goal, height;
+    private int weight, goal, height;
 
     public User() {
     }
 
-    public User(String id, String name, int age, String email, String imageUrl, String gender, float height, float weight, float goal) {
+    public User(String id, String name, int age, String email, String imageUrl, String gender, int height, int weight, int goal) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -72,27 +72,27 @@ public class User {
         this.gender = gender;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public float getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
-    public float getGoal() {
+    public int getGoal() {
         return goal;
     }
 
-    public void setGoal(float goal) {
+    public void setGoal(int goal) {
         this.goal = goal;
     }
 }

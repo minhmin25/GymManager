@@ -53,26 +53,26 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("height", height);
                     value.put("weight", weight);
                     value.put("age", age);
-                    float goal, w, h;
+                    int goal, w, h;
                     int a;
-                    w = Float.parseFloat(weight);
-                    h = Float.parseFloat(height);
+                    w = Integer.parseInt(weight);
+                    h = Integer.parseInt(height);
                     a = Integer.parseInt(age);
                     if (rbFemale.isChecked()) {
                         gender = rbFemale.getText().toString().trim();
                         value.put("gender", gender);
-                        goal = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
+                        goal = (int) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
                         value.put("goal", goal);
                     } else {
                         gender = rbMale.getText().toString();
                         value.put("gender", gender);
-                        goal = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
+                        goal = (int) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
                         value.put("goal", goal);
                     }
                     value.put("name", user.getDisplayName());
                     value.put("email", user.getEmail());
                     value.put("imageUrl", user.getPhotoUrl());
-                    User u = new User(user.getUid(), user.getDisplayName(), a, user.getEmail(), user.getPhotoUrl().toString(), gender, Integer.parseInt(height), Float.parseFloat(weight), goal);
+                    User u = new User(user.getUid(), user.getDisplayName(), a, user.getEmail(), user.getPhotoUrl().toString(), gender, h, w, goal);
                     ref.child(user.getUid()).setValue(u);
                     startActivity(new Intent(InformationActivity.this, MainActivity.class));
                 }
