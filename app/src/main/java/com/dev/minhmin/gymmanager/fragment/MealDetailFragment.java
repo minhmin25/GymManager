@@ -78,7 +78,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         }
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
-
         tv_name_day = (TextView) viewGroup.findViewById(R.id.tv_name_day);
         tv_total = (TextView) viewGroup.findViewById(R.id.tv_total_calo);
         iv_back_left = (ImageView) viewGroup.findViewById(R.id.iv_back_day);
@@ -162,6 +161,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         iv_back_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 meal = new Meal();
                 tv_total.setText("");
                 String time = methodUtils.UpDownDay(date, -1);
@@ -193,11 +193,17 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                     }
                 });
+                adapter = new MealDetailAdapter(getActivity(), meal);
+                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                listview.setAdapter(adapter);
+
+
             }
         });
         iv_back_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 meal = new Meal();
                 tv_total.setText("");
                 String time = methodUtils.UpDownDay(date, 1);
@@ -208,6 +214,7 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
                     tv_name_day.setText(time);
 
                 }
+
                 date = time;
                 ref.child(typeMeal).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -229,8 +236,14 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
 
                     }
                 });
+                adapter = new MealDetailAdapter(getActivity(), meal);
+                tv_total.setText(" " + meal.getTotalCalo() + " ");
+                listview.setAdapter(adapter);
+
+
             }
         });
+
 
     }
 
