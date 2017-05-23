@@ -44,6 +44,7 @@ import com.dev.minhmin.gymmanager.fragment.WorkoutFragment;
 import com.dev.minhmin.gymmanager.utils.ConstantUtils;
 import com.dev.minhmin.gymmanager.utils.OnAddPressedListener;
 import com.dev.minhmin.gymmanager.utils.OnBackPressedListener;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity
     private FrameLayout layoutMain, layoutWorkout, layoutMeal, layoutExercise, layoutStatistic;
     private TextView tvAccName, tvAccEmail;
     private CircleImageView ivAccImage;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         this.onBackPressedListener = onBackPressedListener;
@@ -94,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
         View v = navigationView.getHeaderView(0);
         tvAccName = (TextView) v.findViewById(R.id.tv_nav_profile_name);
         tvAccEmail = (TextView) v.findViewById(R.id.tv_nav_profile_email);
@@ -301,7 +303,10 @@ public class MainActivity extends AppCompatActivity
             updateFragment(page);
             rbStatistic.setChecked(true);
             updateTitle(page, stateStatistic);
-        } else if (id == R.id.nav_group || id == R.id.nav_class) {
+        } else if (id == R.id.nav_logout) {
+            signOut();
+            this.finish();
+        } else if (id == R.id.nav_group) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Nhóm 14");
             builder.setMessage("Trần Anh Minh\nBùi Thị Thùy Dương\nBùi Thành Lộc");
@@ -593,4 +598,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void signOut() {
+        mAuth.signOut();
+        LoginManager.getInstance().logOut();
+    }
 }

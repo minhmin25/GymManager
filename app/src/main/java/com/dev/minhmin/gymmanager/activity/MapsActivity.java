@@ -2,6 +2,7 @@ package com.dev.minhmin.gymmanager.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -77,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private RelativeLayout layoutProgressBar;
     private Polyline line = null;
     private ImageView ivBack;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 onBackPressed();
             }
         });
-        layoutProgressBar.setVisibility(View.VISIBLE);
+//        layoutProgressBar.setVisibility(View.VISIBLE);
+        dialog = ProgressDialog.show(MapsActivity.this, "", "Loading...");
 //        progressBar.setVisibility(View.VISIBLE);
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
@@ -99,17 +102,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Chú ý")
-                .setMessage("Click vào các địa điểm để xem chi tiết thông tin về phòng Gym.")
-                .setPositiveButton("Đã hiểu", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -144,6 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     LatLng l = new LatLng(g.getX(), g.getY());
                     mMap.addMarker(new MarkerOptions().position(l).title(g.getName()).snippet("Địa chỉ: " + g.getAddress() + "\nThời gian mở cửa: " + g.getTime()));
                     listGyms.add(g);
+                    dialog.dismiss();
                 }
             }
 
@@ -164,7 +157,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 FetchUrl fetchUrl = new FetchUrl();
                 fetchUrl.execute(url);
 //                progressBar.setVisibility(View.VISIBLE);
-                layoutProgressBar.setVisibility(View.VISIBLE);
+//                layoutProgressBar.setVisibility(View.VISIBLE);
+                dialog = ProgressDialog.show(MapsActivity.this, "", "Loading...");
                 marker.showInfoWindow();
                 mMap.setOnMyLocationChangeListener(null);
                 return true;
@@ -221,6 +215,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Chú ý")
+                .setMessage("Click vào các địa điểm để xem chi tiết thông tin về phòng Gym.")
+                .setPositiveButton("Đã hiểu", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
     }
 
@@ -459,7 +464,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 lineOptions.width(10);
                 lineOptions.color(Color.RED);
 //                progressBar.setVisibility(View.GONE);
-                layoutProgressBar.setVisibility(View.GONE);
+//                layoutProgressBar.setVisibility(View.GONE);
+                dialog.dismiss();
                 Log.d("onPostExecute", "onPostExecute lineoptions decoded");
 
             }

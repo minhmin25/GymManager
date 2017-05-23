@@ -1,5 +1,6 @@
 package com.dev.minhmin.gymmanager.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.dev.minhmin.gymmanager.R;
 import com.dev.minhmin.gymmanager.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ public class InformationActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                final ProgressDialog dialog = ProgressDialog.show(InformationActivity.this, "", "Saving...");
                 String weight, height, age, gender;
                 weight = edtWeight.getText().toString();
                 height = edtHeight.getText().toString();
@@ -73,8 +76,15 @@ public class InformationActivity extends AppCompatActivity {
                     value.put("email", user.getEmail());
                     value.put("imageUrl", user.getPhotoUrl());
                     User u = new User(user.getUid(), user.getDisplayName(), a, user.getEmail(), user.getPhotoUrl().toString(), gender, h, w, goal);
-                    ref.child(user.getUid()).setValue(u);
-                    startActivity(new Intent(InformationActivity.this, MainActivity.class));
+                    ref.child(user.getUid()).setValue(u).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            startActivity(new Intent(InformationActivity.this, MainActivity.class));
+                            dialog.dismiss();
+//                            finish();
+                        }
+                    });
+
                 }
 
             }

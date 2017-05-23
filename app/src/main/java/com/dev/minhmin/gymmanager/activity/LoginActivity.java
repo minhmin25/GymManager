@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
     private CallbackManager mCallbackManager;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,11 @@ public class LoginActivity extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.hasChildren()) {
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                dialog.dismiss();
                             } else {
                                 Intent intent = new Intent(LoginActivity.this, InformationActivity.class);
                                 startActivity(intent);
+                                dialog.dismiss();
                             }
                         }
 
@@ -81,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
                     });
-                    Toast.makeText(getApplication(), "Login success", Toast.LENGTH_SHORT).show();
+                    dialog = ProgressDialog.show(LoginActivity.this, "Login Success!", "Waiting...");
                 }
             }
         };
