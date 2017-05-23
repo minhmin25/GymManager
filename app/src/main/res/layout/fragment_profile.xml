@@ -40,15 +40,14 @@
                 android:id="@+id/iv_profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/avt" />
+                android:layout_marginTop="10dp" />
 
             <TextView
                 android:id="@+id/tv_profile_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Minh min"
+
                 android:textColor="@color/colorGreen"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -83,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
-                    android:text="Minh min"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
 
@@ -121,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
-                    android:text="18"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
 
@@ -161,7 +160,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
-                    android:text="abc@gmail.com"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
 
@@ -247,7 +246,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
-                    android:text="1000 calo"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -273,8 +272,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
-                    android:inputType="number"
-                    android:text="60"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
 
@@ -314,7 +312,7 @@
                     android:layout_weight="2"
                     android:gravity="right"
                     android:inputType="number"
-                    android:text="165"
+
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
 
