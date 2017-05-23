@@ -204,7 +204,7 @@ public class AddFoodFragment extends Fragment implements OnBackPressedListener {
                                 fragment.setArguments(bundle);
                                 replaceFragment(fragment);
                                 Toast.makeText(getActivity(), "Upload Success", Toast.LENGTH_SHORT);
-                                Toast.makeText(getActivity(), "Upload Success", Toast.LENGTH_SHORT);
+
                             }
                         });
                     }
