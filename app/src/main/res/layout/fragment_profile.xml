@@ -273,6 +273,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:gravity="right"
+                    android:inputType="number"
                     android:text="60"
                     android:textColor="@color/textDark"
                     android:textSize="16sp" />
