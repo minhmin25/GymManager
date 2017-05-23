@@ -2,7 +2,6 @@ package com.dev.minhmin.gymmanager.fragment;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -242,7 +241,7 @@ public class ExerciseDetailFragment extends Fragment implements OnBackPressedLis
         } else if (MainActivity.page == 4) {
             Fragment fragment = new ListExerciseFragment().newInstance();
             Bundle b = new Bundle();
-            b.putString("exercise", "abs");
+            b.putString("exercise", part);
             fragment.setArguments(b);
             getActivity().getFragmentManager().beginTransaction().replace(R.id.layout_exercise, fragment).commit();
         }

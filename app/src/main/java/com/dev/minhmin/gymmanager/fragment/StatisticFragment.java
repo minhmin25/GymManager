@@ -43,7 +43,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
     private ListView lvPractice;
     private ArrayList<Practice> listPractices = new ArrayList<>();
     private StatisticAdapter adapter;
-    private float goal = 0;
+    private int goal = 0;
     private Statistic statistic = new Statistic();
     private float totalExcer = 0;
     private float totalFood = 0;
@@ -95,7 +95,7 @@ public class StatisticFragment extends Fragment implements StatisticAdapter.onCh
         re.child("User").child(user.getUid()).child("goal").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                goal = dataSnapshot.getValue(Float.class);
+                goal = dataSnapshot.getValue(Integer.class);
                 tv_goal.setText(goal + "");
                 DatabaseReference mref = ref.child(("Statistic")).child(date).child("totalGoal");
                 mref.setValue(goal);

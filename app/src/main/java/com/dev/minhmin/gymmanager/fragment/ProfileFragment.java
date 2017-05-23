@@ -175,17 +175,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 tvEmail.setText(email);
                 tvWeight.setText(weight);
                 tvHeight.setText(height);
-                float g, h, w;
+                int g, h, w;
                 int a;
                 a = Integer.parseInt(age);
-                h = Float.parseFloat(height);
-                w = Float.parseFloat(weight);
+                h = Integer.parseInt(height);
+                w = Integer.parseInt(weight);
                 if (rbMale.isChecked()) {
                     gender = "Male";
-                    g = (float) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
+                    g = (int) (((13.397 * w) + (4.799 * h) - (5.677 * a) + 447.593) * 1.55);
                 } else {
                     gender = "Female";
-                    g = (float) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
+                    g = (int) (((9.246 * w) + (3.098 * h) - (4.330 * a) + 88.362) * 1.55);
                 }
                 tvGold.setText(g + "");
                 User u = new User(user.getId(), name, a, email, user.getImageUrl(), gender, h, w, g);
