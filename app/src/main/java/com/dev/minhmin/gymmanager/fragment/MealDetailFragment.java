@@ -78,13 +78,6 @@ public class MealDetailFragment extends Fragment implements OnBackPressedListene
         }
         ((MainActivity) getActivity()).updateTitle(MainActivity.page, MainActivity.stateMeal);
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_meal_detail, container, false);
-        tv_name_day = (TextView) viewGroup.findViewById(R.id.tv_name_day);
-        tv_total = (TextView) viewGroup.findViewById(R.id.tv_total_calo);
-        iv_back_left = (ImageView) viewGroup.findViewById(R.id.iv_back_day);
-        iv_back_right = (ImageView) viewGroup.findViewById(R.id.iv_next_day);
-        listview = (ListView) viewGroup.findViewById(R.id.lv_food_meat);
-//        adapter = new MealDetailAdapter(getActivity(), meal);
-//        listview.setAdapter(adapter);
         return viewGroup;
     }
 

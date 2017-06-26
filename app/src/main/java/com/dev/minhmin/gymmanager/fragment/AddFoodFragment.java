@@ -126,13 +126,7 @@ public class AddFoodFragment extends Fragment implements OnBackPressedListener {
                 seclectedImage();
             }
         });
-        final String name = et_name.getText().toString();
-        final String unit = et_unit.getText().toString();
-        final String count = et_count.getText().toString();
-        final String calo = et_calo.getText().toString();
-        final String pro = et_pro.getText().toString();
-        final String fat = et_fat.getText().toString();
-        final String carb = et_carb.getText().toString();
+
 
         bt_addd.setOnClickListener(new View.OnClickListener() {
             @Override

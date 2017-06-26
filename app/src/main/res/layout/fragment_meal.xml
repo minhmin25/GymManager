@@ -6,11 +6,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="@color/colorWhite"
         android:orientation="vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -246,11 +247,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="387dp"
+            android:layout_width="match_parent"
             android:layout_height="78dp"
             android:layout_marginTop="10dp"
             android:layout_weight="0.08"
             android:background="@color/colorGray3"
+
             android:gravity="bottom"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp">
@@ -274,31 +276,23 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Calories : "
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
-
             <TextView
                 android:id="@+id/tv_calories"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
-
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@color/colorGray"
-
             android:paddingLeft="16dp"
             android:paddingTop="5dp">
 
@@ -312,11 +306,8 @@
 
             <TextView
                 android:id="@+id/tv_protein"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
-
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
@@ -326,12 +317,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="28dp"
-
             android:paddingLeft="16dp"
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Carbs     : "
@@ -342,7 +331,6 @@
                 android:id="@+id/tv_cab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
@@ -353,7 +341,6 @@
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:background="@color/colorGray"
-
             android:paddingLeft="16dp"
             android:paddingTop="5dp">
 
@@ -369,7 +356,6 @@
                 android:id="@+id/tv_fat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
